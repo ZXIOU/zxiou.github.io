@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="iOS学习笔记之头文件引用标签： iOS Objective-C
+
+###1. #import&amp;lt;&amp;gt;和import“”的区别
+
+#import&amp;lt;&amp;gt;：引用系统头文件
+#import“”：引用自己创建的头文件
+
+###2. #import和#include的区别 ##
+
+#import大部分和#include一样，但是可以解决重复引用问题，#import其实类似于C++中#inc">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/iOS学习笔记之头文件引用/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="iOS学习笔记之头文件引用标签： iOS Objective-C
+
+###1. #import&amp;lt;&amp;gt;和import“”的区别
+
+#import&amp;lt;&amp;gt;：引用系统头文件
+#import“”：引用自己创建的头文件
+
+###2. #import和#include的区别 ##
+
+#import大部分和#include一样，但是可以解决重复引用问题，#import其实类似于C++中#inc">
+<meta property="og:updated_time" content="2016-04-30T06:25:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="iOS学习笔记之头文件引用标签： iOS Objective-C
+
+###1. #import&amp;lt;&amp;gt;和import“”的区别
+
+#import&amp;lt;&amp;gt;：引用系统头文件
+#import“”：引用自己创建的头文件
+
+###2. #import和#include的区别 ##
+
+#import大部分和#include一样，但是可以解决重复引用问题，#import其实类似于C++中#inc">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/iOS学习笔记之头文件引用/index.html" class="article-date">
+  <time datetime="2016-05-01T12:24:06.000Z" itemprop="datePublished">2016-05-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="iOS学习笔记之头文件引用"><a href="#iOS学习笔记之头文件引用" class="headerlink" title="iOS学习笔记之头文件引用"></a>iOS学习笔记之头文件引用</h1><p>标签： iOS Objective-C</p>
+<hr>
+<p>###1. #import&lt;&gt;和import“”的区别</p>
+<ul>
+<li>#import&lt;&gt;：引用系统头文件</li>
+<li>#import“”：引用自己创建的头文件</li>
+</ul>
+<p>###2. #import和#include的区别 ##</p>
+<ul>
+<li>#import大部分和#include一样，但是可以解决重复引用问题，#import其实类似于C++中#include和#ifndf的结合。</li>
+</ul>
+<blockquote>
+<p>例如：有三个文件A.h、B.h、C.h<br>C.h要引用A.h和B.h，B.h引用A.h，那么就会出现重复引用，import就可以优化。</p>
+</blockquote>
+<p>###3. #import与@class的区别 ##</p>
+<ul>
+<li>#import会包含这个类的所有信息，包括实体变量和方法，而@class只是告诉编译器，其后面声明的名称是类的名称，至于这些类是如何定义的，暂时不用考虑，后面会再告诉你</li>
+<li>在头文件中，一般只需要知道被引用的类的名称就可以了。不需要知道其内部的实体变量和方法，所以在头文件中一般使用@class来声明这个名称是类的名称。而在实现类里面，因为会用到这个引用类的内部的实体变量和方法，所以需要使用#import来包含这个被引用类的头文件</li>
+<li>在编译效率方面考虑，如果你有100个头文件都#import了同一个头文件，或者这些文件是依次引用的，如A–&gt;B,B–&gt;C,C–&gt;D这样的引用关系。当最开始的那个头文件有变化的话，后面所有引用它的类都需要重新编译，如果你的类有很多的话，这将耗费大量的时间。而是用@class则不会</li>
+</ul>
+<p>###4. @class的作用 ##</p>
+<ul>
+<li>@class是用来做类引用的</li>
+<li>@class就是告诉编译器有一个这个类，至于类的具体定义是什么并不知道</li>
+<li>@class一般用于头文件中需要声明该类的某个实例变量的时候用到，在.m文件中还是需要使用#import声明，这样可以加快编译速度</li>
+</ul>
+<blockquote>
+<p>所以，一般来说，@class是放在interface中的，只是为了在interface中引用这个类，把这个类作为一个类型来用的。 在实现这个接口的实现类中，如果需要引用这个类的实体变量或者方法之类的，还是需要import在@class中声明的类进来</p>
+</blockquote>
+<p><br></p>
+<hr>
+<p><i class="icon-envelope-alt"></i> <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" rel="external">Email</a><br><i class="icon-github"></i>  <a href="https://github.com/ZXIOU" target="_blank" rel="external">Github</a><br><i class="icon-weibo"></i>  <a href="http://weibo.com/3895542020/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1#_loginLayer_1461903468940" target="_blank" rel="external">新浪微博</a></p>
+<p><br></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/iOS学习笔记之头文件引用/index.html" data-id="cinok189j00002mca0pshvxg8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
