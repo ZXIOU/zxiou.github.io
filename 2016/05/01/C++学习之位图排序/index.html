@@ -84,32 +84,29 @@
 
 <meta name="description" content="标签 ： C++ 排序
 
-　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是0，当存在某个整数时，这个字符串相应数位变为1。这个排序算法的应用场景最简单的是：
+1. 起因　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是0，当存在某个整数时，这个字符串相应数位变为1。这个排序算法的应用场景最简单的是：
 
 输入：最多输入N个唯一的正整数，每个数都小于N（N = 10000000），没有其他数据与该整数关联
-输出：按照升序的方式输出所有的整数
-约束：只">
+输出：按照升序的方式输出所有的整数">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++学习之位图排序">
 <meta property="og:url" content="http://yoursite.com/2016/05/01/C++学习之位图排序/index.html">
 <meta property="og:site_name" content="吉米不机密">
 <meta property="og:description" content="标签 ： C++ 排序
 
-　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是0，当存在某个整数时，这个字符串相应数位变为1。这个排序算法的应用场景最简单的是：
+1. 起因　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是0，当存在某个整数时，这个字符串相应数位变为1。这个排序算法的应用场景最简单的是：
 
 输入：最多输入N个唯一的正整数，每个数都小于N（N = 10000000），没有其他数据与该整数关联
-输出：按照升序的方式输出所有的整数
-约束：只">
-<meta property="og:updated_time" content="2016-05-01T18:41:44.000Z">
+输出：按照升序的方式输出所有的整数">
+<meta property="og:updated_time" content="2016-05-01T19:35:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++学习之位图排序">
 <meta name="twitter:description" content="标签 ： C++ 排序
 
-　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是0，当存在某个整数时，这个字符串相应数位变为1。这个排序算法的应用场景最简单的是：
+1. 起因　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是0，当存在某个整数时，这个字符串相应数位变为1。这个排序算法的应用场景最简单的是：
 
 输入：最多输入N个唯一的正整数，每个数都小于N（N = 10000000），没有其他数据与该整数关联
-输出：按照升序的方式输出所有的整数
-约束：只">
+输出：按照升序的方式输出所有的整数">
 
 
 
@@ -318,14 +315,19 @@
       
         <p>标签 ： C++ 排序</p>
 <hr>
-<p>　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是<code>0</code>，当存在某个整数时，这个字符串相应数位变为<code>1</code>。这个排序算法的应用场景最简单的是：</p>
+<h2 id="1-起因"><a href="#1-起因" class="headerlink" title="1. 起因"></a>1. 起因</h2><p>　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是<code>0</code>，当存在某个整数时，这个字符串相应数位变为<code>1</code>。这个排序算法的应用场景最简单的是：</p>
 <ol>
 <li><strong>输入</strong>：最多输入N个唯一的正整数，每个数都小于N（N = 10000000），没有其他数据与该整数关联</li>
 <li><strong>输出</strong>：按照升序的方式输出所有的整数</li>
 <li><strong>约束</strong>：只有1M的内存空间，但是磁盘空间很充足，要求排序时间少于10s</li>
 </ol>
-<p><br\><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;看到了这样的条件，我们可以知道如果所有的数据都按照整数类型来存放的话空间是不够的，就算我们多次归并排序的话，时间上是不允许的，因为每次I/O操作都是很耗时的，那么我们这里就要运用到位图或者是位向量来表示我们输入的整数。但是问题又来了我们这1M的空间只可以存大约800W个数，这里有1000W个整数，那么我们可以利用分两次来进行数据排序分别存入磁盘文件，然后再进行归并排序，这样空间一定够，话不多说下面说说我们位图排序主要的思想和算法的实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">#define SHIFT 5</span><br><span class="line">#define MASK 0x1f</span><br><span class="line">#define N 10000000</span><br><span class="line"></span><br><span class="line">void set(int x);</span><br><span class="line">void clr(int x);</span><br><span class="line">void test(int x);</span><br><span class="line"></span><br><span class="line">int a[N/32 + 1];</span><br><span class="line"></span><br><span class="line">int main(int argc, char * [] argv)</span><br><span class="line">&#123;</span><br><span class="line">    ios::sync_with_stdio(false);</span><br><span class="line"></span><br><span class="line">    for (int i = 0; i &lt; N; i++)&#123;</span><br><span class="line">        clr(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    int n;</span><br><span class="line">    while (cin &gt;&gt; n)&#123;</span><br><span class="line">        set(n);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (int i = 0; i &lt; N; i++)&#123;</span><br><span class="line">        if (test(i))</span><br><span class="line">            cout &lt;&lt; i &lt;&lt; &quot; &quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//功能：设置位数组中的从0开始的第x位为1</span><br><span class="line">void set(int x)</span><br><span class="line">&#123;</span><br><span class="line">    a[x &gt;&gt; SHIFT] |= (1 &lt;&lt; (x &amp; MASK));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//功能：设置位数组中的从0开始的第x位为0</span><br><span class="line">void clr(int x)</span><br><span class="line">&#123;</span><br><span class="line">    a[x &gt;&gt; SHIFT] &amp;= ~(1 &lt;&lt; (x &amp; MASK));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//功能：取出从0开始的第i位的值，用于检测</span><br><span class="line">void test(int x)</span><br><span class="line">&#123;</span><br><span class="line">    return a[x &gt;&gt; SHIFT] &amp; (1 &lt;&lt; (x &amp; MASK));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">实现方法说明：</span><br><span class="line">    i &gt;&gt; SHIFT：将i向右移动5位，相当于将i除以32位。因为一个int是32位，所以结果表示i在第几个int数组成员中；</span><br><span class="line">    举例说明：如果i是34，则结果是1，也就是从0开始的第1个int数组成员。</span><br><span class="line">    1 &lt;&lt; (i &amp; MASK)：使用掩码留下i的低5位再左移动1位，相当于除以32所得的余数再左移动1位。因为第一是0，所以结果都需要左移动1位。结果中1所在的位表示i在该int数组成员的第几位上。</span><br><span class="line">    接着上例继续说明，如果i是34，则i &amp; MASK是2，二进制表示是10，再向左移动1位，得到100，也就反映出此时从0开始的第2位是1。</span><br><span class="line">*/</span><br></pre></td></tr></table></figure></br\></p>
-<p>　　那么我们把题目条件变一下，比如输入的整数不唯一，可以有多个，那么这时候也很简单，最容易想到的就是我们可以和号码绑定一个计数变量来记录这个整数出现的次数。<br><br></p>
+<h2 id="2-分析"><a href="#2-分析" class="headerlink" title="2. 分析"></a>2. 分析</h2><p>　　看到了这样的条件，我们可以知道如果所有的数据都按照整数类型来存放的话空间是不够的，就算我们多次归并排序的话，时间上是不允许的，因为每次I/O操作都是很耗时的，那么我们这里就要运用到位图或者是位向量来表示我们输入的整数。但是问题又来了我们这1M的空间只可以存大约800W个数，这里有1000W个整数，那么我们可以利用分两次来进行数据排序分别存入磁盘文件，然后再进行归并排序，这样空间一定够，话不多说下面说说我们位图排序主要的思想和算法的实现</p>
+<h2 id="3-代码硬货"><a href="#3-代码硬货" class="headerlink" title="3. 代码硬货"></a>3. 代码硬货</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SHIFT 5</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MASK 0x1f</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> N 10000000</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">set</span><span class="params">(<span class="keyword">int</span> x)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">clr</span><span class="params">(<span class="keyword">int</span> x)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> x)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> a[N/<span class="number">32</span> + <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * [] argv)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)&#123;</span><br><span class="line">        clr(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">cin</span> &gt;&gt; n)&#123;</span><br><span class="line">        <span class="built_in">set</span>(n);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span> (test(i))</span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//功能：设置位数组中的从0开始的第x位为1</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">set</span><span class="params">(<span class="keyword">int</span> x)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    a[x &gt;&gt; SHIFT] |= (<span class="number">1</span> &lt;&lt; (x &amp; MASK));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//功能：设置位数组中的从0开始的第x位为0</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">clr</span><span class="params">(<span class="keyword">int</span> x)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    a[x &gt;&gt; SHIFT] &amp;= ~(<span class="number">1</span> &lt;&lt; (x &amp; MASK));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//功能：取出从0开始的第i位的值，用于检测</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> x)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    return a[x &gt;&gt; SHIFT] &amp; (<span class="number">1</span> &lt;&lt; (x &amp; MASK));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="实现方法说明"><a href="#实现方法说明" class="headerlink" title="实现方法说明:"></a>实现方法说明:</h3><ul>
+<li>i &gt;&gt; SHIFT：将i向右移动5位，相当于将i除以32位。因为一个int是32位，所以结果表示i在第几个int数组成员中；举例说明：如果i是34，则结果是1，也就是从0开始的第1个int数组成员。</li>
+<li>1 &lt;&lt; (i &amp; MASK)：使用掩码留下i的低5位再左移动1位，相当于除以32所得的余数再左移动1位。因为第一是0，所以结果都需要左移动1位。结果中1所在的位表示i在该int数组成员的第几位上。接着上例继续说明，如果i是34，则i &amp; MASK是2，二进制表示是10，再向左移动1位，得到100，也就反映出此时从0开始的第2位是1。</li>
+</ul>
+<h2 id="4-扩展思维"><a href="#4-扩展思维" class="headerlink" title="4. 扩展思维"></a>4. 扩展思维</h2><p>　　那么我们把题目条件变一下，比如输入的整数不唯一，可以有多个，那么这时候也很简单，最容易想到的就是我们可以和号码绑定一个计数变量来记录这个整数出现的次数。<br><br></p>
 <hr>
 <p><i class="icon-envelope-alt"></i> <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" rel="external">Email</a><br><i class="icon-github"></i>  <a href="https://github.com/ZXIOU" target="_blank" rel="external">Github</a><br><i class="icon-weibo"></i>  <a href="http://weibo.com/3895542020/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1#_loginLayer_1461903468940" target="_blank" rel="external">新浪微博</a></p>
 <p><br></p>
@@ -452,6 +454,35 @@
 
         <div class="links-of-author motion-element">
           
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ZXIOU" target="_blank" title="Github">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005053895542020/home?from=page_100505" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/zhang-xu-58-33" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+          
         </div>
 
         
@@ -469,7 +500,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-起因"><span class="nav-text">1. 起因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-分析"><span class="nav-text">2. 分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-代码硬货"><span class="nav-text">3. 代码硬货</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现方法说明"><span class="nav-text">实现方法说明:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-扩展思维"><span class="nav-text">4. 扩展思维</span></a></li></ol></div>
             
           </div>
         </section>

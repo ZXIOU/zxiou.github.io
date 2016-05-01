@@ -98,7 +98,7 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
 其中有一些注意的点：
 可以访问原类中的成员变量，但是不可以定义添加新的变量，仅仅是添加新的方法
 Category可以重载原始类的方法，但不推荐这么做，这么做的后果是你再也不">
-<meta property="og:updated_time" content="2016-05-01T13:57:40.000Z">
+<meta property="og:updated_time" content="2016-05-01T19:36:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS学习笔记之“伪”多继承">
 <meta name="twitter:description" content="标签： iOS Objective-C
@@ -333,11 +333,11 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
 <h3 id="其中有一些注意的点：-1"><a href="#其中有一些注意的点：-1" class="headerlink" title="其中有一些注意的点："></a>其中有一些注意的点：</h3><ul>
 <li>Protocol本身是<code>可继承</code>的，例如：</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">protocol A</span><br><span class="line">    - (void)methodA;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">protocol B &lt;A&gt;</span><br><span class="line">    - (void)methodB;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">protocol A</span><br><span class="line">    - (<span class="keyword">void</span>)methodA;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line">protocol B &lt;A&gt;</span><br><span class="line">    - (<span class="keyword">void</span>)methodB;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>Protocol是<code>类无关</code>的，任何类都可以实现定义好的Protocol。如果我们想知道某个类是否实现了某个Protocol，还可以使用conformsToProtocol进行判断:</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[obj conformsToProtocol:@procotol(ProcessDataDelegate)];</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[obj conformsToProtocol:@procotol(ProcessDataDelegate)];</span><br></pre></td></tr></table></figure>
 <h3 id="那么Protocol可以应用的场景是："><a href="#那么Protocol可以应用的场景是：" class="headerlink" title="那么Protocol可以应用的场景是："></a>那么Protocol可以应用的场景是：</h3><ul>
 <li>Objective-C里的Protocol和Java语言中的接口很类似，也和C++中的纯虚函数类似，但是和C++不同的是这些类没有继承关系，如果一些类之间没有继承关系，但是又具备某些相同的行为，则可以使用Protocol来描述它们的关系。不同的类，可以遵守同一个Protocol，在不同的场景下注入不同的实例，实现不同的功能</li>
 <li>最常用的就是委托代理模式，Cocoa框架中大量采用了这种模式实现数据和UI的分离。例如UIView产生的所有事件，都是通过委托的方式交给Controller完成。根据约定，框架中后缀为Delegate的都是Protocol，例如UIApplicationDelegate，UIWebViewDelegate等</li>
@@ -465,6 +465,35 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
         
 
         <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ZXIOU" target="_blank" title="Github">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005053895542020/home?from=page_100505" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/zhang-xu-58-33" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
           
         </div>
 
