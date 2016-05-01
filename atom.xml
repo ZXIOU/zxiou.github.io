@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>吉米不机密</title>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2016-05-01T14:06:07.000Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>zxiou</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>iOS学习笔记之循环性能比较</title>
+    <link href="http://yoursite.com/2016/05/01/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%BE%AA%E7%8E%AF%E6%80%A7%E8%83%BD%E6%AF%94%E8%BE%83/"/>
+    <id>http://yoursite.com/2016/05/01/iOS学习笔记之循环性能比较/</id>
+    <published>2016-05-01T09:53:39.000Z</published>
+    <updated>2016-05-01T14:06:07.000Z</updated>
+    
+    <content type="html">&lt;p&gt;标签： iOS Objective-C&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;1-遍历测试方式&quot;&gt;&lt;a href=&quot;#1-遍历测试方式&quot; class=&quot;headerlink&quot; title=&quot;1. 遍历测试方式&quot;&gt;&lt;/a&gt;1. 遍历测试方式&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;分别使用有100个对象和1000000个对象的NSArray，只取对象，不执行操作，测试遍历速度&lt;/li&gt;
+&lt;li&gt;使用有100个对象的NSArray遍历执行doSomethingSlow方法，测试遍历中多任务运行速度&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;2-测试结果&quot;&gt;&lt;a href=&quot;#2-测试结果&quot; class=&quot;headerlink&quot; title=&quot;2. 测试结果&quot;&gt;&lt;/a&gt;2. 测试结果&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;100对象遍历操作：&lt;br&gt;&lt;img src=&quot;/images/100对象遍历.png&quot; alt=&quot;&quot;&gt;&lt;/li&gt;
+&lt;li&gt;1000000对象遍历：&lt;br&gt;&lt;img src=&quot;/images/1000000对象遍历.png&quot; alt=&quot;&quot;&gt;&lt;/li&gt;
+&lt;li&gt;100对象遍历执行一个很费时的操作：&lt;br&gt;&lt;img src=&quot;/images/100对象遍历费时操作.png&quot; alt=&quot;&quot;&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;3-值得注意的&quot;&gt;&lt;a href=&quot;#3-值得注意的&quot; class=&quot;headerlink&quot; title=&quot;3. 值得注意的&quot;&gt;&lt;/a&gt;3. 值得注意的&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;对于集合中对象数很多的情况下，for in (NSFastEnumeration)的遍历速度非常之快，但小规模的遍历并不明显（还没普通for循环快）&lt;/li&gt;
+&lt;li&gt;使用kvc集合运算符运算很大规模的集合时，效率明显下降（100万的数组离谱的21秒多），同时占用了大量内存和cpu&lt;/li&gt;
+&lt;li&gt;enumerateObjectsWithOptions(NSEnumerationConcurrent)和dispatch_apply(Concurrent)的遍历执行可以利用到多核cpu的优势（实验中在双核cpu上效率基本上x2）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;4-使用block同时遍历字典key-value&quot;&gt;&lt;a href=&quot;#4-使用block同时遍历字典key-value&quot; class=&quot;headerlink&quot; title=&quot;4. 使用block同时遍历字典key, value&quot;&gt;&lt;/a&gt;4. 使用block同时遍历字典key, value&lt;/h2&gt;&lt;p&gt;　　block版本的字典遍历可以同时取key和value（forin只能取key再手动取value）：&lt;br&gt;&lt;img src=&quot;/images/block遍历.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;5-代码可读性和效率的权衡&quot;&gt;&lt;a href=&quot;#5-代码可读性和效率的权衡&quot; class=&quot;headerlink&quot; title=&quot;5. 代码可读性和效率的权衡&quot;&gt;&lt;/a&gt;5. 代码可读性和效率的权衡&lt;/h2&gt;&lt;p&gt;　　虽然说上面的测试结果表明，在集合内元素不多时，经典for循环的效率要比forin要高，但是从代码可读性上来看，就远不如forin看着更顺畅；同样的还有kvc的集合运算符，一些内置的操作以keypath的方式声明，相比自己用for循环实现，一行代码就能搞定，清楚明了，还省去了重复工作；在framework中增加了集合遍历的block支持后，对于需要index的遍历再也不需要经典for循环的写法了&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;i class=&quot;icon-envelope-alt&quot;&gt;&lt;/i&gt; &lt;a href=&quot;https://mail.google.com/mail/u/0/#inbox&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Email&lt;/a&gt;&lt;br&gt;&lt;i class=&quot;icon-github&quot;&gt;&lt;/i&gt;  &lt;a href=&quot;https://github.com/ZXIOU&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Github&lt;/a&gt;&lt;br&gt;&lt;i class=&quot;icon-weibo&quot;&gt;&lt;/i&gt;  &lt;a href=&quot;http://weibo.com/3895542020/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1#_loginLayer_1461903468940&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;新浪微博&lt;/a&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;标签： iOS Objective-C&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;1-遍历测试方式&quot;&gt;&lt;a href=&quot;#1-遍历测试方式&quot; class=&quot;headerlink&quot; title=&quot;1. 遍历测试方式&quot;&gt;&lt;/a&gt;1. 遍历测试方式&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;分别使用有1
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>iOS学习笔记之头文件引用</title>
+    <link href="http://yoursite.com/2016/04/30/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%A4%B4%E6%96%87%E4%BB%B6%E5%BC%95%E7%94%A8/"/>
+    <id>http://yoursite.com/2016/04/30/iOS学习笔记之头文件引用/</id>
+    <published>2016-04-30T06:25:14.000Z</published>
+    <updated>2016-05-01T14:06:45.000Z</updated>
+    
+    <content type="html">&lt;p&gt;标签： iOS Objective-C&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;1-import-lt-gt-和import“”的区别&quot;&gt;&lt;a href=&quot;#1-import-lt-gt-和import“”的区别&quot; class=&quot;headerlink&quot; title=&quot;1. #import&amp;lt;&amp;gt;和import“”的区别&quot;&gt;&lt;/a&gt;1. #import&amp;lt;&amp;gt;和import“”的区别&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;#import&amp;lt;&amp;gt;：引用系统头文件&lt;/li&gt;
+&lt;li&gt;#import“”：引用自己创建的头文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;2-import和-include的区别&quot;&gt;&lt;a href=&quot;#2-import和-include的区别&quot; class=&quot;headerlink&quot; title=&quot;2. #import和#include的区别&quot;&gt;&lt;/a&gt;2. #import和#include的区别&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;#import大部分和#include一样，但是可以解决重复引用问题，#import其实类似于C++中#include和#ifndf的结合。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;例如：有三个文件A.h、B.h、C.h&lt;br&gt;C.h要引用A.h和B.h，B.h引用A.h，那么就会出现重复引用，import就可以优化。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;3-import与-class的区别&quot;&gt;&lt;a href=&quot;#3-import与-class的区别&quot; class=&quot;headerlink&quot; title=&quot;3. #import与@class的区别&quot;&gt;&lt;/a&gt;3. #import与@class的区别&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;#import会包含这个类的所有信息，包括实体变量和方法，而@class只是告诉编译器，其后面声明的名称是类的名称，至于这些类是如何定义的，暂时不用考虑，后面会再告诉你&lt;/li&gt;
+&lt;li&gt;在头文件中，一般只需要知道被引用的类的名称就可以了。不需要知道其内部的实体变量和方法，所以在头文件中一般使用@class来声明这个名称是类的名称。而在实现类里面，因为会用到这个引用类的内部的实体变量和方法，所以需要使用#import来包含这个被引用类的头文件&lt;/li&gt;
+&lt;li&gt;在编译效率方面考虑，如果你有100个头文件都#import了同一个头文件，或者这些文件是依次引用的，如A–&amp;gt;B,B–&amp;gt;C,C–&amp;gt;D这样的引用关系。当最开始的那个头文件有变化的话，后面所有引用它的类都需要重新编译，如果你的类有很多的话，这将耗费大量的时间。而是用@class则不会&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;4-class的作用&quot;&gt;&lt;a href=&quot;#4-class的作用&quot; class=&quot;headerlink&quot; title=&quot;4. @class的作用&quot;&gt;&lt;/a&gt;4. @class的作用&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;@class是用来做类引用的&lt;/li&gt;
+&lt;li&gt;@class就是告诉编译器有一个这个类，至于类的具体定义是什么并不知道&lt;/li&gt;
+&lt;li&gt;@class一般用于头文件中需要声明该类的某个实例变量的时候用到，在.m文件中还是需要使用#import声明，这样可以加快编译速度&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;所以，一般来说，@class是放在interface中的，只是为了在interface中引用这个类，把这个类作为一个类型来用的。 在实现这个接口的实现类中，如果需要引用这个类的实体变量或者方法之类的，还是需要import在@class中声明的类进来&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;i class=&quot;icon-envelope-alt&quot;&gt;&lt;/i&gt; &lt;a href=&quot;https://mail.google.com/mail/u/0/#inbox&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Email&lt;/a&gt;&lt;br&gt;&lt;i class=&quot;icon-github&quot;&gt;&lt;/i&gt;  &lt;a href=&quot;https://github.com/ZXIOU&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Github&lt;/a&gt;&lt;br&gt;&lt;i class=&quot;icon-weibo&quot;&gt;&lt;/i&gt;  &lt;a href=&quot;http://weibo.com/3895542020/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1#_loginLayer_1461903468940&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;新浪微博&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;标签： iOS Objective-C&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;1-import-lt-gt-和import“”的区别&quot;&gt;&lt;a href=&quot;#1-import-lt-gt-和import“”的区别&quot; class=&quot;headerlink&quot; title=&quot;1. #im
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>iOS学习笔记之“伪”多继承</title>
+    <link href="http://yoursite.com/2016/04/30/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E2%80%9C%E4%BC%AA%E2%80%9D%E5%A4%9A%E7%BB%A7%E6%89%BF/"/>
+    <id>http://yoursite.com/2016/04/30/iOS学习笔记之“伪”多继承/</id>
+    <published>2016-04-30T06:25:14.000Z</published>
+    <updated>2016-05-01T13:57:40.000Z</updated>
+    
+    <content type="html">&lt;p&gt;标签： iOS Objective-C&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;1-Category&quot;&gt;&lt;a href=&quot;#1-Category&quot; class=&quot;headerlink&quot; title=&quot;1. Category&quot;&gt;&lt;/a&gt;1. Category&lt;/h2&gt;&lt;p&gt;　　因为OC不支持多继承（可能是由于多继承效率较低，开发者给抛弃了，个人观点），所以开发出了分类机制。简单来讲，Category就是为已经存在的类中添加新的方法。&lt;/p&gt;
+&lt;h3 id=&quot;其中有一些注意的点：&quot;&gt;&lt;a href=&quot;#其中有一些注意的点：&quot; class=&quot;headerlink&quot; title=&quot;其中有一些注意的点：&quot;&gt;&lt;/a&gt;其中有一些注意的点：&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;可以访问原类中的成员变量，但是不可以定义添加新的变量，仅仅是添加新的方法&lt;/li&gt;
+&lt;li&gt;Category可以重载原始类的方法，但不推荐这么做，这么做的后果是你再也不能访问原来的方法。如果确实要重载，正确的选择是创建子类&lt;/li&gt;
+&lt;li&gt;和普通接口有所区别的是，在分类的实现文件中可以不必实现所有声明的方法，只要你不去调用它&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;那么Category可以应用的场景是：&quot;&gt;&lt;a href=&quot;#那么Category可以应用的场景是：&quot; class=&quot;headerlink&quot; title=&quot;那么Category可以应用的场景是：&quot;&gt;&lt;/a&gt;那么Category可以应用的场景是：&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;当你在定义类的时候，在某些情况下（例如需求变更），你可能想要为其中的某个或几个类中添加方法&lt;/li&gt;
+&lt;li&gt;一个类中包含了许多不同的方法需要实现，而这些方法需要不同团队的成员实现&lt;/li&gt;
+&lt;li&gt;当你在使用基础类库中的类时，你可能希望这些类实现一些你需要的方法&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;实现方法：只需要简单的定义两个文件SomeClass+XXX.h和SomeClass+XXX.m，在声明文件和实现文件中用“()”把Category的名称XXX括起来即可，SomeClass就是要添加新的方法的类名称。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;2-Protocol&quot;&gt;&lt;a href=&quot;#2-Protocol&quot; class=&quot;headerlink&quot; title=&quot;2. Protocol&quot;&gt;&lt;/a&gt;2. Protocol&lt;/h2&gt;&lt;p&gt;　　简单来说就是一系列不属于任何类的方法列表，其中声明的方法可以被任何类实现，但是协议一般都和委托（Delegate）一起使用来发挥作用，其实我认为这两个是没有必然联系的，只不过很多时候一起协同工作而已。&lt;/p&gt;
+&lt;h3 id=&quot;其中有一些注意的点：-1&quot;&gt;&lt;a href=&quot;#其中有一些注意的点：-1&quot; class=&quot;headerlink&quot; title=&quot;其中有一些注意的点：&quot;&gt;&lt;/a&gt;其中有一些注意的点：&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Protocol本身是&lt;code&gt;可继承&lt;/code&gt;的，例如：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;protocol A&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    - (void)methodA;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;@end&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;protocol B &amp;lt;A&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    - (void)methodB;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;@end&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;Protocol是&lt;code&gt;类无关&lt;/code&gt;的，任何类都可以实现定义好的Protocol。如果我们想知道某个类是否实现了某个Protocol，还可以使用conformsToProtocol进行判断:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[obj conformsToProtocol:@procotol(ProcessDataDelegate)];&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;那么Protocol可以应用的场景是：&quot;&gt;&lt;a href=&quot;#那么Protocol可以应用的场景是：&quot; class=&quot;headerlink&quot; title=&quot;那么Protocol可以应用的场景是：&quot;&gt;&lt;/a&gt;那么Protocol可以应用的场景是：&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Objective-C里的Protocol和Java语言中的接口很类似，也和C++中的纯虚函数类似，但是和C++不同的是这些类没有继承关系，如果一些类之间没有继承关系，但是又具备某些相同的行为，则可以使用Protocol来描述它们的关系。不同的类，可以遵守同一个Protocol，在不同的场景下注入不同的实例，实现不同的功能&lt;/li&gt;
+&lt;li&gt;最常用的就是委托代理模式，Cocoa框架中大量采用了这种模式实现数据和UI的分离。例如UIView产生的所有事件，都是通过委托的方式交给Controller完成。根据约定，框架中后缀为Delegate的都是Protocol，例如UIApplicationDelegate，UIWebViewDelegate等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;3-组合&quot;&gt;&lt;a href=&quot;#3-组合&quot; class=&quot;headerlink&quot; title=&quot;3. 组合&quot;&gt;&lt;/a&gt;3. 组合&lt;/h2&gt;&lt;p&gt;　　其实这种方式就是完全模拟继承，简单讲就是因为OC无法多继承，那么就将想要继承的类的一个实例对象当做自己的一个成员变量，间接地利用其他类的方法。例如有A和B两个类，B无法再继承A，那么可以把A *a当做B中的一个成员变量来实现。&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;i class=&quot;icon-envelope-alt&quot;&gt;&lt;/i&gt; &lt;a href=&quot;https://mail.google.com/mail/u/0/#inbox&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Email&lt;/a&gt;&lt;br&gt;&lt;i class=&quot;icon-github&quot;&gt;&lt;/i&gt;  &lt;a href=&quot;https://github.com/ZXIOU&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Github&lt;/a&gt;&lt;br&gt;&lt;i class=&quot;icon-weibo&quot;&gt;&lt;/i&gt;  &lt;a href=&quot;http://weibo.com/3895542020/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1#_loginLayer_1461903468940&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;新浪微博&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;标签： iOS Objective-C&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;1-Category&quot;&gt;&lt;a href=&quot;#1-Category&quot; class=&quot;headerlink&quot; title=&quot;1. Category&quot;&gt;&lt;/a&gt;1. Category&lt;/h2&gt;&lt;p&gt;　　因为
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
