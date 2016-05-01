@@ -135,7 +135,7 @@
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
+      <div class="header-inner"><div class="site-meta custom-logo">
   
 
   <div class="custom-logo-site-title">
@@ -280,118 +280,14 @@
 
           
           
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>标签： iOS Objective-C</p>
-<hr>
-<h2 id="1-遍历测试方式"><a href="#1-遍历测试方式" class="headerlink" title="1. 遍历测试方式"></a>1. 遍历测试方式</h2><ul>
-<li>分别使用有100个对象和1000000个对象的NSArray，只取对象，不执行操作，测试遍历速度</li>
-<li>使用有100个对象的NSArray遍历执行doSomethingSlow方法，测试遍历中多任务运行速度</li>
-</ul>
-<h2 id="2-测试结果"><a href="#2-测试结果" class="headerlink" title="2. 测试结果"></a>2. 测试结果</h2><ul>
-<li>100对象遍历操作：<br><img src="/images/100对象遍历.png" alt=""></li>
-<li>1000000对象遍历：<br><img src="/images/1000000对象遍历.png" alt=""></li>
-<li>100对象遍历执行一个很费时的操作：<br><img src="/images/100对象遍历费时操作.png" alt=""></li>
-</ul>
-<h2 id="3-值得注意的"><a href="#3-值得注意的" class="headerlink" title="3. 值得注意的"></a>3. 值得注意的</h2><ul>
-<li>对于集合中对象数很多的情况下，for in (NSFastEnumeration)的遍历速度非常之快，但小规模的遍历并不明显（还没普通for循环快）</li>
-<li>使用kvc集合运算符运算很大规模的集合时，效率明显下降（100万的数组离谱的21秒多），同时占用了大量内存和cpu</li>
-<li>enumerateObjectsWithOptions(NSEnumerationConcurrent)和dispatch_apply(Concurrent)的遍历执行可以利用到多核cpu的优势（实验中在双核cpu上效率基本上x2）</li>
-</ul>
-<h2 id="4-使用block同时遍历字典key-value"><a href="#4-使用block同时遍历字典key-value" class="headerlink" title="4. 使用block同时遍历字典key, value"></a>4. 使用block同时遍历字典key, value</h2><p>　　block版本的字典遍历可以同时取key和value（forin只能取key再手动取value）：<br><img src="/images/block遍历.png" alt=""></p>
-<h2 id="5-代码可读性和效率的权衡"><a href="#5-代码可读性和效率的权衡" class="headerlink" title="5. 代码可读性和效率的权衡"></a>5. 代码可读性和效率的权衡</h2><p>　　虽然说上面的测试结果表明，在集合内元素不多时，经典for循环的效率要比forin要高，但是从代码可读性上来看，就远不如forin看着更顺畅；同样的还有kvc的集合运算符，一些内置的操作以keypath的方式声明，相比自己用for循环实现，一行代码就能搞定，清楚明了，还省去了重复工作；在framework中增加了集合遍历的block支持后，对于需要index的遍历再也不需要经典for循环的写法了<br><br></p>
-<hr>
-<p><i class="icon-envelope-alt"></i> <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" rel="external">Email</a><br><i class="icon-github"></i>  <a href="https://github.com/ZXIOU" target="_blank" rel="external">Github</a><br><i class="icon-weibo"></i>  <a href="http://weibo.com/3895542020/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1#_loginLayer_1461903468940" target="_blank" rel="external">新浪微博</a></p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/30/iOS学习笔记之头文件引用/" itemprop="url">
-                  iOS学习笔记之头文件引用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-30T14:25:14+08:00" content="2016-04-30">
-              2016-04-30
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
+             <span id="/2016/05/01/iOS学习笔记之循环性能比较/" class="leancloud_visitors" data-flag-title="iOS学习笔记之循环性能比较">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
           
 
           
@@ -408,37 +304,26 @@
       
         
           
-            <p>标签： iOS Objective-C</p>
-<hr>
-<h3 id="1-import-lt-gt-和import“”的区别"><a href="#1-import-lt-gt-和import“”的区别" class="headerlink" title="1. #import&lt;&gt;和import“”的区别"></a>1. #import&lt;&gt;和import“”的区别</h3><ul>
-<li>#import&lt;&gt;：引用系统头文件</li>
-<li>#import“”：引用自己创建的头文件</li>
-</ul>
-<h3 id="2-import和-include的区别"><a href="#2-import和-include的区别" class="headerlink" title="2. #import和#include的区别"></a>2. #import和#include的区别</h3><ul>
-<li>#import大部分和#include一样，但是可以解决重复引用问题，#import其实类似于C++中#include和#ifndf的结合。</li>
-</ul>
-<blockquote>
-<p>例如：有三个文件A.h、B.h、C.h<br>C.h要引用A.h和B.h，B.h引用A.h，那么就会出现重复引用，import就可以优化。</p>
-</blockquote>
-<h3 id="3-import与-class的区别"><a href="#3-import与-class的区别" class="headerlink" title="3. #import与@class的区别"></a>3. #import与@class的区别</h3><ul>
-<li>#import会包含这个类的所有信息，包括实体变量和方法，而@class只是告诉编译器，其后面声明的名称是类的名称，至于这些类是如何定义的，暂时不用考虑，后面会再告诉你</li>
-<li>在头文件中，一般只需要知道被引用的类的名称就可以了。不需要知道其内部的实体变量和方法，所以在头文件中一般使用@class来声明这个名称是类的名称。而在实现类里面，因为会用到这个引用类的内部的实体变量和方法，所以需要使用#import来包含这个被引用类的头文件</li>
-<li>在编译效率方面考虑，如果你有100个头文件都#import了同一个头文件，或者这些文件是依次引用的，如A–&gt;B,B–&gt;C,C–&gt;D这样的引用关系。当最开始的那个头文件有变化的话，后面所有引用它的类都需要重新编译，如果你的类有很多的话，这将耗费大量的时间。而是用@class则不会</li>
-</ul>
-<h3 id="4-class的作用"><a href="#4-class的作用" class="headerlink" title="4. @class的作用"></a>4. @class的作用</h3><ul>
-<li>@class是用来做类引用的</li>
-<li>@class就是告诉编译器有一个这个类，至于类的具体定义是什么并不知道</li>
-<li>@class一般用于头文件中需要声明该类的某个实例变量的时候用到，在.m文件中还是需要使用#import声明，这样可以加快编译速度</li>
-</ul>
-<blockquote>
-<p>所以，一般来说，@class是放在interface中的，只是为了在interface中引用这个类，把这个类作为一个类型来用的。 在实现这个接口的实现类中，如果需要引用这个类的实体变量或者方法之类的，还是需要import在@class中声明的类进来</p>
-</blockquote>
-<p><br></p>
-<hr>
-<p><i class="icon-envelope-alt"></i> <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" rel="external">Email</a><br><i class="icon-github"></i>  <a href="https://github.com/ZXIOU" target="_blank" rel="external">Github</a><br><i class="icon-weibo"></i>  <a href="http://weibo.com/3895542020/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1#_loginLayer_1461903468940" target="_blank" rel="external">新浪微博</a></p>
-<p><br></p>
+          标签： iOS Objective-C
 
-          
+1. 遍历测试方式
+分别使用有100个对象和1000000个对象的NSArray，只取对象，不执行操作，测试遍历速度
+使用有100个对象的NSArray遍历执行doSomethingSlow方法，测试遍历中多任务运行速度
+
+2. 测试结果
+100对象遍历操作：
+1000000对象遍历：
+100对象遍历执行一个很费时的操作：
+
+3. 值得注意的
+对于集合中对象数很多的情况下，for in (NSFastEnumeratio
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/01/iOS学习笔记之循环性能比较/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -515,6 +400,15 @@
 
           
           
+             <span id="/2016/04/30/iOS学习笔记之“伪”多继承/" class="leancloud_visitors" data-flag-title="iOS学习笔记之“伪”多继承">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
 
           
         </div>
@@ -530,42 +424,138 @@
       
         
           
-            <p>标签： iOS Objective-C</p>
-<hr>
-<h2 id="1-Category"><a href="#1-Category" class="headerlink" title="1. Category"></a>1. Category</h2><p>　　因为OC不支持多继承（可能是由于多继承效率较低，开发者给抛弃了，个人观点），所以开发出了分类机制。简单来讲，Category就是为已经存在的类中添加新的方法。</p>
-<h3 id="其中有一些注意的点："><a href="#其中有一些注意的点：" class="headerlink" title="其中有一些注意的点："></a>其中有一些注意的点：</h3><ul>
-<li>可以访问原类中的成员变量，但是不可以定义添加新的变量，仅仅是添加新的方法</li>
-<li>Category可以重载原始类的方法，但不推荐这么做，这么做的后果是你再也不能访问原来的方法。如果确实要重载，正确的选择是创建子类</li>
-<li>和普通接口有所区别的是，在分类的实现文件中可以不必实现所有声明的方法，只要你不去调用它</li>
-</ul>
-<h3 id="那么Category可以应用的场景是："><a href="#那么Category可以应用的场景是：" class="headerlink" title="那么Category可以应用的场景是："></a>那么Category可以应用的场景是：</h3><ul>
-<li>当你在定义类的时候，在某些情况下（例如需求变更），你可能想要为其中的某个或几个类中添加方法</li>
-<li>一个类中包含了许多不同的方法需要实现，而这些方法需要不同团队的成员实现</li>
-<li>当你在使用基础类库中的类时，你可能希望这些类实现一些你需要的方法</li>
-</ul>
-<blockquote>
-<p>实现方法：只需要简单的定义两个文件SomeClass+XXX.h和SomeClass+XXX.m，在声明文件和实现文件中用“()”把Category的名称XXX括起来即可，SomeClass就是要添加新的方法的类名称。</p>
-</blockquote>
-<h2 id="2-Protocol"><a href="#2-Protocol" class="headerlink" title="2. Protocol"></a>2. Protocol</h2><p>　　简单来说就是一系列不属于任何类的方法列表，其中声明的方法可以被任何类实现，但是协议一般都和委托（Delegate）一起使用来发挥作用，其实我认为这两个是没有必然联系的，只不过很多时候一起协同工作而已。</p>
-<h3 id="其中有一些注意的点：-1"><a href="#其中有一些注意的点：-1" class="headerlink" title="其中有一些注意的点："></a>其中有一些注意的点：</h3><ul>
-<li>Protocol本身是<code>可继承</code>的，例如：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">protocol A</span><br><span class="line">    - (void)methodA;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">protocol B &lt;A&gt;</span><br><span class="line">    - (void)methodB;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-<ul>
-<li>Protocol是<code>类无关</code>的，任何类都可以实现定义好的Protocol。如果我们想知道某个类是否实现了某个Protocol，还可以使用conformsToProtocol进行判断:</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[obj conformsToProtocol:@procotol(ProcessDataDelegate)];</span><br></pre></td></tr></table></figure>
-<h3 id="那么Protocol可以应用的场景是："><a href="#那么Protocol可以应用的场景是：" class="headerlink" title="那么Protocol可以应用的场景是："></a>那么Protocol可以应用的场景是：</h3><ul>
-<li>Objective-C里的Protocol和Java语言中的接口很类似，也和C++中的纯虚函数类似，但是和C++不同的是这些类没有继承关系，如果一些类之间没有继承关系，但是又具备某些相同的行为，则可以使用Protocol来描述它们的关系。不同的类，可以遵守同一个Protocol，在不同的场景下注入不同的实例，实现不同的功能</li>
-<li>最常用的就是委托代理模式，Cocoa框架中大量采用了这种模式实现数据和UI的分离。例如UIView产生的所有事件，都是通过委托的方式交给Controller完成。根据约定，框架中后缀为Delegate的都是Protocol，例如UIApplicationDelegate，UIWebViewDelegate等</li>
-</ul>
-<h2 id="3-组合"><a href="#3-组合" class="headerlink" title="3. 组合"></a>3. 组合</h2><p>　　其实这种方式就是完全模拟继承，简单讲就是因为OC无法多继承，那么就将想要继承的类的一个实例对象当做自己的一个成员变量，间接地利用其他类的方法。例如有A和B两个类，B无法再继承A，那么可以把A *a当做B中的一个成员变量来实现。</p>
-<p><br></p>
-<hr>
-<p><i class="icon-envelope-alt"></i> <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" rel="external">Email</a><br><i class="icon-github"></i>  <a href="https://github.com/ZXIOU" target="_blank" rel="external">Github</a><br><i class="icon-weibo"></i>  <a href="http://weibo.com/3895542020/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1#_loginLayer_1461903468940" target="_blank" rel="external">新浪微博</a></p>
-<p><br></p>
+          标签： iOS Objective-C
+
+1. Category　　因为OC不支持多继承（可能是由于多继承效率较低，开发者给抛弃了，个人观点），所以开发出了分类机制。简单来讲，Category就是为已经存在的类中添加新的方法。
+其中有一些注意的点：
+可以访问原类中的成员变量，但是不可以定义添加新的变量，仅仅是添加新的方法
+Category可以重载原始类的方法，但不推荐这么做，这么做的后果是你再也不能访问原来的方法。如果确实要重载，正确的选择是创建子类
+和普通接口
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/04/30/iOS学习笔记之“伪”多继承/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/30/iOS学习笔记之头文件引用/" itemprop="url">
+                  iOS学习笔记之头文件引用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-30T14:25:14+08:00" content="2016-04-30">
+              2016-04-30
+            </time>
+          </span>
 
           
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/04/30/iOS学习笔记之头文件引用/" class="leancloud_visitors" data-flag-title="iOS学习笔记之头文件引用">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          标签： iOS Objective-C
+
+1. #import&lt;&gt;和import“”的区别
+#import&lt;&gt;：引用系统头文件
+#import“”：引用自己创建的头文件
+
+2. #import和#include的区别
+#import大部分和#include一样，但是可以解决重复引用问题，#import其实类似于C++中#include和#ifndf的结合。
+
+
+例如：有三个文件A.h、B.h、C.hC.h要引用A.h和B.h，B.h引用A
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/04/30/iOS学习笔记之头文件引用/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -782,6 +772,99 @@
   
 
   
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("0y463z4tk9wk4zbtkq4qn21kshdm9zetj8mkouiqkaoovn4e#<app_id>", "j9de7xoza1gbvkbp0b6qudz10s9lkwsxqll2nvwrjfty3a58#<app_key>");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 
