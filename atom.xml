@@ -57,6 +57,55 @@
   </entry>
   
   <entry>
+    <title>iOS学习笔记之头文件引用</title>
+    <link href="http://yoursite.com/2016/04/30/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%A4%B4%E6%96%87%E4%BB%B6%E5%BC%95%E7%94%A8/"/>
+    <id>http://yoursite.com/2016/04/30/iOS学习笔记之头文件引用/</id>
+    <published>2016-04-30T06:25:14.000Z</published>
+    <updated>2016-05-01T14:06:45.000Z</updated>
+    
+    <content type="html">&lt;p&gt;标签： iOS Objective-C&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;1-import-lt-gt-和import“”的区别&quot;&gt;&lt;a href=&quot;#1-import-lt-gt-和import“”的区别&quot; class=&quot;headerlink&quot; title=&quot;1. #import&amp;lt;&amp;gt;和import“”的区别&quot;&gt;&lt;/a&gt;1. #import&amp;lt;&amp;gt;和import“”的区别&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;#import&amp;lt;&amp;gt;：引用系统头文件&lt;/li&gt;
+&lt;li&gt;#import“”：引用自己创建的头文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;2-import和-include的区别&quot;&gt;&lt;a href=&quot;#2-import和-include的区别&quot; class=&quot;headerlink&quot; title=&quot;2. #import和#include的区别&quot;&gt;&lt;/a&gt;2. #import和#include的区别&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;#import大部分和#include一样，但是可以解决重复引用问题，#import其实类似于C++中#include和#ifndf的结合。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;例如：有三个文件A.h、B.h、C.h&lt;br&gt;C.h要引用A.h和B.h，B.h引用A.h，那么就会出现重复引用，import就可以优化。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;3-import与-class的区别&quot;&gt;&lt;a href=&quot;#3-import与-class的区别&quot; class=&quot;headerlink&quot; title=&quot;3. #import与@class的区别&quot;&gt;&lt;/a&gt;3. #import与@class的区别&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;#import会包含这个类的所有信息，包括实体变量和方法，而@class只是告诉编译器，其后面声明的名称是类的名称，至于这些类是如何定义的，暂时不用考虑，后面会再告诉你&lt;/li&gt;
+&lt;li&gt;在头文件中，一般只需要知道被引用的类的名称就可以了。不需要知道其内部的实体变量和方法，所以在头文件中一般使用@class来声明这个名称是类的名称。而在实现类里面，因为会用到这个引用类的内部的实体变量和方法，所以需要使用#import来包含这个被引用类的头文件&lt;/li&gt;
+&lt;li&gt;在编译效率方面考虑，如果你有100个头文件都#import了同一个头文件，或者这些文件是依次引用的，如A–&amp;gt;B,B–&amp;gt;C,C–&amp;gt;D这样的引用关系。当最开始的那个头文件有变化的话，后面所有引用它的类都需要重新编译，如果你的类有很多的话，这将耗费大量的时间。而是用@class则不会&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;4-class的作用&quot;&gt;&lt;a href=&quot;#4-class的作用&quot; class=&quot;headerlink&quot; title=&quot;4. @class的作用&quot;&gt;&lt;/a&gt;4. @class的作用&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;@class是用来做类引用的&lt;/li&gt;
+&lt;li&gt;@class就是告诉编译器有一个这个类，至于类的具体定义是什么并不知道&lt;/li&gt;
+&lt;li&gt;@class一般用于头文件中需要声明该类的某个实例变量的时候用到，在.m文件中还是需要使用#import声明，这样可以加快编译速度&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;所以，一般来说，@class是放在interface中的，只是为了在interface中引用这个类，把这个类作为一个类型来用的。 在实现这个接口的实现类中，如果需要引用这个类的实体变量或者方法之类的，还是需要import在@class中声明的类进来&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;i class=&quot;icon-envelope-alt&quot;&gt;&lt;/i&gt; &lt;a href=&quot;https://mail.google.com/mail/u/0/#inbox&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Email&lt;/a&gt;&lt;br&gt;&lt;i class=&quot;icon-github&quot;&gt;&lt;/i&gt;  &lt;a href=&quot;https://github.com/ZXIOU&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Github&lt;/a&gt;&lt;br&gt;&lt;i class=&quot;icon-weibo&quot;&gt;&lt;/i&gt;  &lt;a href=&quot;http://weibo.com/3895542020/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1#_loginLayer_1461903468940&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;新浪微博&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;标签： iOS Objective-C&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;1-import-lt-gt-和import“”的区别&quot;&gt;&lt;a href=&quot;#1-import-lt-gt-和import“”的区别&quot; class=&quot;headerlink&quot; title=&quot;1. #im
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>iOS学习笔记之“伪”多继承</title>
     <link href="http://yoursite.com/2016/04/30/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E2%80%9C%E4%BC%AA%E2%80%9D%E5%A4%9A%E7%BB%A7%E6%89%BF/"/>
     <id>http://yoursite.com/2016/04/30/iOS学习笔记之“伪”多继承/</id>
@@ -104,55 +153,6 @@
       &lt;p&gt;标签： iOS Objective-C&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id=&quot;1-Category&quot;&gt;&lt;a href=&quot;#1-Category&quot; class=&quot;headerlink&quot; title=&quot;1. Category&quot;&gt;&lt;/a&gt;1. Category&lt;/h2&gt;&lt;p&gt;　　因为
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>iOS学习笔记之头文件引用</title>
-    <link href="http://yoursite.com/2016/04/30/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%A4%B4%E6%96%87%E4%BB%B6%E5%BC%95%E7%94%A8/"/>
-    <id>http://yoursite.com/2016/04/30/iOS学习笔记之头文件引用/</id>
-    <published>2016-04-30T06:25:14.000Z</published>
-    <updated>2016-05-01T14:06:45.000Z</updated>
-    
-    <content type="html">&lt;p&gt;标签： iOS Objective-C&lt;/p&gt;
-&lt;hr&gt;
-&lt;h3 id=&quot;1-import-lt-gt-和import“”的区别&quot;&gt;&lt;a href=&quot;#1-import-lt-gt-和import“”的区别&quot; class=&quot;headerlink&quot; title=&quot;1. #import&amp;lt;&amp;gt;和import“”的区别&quot;&gt;&lt;/a&gt;1. #import&amp;lt;&amp;gt;和import“”的区别&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;#import&amp;lt;&amp;gt;：引用系统头文件&lt;/li&gt;
-&lt;li&gt;#import“”：引用自己创建的头文件&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;2-import和-include的区别&quot;&gt;&lt;a href=&quot;#2-import和-include的区别&quot; class=&quot;headerlink&quot; title=&quot;2. #import和#include的区别&quot;&gt;&lt;/a&gt;2. #import和#include的区别&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;#import大部分和#include一样，但是可以解决重复引用问题，#import其实类似于C++中#include和#ifndf的结合。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;blockquote&gt;
-&lt;p&gt;例如：有三个文件A.h、B.h、C.h&lt;br&gt;C.h要引用A.h和B.h，B.h引用A.h，那么就会出现重复引用，import就可以优化。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;3-import与-class的区别&quot;&gt;&lt;a href=&quot;#3-import与-class的区别&quot; class=&quot;headerlink&quot; title=&quot;3. #import与@class的区别&quot;&gt;&lt;/a&gt;3. #import与@class的区别&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;#import会包含这个类的所有信息，包括实体变量和方法，而@class只是告诉编译器，其后面声明的名称是类的名称，至于这些类是如何定义的，暂时不用考虑，后面会再告诉你&lt;/li&gt;
-&lt;li&gt;在头文件中，一般只需要知道被引用的类的名称就可以了。不需要知道其内部的实体变量和方法，所以在头文件中一般使用@class来声明这个名称是类的名称。而在实现类里面，因为会用到这个引用类的内部的实体变量和方法，所以需要使用#import来包含这个被引用类的头文件&lt;/li&gt;
-&lt;li&gt;在编译效率方面考虑，如果你有100个头文件都#import了同一个头文件，或者这些文件是依次引用的，如A–&amp;gt;B,B–&amp;gt;C,C–&amp;gt;D这样的引用关系。当最开始的那个头文件有变化的话，后面所有引用它的类都需要重新编译，如果你的类有很多的话，这将耗费大量的时间。而是用@class则不会&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;4-class的作用&quot;&gt;&lt;a href=&quot;#4-class的作用&quot; class=&quot;headerlink&quot; title=&quot;4. @class的作用&quot;&gt;&lt;/a&gt;4. @class的作用&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;@class是用来做类引用的&lt;/li&gt;
-&lt;li&gt;@class就是告诉编译器有一个这个类，至于类的具体定义是什么并不知道&lt;/li&gt;
-&lt;li&gt;@class一般用于头文件中需要声明该类的某个实例变量的时候用到，在.m文件中还是需要使用#import声明，这样可以加快编译速度&lt;/li&gt;
-&lt;/ul&gt;
-&lt;blockquote&gt;
-&lt;p&gt;所以，一般来说，@class是放在interface中的，只是为了在interface中引用这个类，把这个类作为一个类型来用的。 在实现这个接口的实现类中，如果需要引用这个类的实体变量或者方法之类的，还是需要import在@class中声明的类进来&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;br&gt;&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;&lt;i class=&quot;icon-envelope-alt&quot;&gt;&lt;/i&gt; &lt;a href=&quot;https://mail.google.com/mail/u/0/#inbox&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Email&lt;/a&gt;&lt;br&gt;&lt;i class=&quot;icon-github&quot;&gt;&lt;/i&gt;  &lt;a href=&quot;https://github.com/ZXIOU&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Github&lt;/a&gt;&lt;br&gt;&lt;i class=&quot;icon-weibo&quot;&gt;&lt;/i&gt;  &lt;a href=&quot;http://weibo.com/3895542020/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1#_loginLayer_1461903468940&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;新浪微博&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;标签： iOS Objective-C&lt;/p&gt;
-&lt;hr&gt;
-&lt;h3 id=&quot;1-import-lt-gt-和import“”的区别&quot;&gt;&lt;a href=&quot;#1-import-lt-gt-和import“”的区别&quot; class=&quot;headerlink&quot; title=&quot;1. #im
     
     </summary>
     
