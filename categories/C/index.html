@@ -62,7 +62,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="头文件,Objective-C," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -80,40 +80,15 @@
 
 
 
-<meta name="description" content="1. #import&amp;lt;&amp;gt;和import“”的区别
-#import&amp;lt;&amp;gt;：引用系统头文件
-#import“”：引用自己创建的头文件
-
-2. #import和#include的区别
-#import大部分和#include一样，但是可以解决重复引用问题，#import其实类似于C++中#include和#ifndf的结合。
-
-
-例如：有三个文件A.h、B.h、C.hC.h要引用A">
-<meta property="og:type" content="article">
-<meta property="og:title" content="iOS学习笔记之头文件引用">
-<meta property="og:url" content="http://yoursite.com/2015/09/20/iOS学习笔记之头文件引用/index.html">
+<meta name="description" content="强者无需过多介绍">
+<meta property="og:type" content="website">
+<meta property="og:title" content="吉米不机密">
+<meta property="og:url" content="http://yoursite.com/categories/C/index.html">
 <meta property="og:site_name" content="吉米不机密">
-<meta property="og:description" content="1. #import&amp;lt;&amp;gt;和import“”的区别
-#import&amp;lt;&amp;gt;：引用系统头文件
-#import“”：引用自己创建的头文件
-
-2. #import和#include的区别
-#import大部分和#include一样，但是可以解决重复引用问题，#import其实类似于C++中#include和#ifndf的结合。
-
-
-例如：有三个文件A.h、B.h、C.hC.h要引用A">
-<meta property="og:updated_time" content="2016-05-01T23:30:48.000Z">
+<meta property="og:description" content="强者无需过多介绍">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS学习笔记之头文件引用">
-<meta name="twitter:description" content="1. #import&amp;lt;&amp;gt;和import“”的区别
-#import&amp;lt;&amp;gt;：引用系统头文件
-#import“”：引用自己创建的头文件
-
-2. #import和#include的区别
-#import大部分和#include一样，但是可以解决重复引用问题，#import其实类似于C++中#include和#ifndf的结合。
-
-
-例如：有三个文件A.h、B.h、C.hC.h要引用A">
+<meta name="twitter:title" content="吉米不机密">
+<meta name="twitter:description" content="强者无需过多介绍">
 
 
 
@@ -131,7 +106,7 @@
   };
 </script>
 
-  <title> iOS学习笔记之头文件引用 | 吉米不机密 </title>
+  <title> 分类: C++ | 吉米不机密 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -152,7 +127,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container one-collumn sidebar-position-left  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -250,179 +225,47 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                iOS学习笔记之头文件引用
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-09-20T15:22:06+08:00" content="2015-09-20">
-              2015-09-20
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2015/09/20/iOS学习笔记之头文件引用/" class="leancloud_visitors" data-flag-title="iOS学习笔记之头文件引用">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <hr>
-<h3 id="1-import-lt-gt-和import“”的区别"><a href="#1-import-lt-gt-和import“”的区别" class="headerlink" title="1. #import&lt;&gt;和import“”的区别"></a>1. #import&lt;&gt;和import“”的区别</h3><ul>
-<li>#import&lt;&gt;：引用系统头文件</li>
-<li>#import“”：引用自己创建的头文件</li>
-</ul>
-<h3 id="2-import和-include的区别"><a href="#2-import和-include的区别" class="headerlink" title="2. #import和#include的区别"></a>2. #import和#include的区别</h3><ul>
-<li>#import大部分和#include一样，但是可以解决重复引用问题，#import其实类似于C++中#include和#ifndf的结合。</li>
-</ul>
-<blockquote>
-<p>例如：有三个文件A.h、B.h、C.h<br>C.h要引用A.h和B.h，B.h引用A.h，那么就会出现重复引用，import就可以优化。</p>
-</blockquote>
-<h3 id="3-import与-class的区别"><a href="#3-import与-class的区别" class="headerlink" title="3. #import与@class的区别"></a>3. #import与@class的区别</h3><ul>
-<li>#import会包含这个类的所有信息，包括实体变量和方法，而@class只是告诉编译器，其后面声明的名称是类的名称，至于这些类是如何定义的，暂时不用考虑，后面会再告诉你</li>
-<li>在头文件中，一般只需要知道被引用的类的名称就可以了。不需要知道其内部的实体变量和方法，所以在头文件中一般使用@class来声明这个名称是类的名称。而在实现类里面，因为会用到这个引用类的内部的实体变量和方法，所以需要使用#import来包含这个被引用类的头文件</li>
-<li>在编译效率方面考虑，如果你有100个头文件都#import了同一个头文件，或者这些文件是依次引用的，如A–&gt;B,B–&gt;C,C–&gt;D这样的引用关系。当最开始的那个头文件有变化的话，后面所有引用它的类都需要重新编译，如果你的类有很多的话，这将耗费大量的时间。而是用@class则不会</li>
-</ul>
-<h3 id="4-class的作用"><a href="#4-class的作用" class="headerlink" title="4. @class的作用"></a>4. @class的作用</h3><ul>
-<li>@class是用来做类引用的</li>
-<li>@class就是告诉编译器有一个这个类，至于类的具体定义是什么并不知道</li>
-<li>@class一般用于头文件中需要声明该类的某个实例变量的时候用到，在.m文件中还是需要使用#import声明，这样可以加快编译速度</li>
-</ul>
-<blockquote>
-<p>所以，一般来说，@class是放在interface中的，只是为了在interface中引用这个类，把这个类作为一个类型来用的。 在实现这个接口的实现类中，如果需要引用这个类的实体变量或者方法之类的，还是需要import在@class中声明的类进来</p>
-</blockquote>
-<p><br></p>
-<hr>
-
-      
-    </div>
-    
-    <div>
-      
-        
-      
+  <section id="posts" class="posts-collapse">
+    <div class="collection-title">
+      <h2 >
+        C++
+        <small>分类</small>
+      </h2>
     </div>
 
-    <div>
+    
       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
         
-      
-    </div>
+            <a class="post-title-link" href="/2015/09/08/C++学习之头文件引用/" itemprop="url">
+              
+                <span itemprop="name">C++学习之类循环引用</span>
+              
+            </a>
+        
+      </h1>
 
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/头文件/" rel="tag">#头文件</a>
-          
-            <a href="/tags/Objective-C/" rel="tag">#Objective-C</a>
-          
-        </div>
-      
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2015-09-08T08:35:28+08:00"
+              content="2015-09-08" >
+          09-08
+        </time>
+      </div>
 
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2015/09/08/C++学习之头文件引用/" rel="next" title="C++学习之类循环引用">
-                <i class="fa fa-chevron-left"></i> C++学习之类循环引用
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/09/28/iOS学习笔记之“伪”多继承/" rel="prev" title="iOS学习笔记之“伪”多继承">
-                iOS学习笔记之“伪”多继承 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
+    </header>
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+
 
 
           </div>
@@ -430,10 +273,6 @@
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -453,17 +292,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/旭蝈蝈揍是本王.png"
@@ -549,17 +379,6 @@
 
       </section>
 
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-import-lt-gt-和import“”的区别"><span class="nav-text">1. #import<>和import“”的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-import和-include的区别"><span class="nav-text">2. #import和#include的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-import与-class的区别"><span class="nav-text">3. #import与@class的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-class的作用"><span class="nav-text">4. @class的作用</span></a></li></ol></div>
-            
-          </div>
-        </section>
       
 
     </div>
@@ -651,10 +470,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
 
   
 
