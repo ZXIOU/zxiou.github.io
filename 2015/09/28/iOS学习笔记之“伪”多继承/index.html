@@ -92,7 +92,7 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
 其中有一些注意的点：
 可以访问原类中的成员变量，但是不可以定义添加新的变量，仅仅是添加新的方法
 Category可以重载原始类的方法，但不推荐这么做，这么做的后果是你再也不能访问原来的方法。如果确实要重载，正确的">
-<meta property="og:updated_time" content="2016-05-01T23:31:14.000Z">
+<meta property="og:updated_time" content="2016-05-02T13:32:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS学习笔记之“伪”多继承">
 <meta name="twitter:description" content="1. Category　　因为OC不支持多继承（可能是由于多继承效率较低，开发者给抛弃了，个人观点），所以开发出了分类机制。简单来讲，Category就是为已经存在的类中添加新的方法。
@@ -352,8 +352,7 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
 <li>Objective-C里的Protocol和Java语言中的接口很类似，也和C++中的纯虚函数类似，但是和C++不同的是这些类没有继承关系，如果一些类之间没有继承关系，但是又具备某些相同的行为，则可以使用Protocol来描述它们的关系。不同的类，可以遵守同一个Protocol，在不同的场景下注入不同的实例，实现不同的功能</li>
 <li>最常用的就是委托代理模式，Cocoa框架中大量采用了这种模式实现数据和UI的分离。例如UIView产生的所有事件，都是通过委托的方式交给Controller完成。根据约定，框架中后缀为Delegate的都是Protocol，例如UIApplicationDelegate，UIWebViewDelegate等</li>
 </ul>
-<h2 id="3-组合"><a href="#3-组合" class="headerlink" title="3. 组合"></a>3. 组合</h2><p>　　其实这种方式就是完全模拟继承，简单讲就是因为OC无法多继承，那么就将想要继承的类的一个实例对象当做自己的一个成员变量，间接地利用其他类的方法。例如有A和B两个类，B无法再继承A，那么可以把A *a当做B中的一个成员变量来实现。</p>
-<p><br></p>
+<h2 id="3-组合"><a href="#3-组合" class="headerlink" title="3. 组合"></a>3. 组合</h2><p>　　其实这种方式就是完全模拟继承，简单讲就是因为OC无法多继承，那么就将想要继承的类的一个实例对象当做自己的一个成员变量，间接地利用其他类的方法。例如有A和B两个类，B无法再继承A，那么可以把A *a当做B中的一个成员变量来实现。<br><br></p>
 <hr>
 
       
