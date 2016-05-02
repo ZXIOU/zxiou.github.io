@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Objective-C,多继承," />
 
 
 
@@ -82,31 +82,25 @@
 
 
 
-<meta name="description" content="标签： iOS Objective-C
-
-1. Category　　因为OC不支持多继承（可能是由于多继承效率较低，开发者给抛弃了，个人观点），所以开发出了分类机制。简单来讲，Category就是为已经存在的类中添加新的方法。
+<meta name="description" content="1. Category　　因为OC不支持多继承（可能是由于多继承效率较低，开发者给抛弃了，个人观点），所以开发出了分类机制。简单来讲，Category就是为已经存在的类中添加新的方法。
 其中有一些注意的点：
 可以访问原类中的成员变量，但是不可以定义添加新的变量，仅仅是添加新的方法
-Category可以重载原始类的方法，但不推荐这么做，这么做的后果是你再也不">
+Category可以重载原始类的方法，但不推荐这么做，这么做的后果是你再也不能访问原来的方法。如果确实要重载，正确的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS学习笔记之“伪”多继承">
-<meta property="og:url" content="http://yoursite.com/2016/04/30/iOS学习笔记之“伪”多继承/index.html">
+<meta property="og:url" content="http://yoursite.com/2015/09/28/iOS学习笔记之“伪”多继承/index.html">
 <meta property="og:site_name" content="吉米不机密">
-<meta property="og:description" content="标签： iOS Objective-C
-
-1. Category　　因为OC不支持多继承（可能是由于多继承效率较低，开发者给抛弃了，个人观点），所以开发出了分类机制。简单来讲，Category就是为已经存在的类中添加新的方法。
+<meta property="og:description" content="1. Category　　因为OC不支持多继承（可能是由于多继承效率较低，开发者给抛弃了，个人观点），所以开发出了分类机制。简单来讲，Category就是为已经存在的类中添加新的方法。
 其中有一些注意的点：
 可以访问原类中的成员变量，但是不可以定义添加新的变量，仅仅是添加新的方法
-Category可以重载原始类的方法，但不推荐这么做，这么做的后果是你再也不">
-<meta property="og:updated_time" content="2016-05-01T19:36:39.000Z">
+Category可以重载原始类的方法，但不推荐这么做，这么做的后果是你再也不能访问原来的方法。如果确实要重载，正确的">
+<meta property="og:updated_time" content="2016-05-01T23:31:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS学习笔记之“伪”多继承">
-<meta name="twitter:description" content="标签： iOS Objective-C
-
-1. Category　　因为OC不支持多继承（可能是由于多继承效率较低，开发者给抛弃了，个人观点），所以开发出了分类机制。简单来讲，Category就是为已经存在的类中添加新的方法。
+<meta name="twitter:description" content="1. Category　　因为OC不支持多继承（可能是由于多继承效率较低，开发者给抛弃了，个人观点），所以开发出了分类机制。简单来讲，Category就是为已经存在的类中添加新的方法。
 其中有一些注意的点：
 可以访问原类中的成员变量，但是不可以定义添加新的变量，仅仅是添加新的方法
-Category可以重载原始类的方法，但不推荐这么做，这么做的后果是你再也不">
+Category可以重载原始类的方法，但不推荐这么做，这么做的后果是你再也不能访问原来的方法。如果确实要重载，正确的">
 
 
 
@@ -159,7 +153,7 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle"></p>
+  <p class="site-subtitle">学生党，程序猿，代码路上没有碎觉</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -187,26 +181,6 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
         </li>
       
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
@@ -217,12 +191,32 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
         </li>
       
         
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
             
               <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
             
             标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
           </a>
         </li>
       
@@ -276,11 +270,30 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-30T14:25:14+08:00" content="2016-04-30">
-              2016-04-30
+            <time itemprop="dateCreated" datetime="2015-09-28T10:43:17+08:00" content="2015-09-28">
+              2015-09-28
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -290,15 +303,6 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
           
 
           
-          
-             <span id="/2016/04/30/iOS学习笔记之“伪”多继承/" class="leancloud_visitors" data-flag-title="iOS学习笔记之“伪”多继承">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
           
 
           
@@ -313,8 +317,7 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
       
 
       
-        <p>标签： iOS Objective-C</p>
-<hr>
+        <hr>
 <h2 id="1-Category"><a href="#1-Category" class="headerlink" title="1. Category"></a>1. Category</h2><p>　　因为OC不支持多继承（可能是由于多继承效率较低，开发者给抛弃了，个人观点），所以开发出了分类机制。简单来讲，Category就是为已经存在的类中添加新的方法。</p>
 <h3 id="其中有一些注意的点："><a href="#其中有一些注意的点：" class="headerlink" title="其中有一些注意的点："></a>其中有一些注意的点：</h3><ul>
 <li>可以访问原类中的成员变量，但是不可以定义添加新的变量，仅仅是添加新的方法</li>
@@ -345,8 +348,6 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
 <h2 id="3-组合"><a href="#3-组合" class="headerlink" title="3. 组合"></a>3. 组合</h2><p>　　其实这种方式就是完全模拟继承，简单讲就是因为OC无法多继承，那么就将想要继承的类的一个实例对象当做自己的一个成员变量，间接地利用其他类的方法。例如有A和B两个类，B无法再继承A，那么可以把A *a当做B中的一个成员变量来实现。</p>
 <p><br></p>
 <hr>
-<p><i class="icon-envelope-alt"></i> <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" rel="external">Email</a><br><i class="icon-github"></i>  <a href="https://github.com/ZXIOU" target="_blank" rel="external">Github</a><br><i class="icon-weibo"></i>  <a href="http://weibo.com/3895542020/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1#_loginLayer_1461903468940" target="_blank" rel="external">新浪微博</a></p>
-<p><br></p>
 
       
     </div>
@@ -365,12 +366,20 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Objective-C/" rel="tag">#Objective-C</a>
+          
+            <a href="/tags/多继承/" rel="tag">#多继承</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/30/iOS学习笔记之头文件引用/" rel="next" title="iOS学习笔记之头文件引用">
+              <a href="/2015/09/20/iOS学习笔记之头文件引用/" rel="next" title="iOS学习笔记之头文件引用">
                 <i class="fa fa-chevron-left"></i> iOS学习笔记之头文件引用
               </a>
             
@@ -378,8 +387,8 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/05/01/C++学习之位图排序/" rel="prev" title="C++学习之位图排序">
-                C++学习之位图排序 <i class="fa fa-chevron-right"></i>
+              <a href="/2015/10/15/iOS学习笔记之循环性能比较/" rel="prev" title="iOS学习笔记之循环性能比较">
+                iOS学习笔记之循环性能比较 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -454,7 +463,21 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
           </div>
 
           
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
 
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>
@@ -472,11 +495,11 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
           
             
               <span class="links-of-author-item">
-                <a href="https://github.com/ZXIOU" target="_blank" title="Github">
+                <a href="https://github.com/ZXIOU" target="_blank" title="GitHub">
                   
-                    <i class="fa fa-globe"></i>
+                    <i class="fa fa-github"></i>
                   
-                  Github
+                  GitHub
                 </a>
               </span>
             
@@ -492,7 +515,7 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
               <span class="links-of-author-item">
                 <a href="https://www.zhihu.com/people/zhang-xu-58-33" target="_blank" title="Zhihu">
                   
-                    <i class="fa fa-globe"></i>
+                    <i class="fa fa-zhihu"></i>
                   
                   Zhihu
                 </a>
@@ -641,99 +664,6 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
   
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("s7FxbMnUjKD7n7VDTcOAonsx-gzGzoHsz#<app_id>", "HKM88vzaR3RNKxO8mFnThHIz#<app_key>");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

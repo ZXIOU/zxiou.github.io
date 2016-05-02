@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Objective-C,循环效率," />
 
 
 
@@ -82,9 +82,7 @@
 
 
 
-<meta name="description" content="标签： iOS Objective-C
-
-1. 遍历测试方式
+<meta name="description" content="1. 遍历测试方式
 分别使用有100个对象和1000000个对象的NSArray，只取对象，不执行操作，测试遍历速度
 使用有100个对象的NSArray遍历执行doSomethingSlow方法，测试遍历中多任务运行速度
 
@@ -94,14 +92,12 @@
 100对象遍历执行一个很费时的操作：
 
 3. 值得注意的
-对于集合中对">
+对于集合中对象数很多的情况下，for in (NSF">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS学习笔记之循环性能比较">
-<meta property="og:url" content="http://yoursite.com/2016/05/01/iOS学习笔记之循环性能比较/index.html">
+<meta property="og:url" content="http://yoursite.com/2015/10/15/iOS学习笔记之循环性能比较/index.html">
 <meta property="og:site_name" content="吉米不机密">
-<meta property="og:description" content="标签： iOS Objective-C
-
-1. 遍历测试方式
+<meta property="og:description" content="1. 遍历测试方式
 分别使用有100个对象和1000000个对象的NSArray，只取对象，不执行操作，测试遍历速度
 使用有100个对象的NSArray遍历执行doSomethingSlow方法，测试遍历中多任务运行速度
 
@@ -111,17 +107,15 @@
 100对象遍历执行一个很费时的操作：
 
 3. 值得注意的
-对于集合中对">
+对于集合中对象数很多的情况下，for in (NSF">
 <meta property="og:image" content="http://yoursite.com/images/100对象遍历.png">
 <meta property="og:image" content="http://yoursite.com/images/1000000对象遍历.png">
 <meta property="og:image" content="http://yoursite.com/images/100对象遍历费时操作.png">
 <meta property="og:image" content="http://yoursite.com/images/block遍历.png">
-<meta property="og:updated_time" content="2016-05-01T14:17:49.000Z">
+<meta property="og:updated_time" content="2016-05-01T23:30:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS学习笔记之循环性能比较">
-<meta name="twitter:description" content="标签： iOS Objective-C
-
-1. 遍历测试方式
+<meta name="twitter:description" content="1. 遍历测试方式
 分别使用有100个对象和1000000个对象的NSArray，只取对象，不执行操作，测试遍历速度
 使用有100个对象的NSArray遍历执行doSomethingSlow方法，测试遍历中多任务运行速度
 
@@ -131,7 +125,7 @@
 100对象遍历执行一个很费时的操作：
 
 3. 值得注意的
-对于集合中对">
+对于集合中对象数很多的情况下，for in (NSF">
 <meta name="twitter:image" content="http://yoursite.com/images/100对象遍历.png">
 
 
@@ -185,7 +179,7 @@
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle"></p>
+  <p class="site-subtitle">学生党，程序猿，代码路上没有碎觉</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -213,26 +207,6 @@
         </li>
       
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
@@ -243,12 +217,32 @@
         </li>
       
         
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
             
               <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
             
             标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
           </a>
         </li>
       
@@ -302,11 +296,30 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-01T17:53:39+08:00" content="2016-05-01">
-              2016-05-01
+            <time itemprop="dateCreated" datetime="2015-10-15T13:16:52+08:00" content="2015-10-15">
+              2015-10-15
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -316,15 +329,6 @@
           
 
           
-          
-             <span id="/2016/05/01/iOS学习笔记之循环性能比较/" class="leancloud_visitors" data-flag-title="iOS学习笔记之循环性能比较">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
           
 
           
@@ -339,8 +343,7 @@
       
 
       
-        <p>标签： iOS Objective-C</p>
-<hr>
+        <hr>
 <h2 id="1-遍历测试方式"><a href="#1-遍历测试方式" class="headerlink" title="1. 遍历测试方式"></a>1. 遍历测试方式</h2><ul>
 <li>分别使用有100个对象和1000000个对象的NSArray，只取对象，不执行操作，测试遍历速度</li>
 <li>使用有100个对象的NSArray遍历执行doSomethingSlow方法，测试遍历中多任务运行速度</li>
@@ -358,7 +361,6 @@
 <h2 id="4-使用block同时遍历字典key-value"><a href="#4-使用block同时遍历字典key-value" class="headerlink" title="4. 使用block同时遍历字典key, value"></a>4. 使用block同时遍历字典key, value</h2><p>　　block版本的字典遍历可以同时取key和value（forin只能取key再手动取value）：<br><img src="/images/block遍历.png" alt=""></p>
 <h2 id="5-代码可读性和效率的权衡"><a href="#5-代码可读性和效率的权衡" class="headerlink" title="5. 代码可读性和效率的权衡"></a>5. 代码可读性和效率的权衡</h2><p>　　虽然说上面的测试结果表明，在集合内元素不多时，经典for循环的效率要比forin要高，但是从代码可读性上来看，就远不如forin看着更顺畅；同样的还有kvc的集合运算符，一些内置的操作以keypath的方式声明，相比自己用for循环实现，一行代码就能搞定，清楚明了，还省去了重复工作；在framework中增加了集合遍历的block支持后，对于需要index的遍历再也不需要经典for循环的写法了<br><br></p>
 <hr>
-<p><i class="icon-envelope-alt"></i> <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" rel="external">Email</a><br><i class="icon-github"></i>  <a href="https://github.com/ZXIOU" target="_blank" rel="external">Github</a><br><i class="icon-weibo"></i>  <a href="http://weibo.com/3895542020/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1#_loginLayer_1461903468940" target="_blank" rel="external">新浪微博</a></p>
 
       
     </div>
@@ -377,18 +379,30 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Objective-C/" rel="tag">#Objective-C</a>
+          
+            <a href="/tags/循环效率/" rel="tag">#循环效率</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/01/C++学习之位图排序/" rel="next" title="C++学习之位图排序">
-                <i class="fa fa-chevron-left"></i> C++学习之位图排序
+              <a href="/2015/09/28/iOS学习笔记之“伪”多继承/" rel="next" title="iOS学习笔记之“伪”多继承">
+                <i class="fa fa-chevron-left"></i> iOS学习笔记之“伪”多继承
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/10/17/C++学习之位图排序/" rel="prev" title="C++学习之位图排序">
+                C++学习之位图排序 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -462,7 +476,21 @@
           </div>
 
           
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
 
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>
@@ -480,11 +508,11 @@
           
             
               <span class="links-of-author-item">
-                <a href="https://github.com/ZXIOU" target="_blank" title="Github">
+                <a href="https://github.com/ZXIOU" target="_blank" title="GitHub">
                   
-                    <i class="fa fa-globe"></i>
+                    <i class="fa fa-github"></i>
                   
-                  Github
+                  GitHub
                 </a>
               </span>
             
@@ -500,7 +528,7 @@
               <span class="links-of-author-item">
                 <a href="https://www.zhihu.com/people/zhang-xu-58-33" target="_blank" title="Zhihu">
                   
-                    <i class="fa fa-globe"></i>
+                    <i class="fa fa-zhihu"></i>
                   
                   Zhihu
                 </a>
@@ -649,99 +677,6 @@
   
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("s7FxbMnUjKD7n7VDTcOAonsx-gzGzoHsz#<app_id>", "HKM88vzaR3RNKxO8mFnThHIz#<app_key>");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 

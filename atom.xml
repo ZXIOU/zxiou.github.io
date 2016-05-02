@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>吉米不机密</title>
-  
+  <subtitle>学生党，程序猿，代码路上没有碎觉</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-05-01T14:17:49.000Z</updated>
+  <updated>2016-05-01T23:34:20.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,14 +16,53 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>iOS学习笔记之循环性能比较</title>
-    <link href="http://yoursite.com/2016/05/01/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%BE%AA%E7%8E%AF%E6%80%A7%E8%83%BD%E6%AF%94%E8%BE%83/"/>
-    <id>http://yoursite.com/2016/05/01/iOS学习笔记之循环性能比较/</id>
-    <published>2016-05-01T09:53:39.000Z</published>
-    <updated>2016-05-01T14:17:49.000Z</updated>
+    <title>C++学习之位图排序</title>
+    <link href="http://yoursite.com/2015/10/17/C++%E5%AD%A6%E4%B9%A0%E4%B9%8B%E4%BD%8D%E5%9B%BE%E6%8E%92%E5%BA%8F/"/>
+    <id>http://yoursite.com/2015/10/17/C++学习之位图排序/</id>
+    <published>2015-10-17T13:36:37.000Z</published>
+    <updated>2016-05-01T23:34:20.000Z</updated>
     
-    <content type="html">&lt;p&gt;标签： iOS Objective-C&lt;/p&gt;
+    <content type="html">&lt;hr&gt;
+&lt;h2 id=&quot;1-起因&quot;&gt;&lt;a href=&quot;#1-起因&quot; class=&quot;headerlink&quot; title=&quot;1. 起因&quot;&gt;&lt;/a&gt;1. 起因&lt;/h2&gt;&lt;p&gt;　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是&lt;code&gt;0&lt;/code&gt;，当存在某个整数时，这个字符串相应数位变为&lt;code&gt;1&lt;/code&gt;。这个排序算法的应用场景最简单的是：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;输入&lt;/strong&gt;：最多输入N个唯一的正整数，每个数都小于N（N = 10000000），没有其他数据与该整数关联&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;输出&lt;/strong&gt;：按照升序的方式输出所有的整数&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;约束&lt;/strong&gt;：只有1M的内存空间，但是磁盘空间很充足，要求排序时间少于10s&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;2-分析&quot;&gt;&lt;a href=&quot;#2-分析&quot; class=&quot;headerlink&quot; title=&quot;2. 分析&quot;&gt;&lt;/a&gt;2. 分析&lt;/h2&gt;&lt;p&gt;　　看到了这样的条件，我们可以知道如果所有的数据都按照整数类型来存放的话空间是不够的，就算我们多次归并排序的话，时间上是不允许的，因为每次I/O操作都是很耗时的，那么我们这里就要运用到位图或者是位向量来表示我们输入的整数。但是问题又来了我们这1M的空间只可以存大约800W个数，这里有1000W个整数，那么我们可以利用分两次来进行数据排序分别存入磁盘文件，然后再进行归并排序，这样空间一定够，话不多说下面说说我们位图排序主要的思想和算法的实现&lt;/p&gt;
+&lt;h2 id=&quot;3-代码硬货&quot;&gt;&lt;a href=&quot;#3-代码硬货&quot; class=&quot;headerlink&quot; title=&quot;3. 代码硬货&quot;&gt;&lt;/a&gt;3. 代码硬货&lt;/h2&gt;&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;48&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;49&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;50&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;51&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;meta-keyword&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;meta-string&quot;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;std&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;meta-keyword&quot;&gt;define&lt;/span&gt; SHIFT 5&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;meta-keyword&quot;&gt;define&lt;/span&gt; MASK 0x1f&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;meta-keyword&quot;&gt;define&lt;/span&gt; N 10000000&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; x)&lt;/span&gt;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;clr&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; x)&lt;/span&gt;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; x)&lt;/span&gt;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; a[N/&lt;span class=&quot;number&quot;&gt;32&lt;/span&gt; + &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; argc, &lt;span class=&quot;keyword&quot;&gt;char&lt;/span&gt; * [] argv)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    ios::sync_with_stdio(&lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; i = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;; i &amp;lt; N; i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        clr(i);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; n;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;while&lt;/span&gt; (&lt;span class=&quot;built_in&quot;&gt;cin&lt;/span&gt; &amp;gt;&amp;gt; n)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;built_in&quot;&gt;set&lt;/span&gt;(n);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; i = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;; i &amp;lt; N; i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (test(i))&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;built_in&quot;&gt;cout&lt;/span&gt; &amp;lt;&amp;lt; i &amp;lt;&amp;lt; &lt;span class=&quot;string&quot;&gt;&quot; &quot;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//功能：设置位数组中的从0开始的第x位为1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; x)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    a[x &amp;gt;&amp;gt; SHIFT] |= (&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; &amp;lt;&amp;lt; (x &amp;amp; MASK));&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//功能：设置位数组中的从0开始的第x位为0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;clr&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; x)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    a[x &amp;gt;&amp;gt; SHIFT] &amp;amp;= ~(&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; &amp;lt;&amp;lt; (x &amp;amp; MASK));&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//功能：取出从0开始的第i位的值，用于检测&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; x)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return a[x &amp;gt;&amp;gt; SHIFT] &amp;amp; (&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; &amp;lt;&amp;lt; (x &amp;amp; MASK));&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;实现方法说明&quot;&gt;&lt;a href=&quot;#实现方法说明&quot; class=&quot;headerlink&quot; title=&quot;实现方法说明:&quot;&gt;&lt;/a&gt;实现方法说明:&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;i &amp;gt;&amp;gt; SHIFT：将i向右移动5位，相当于将i除以32位。因为一个int是32位，所以结果表示i在第几个int数组成员中；举例说明：如果i是34，则结果是1，也就是从0开始的第1个int数组成员。&lt;/li&gt;
+&lt;li&gt;1 &amp;lt;&amp;lt; (i &amp;amp; MASK)：使用掩码留下i的低5位再左移动1位，相当于除以32所得的余数再左移动1位。因为第一是0，所以结果都需要左移动1位。结果中1所在的位表示i在该int数组成员的第几位上。接着上例继续说明，如果i是34，则i &amp;amp; MASK是2，二进制表示是10，再向左移动1位，得到100，也就反映出此时从0开始的第2位是1。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;4-扩展思维&quot;&gt;&lt;a href=&quot;#4-扩展思维&quot; class=&quot;headerlink&quot; title=&quot;4. 扩展思维&quot;&gt;&lt;/a&gt;4. 扩展思维&lt;/h2&gt;&lt;p&gt;　　那么我们把题目条件变一下，比如输入的整数不唯一，可以有多个，那么这时候也很简单，最容易想到的就是我们可以和号码绑定一个计数变量来记录这个整数出现的次数。&lt;br&gt;&lt;br&gt;&lt;/p&gt;
 &lt;hr&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;hr&gt;
+&lt;h2 id=&quot;1-起因&quot;&gt;&lt;a href=&quot;#1-起因&quot; class=&quot;headerlink&quot; title=&quot;1. 起因&quot;&gt;&lt;/a&gt;1. 起因&lt;/h2&gt;&lt;p&gt;　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表
+    
+    </summary>
+    
+      <category term="数据结构" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    
+      <category term="C++" scheme="http://yoursite.com/tags/C/"/>
+    
+      <category term="排序" scheme="http://yoursite.com/tags/%E6%8E%92%E5%BA%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>iOS学习笔记之循环性能比较</title>
+    <link href="http://yoursite.com/2015/10/15/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%BE%AA%E7%8E%AF%E6%80%A7%E8%83%BD%E6%AF%94%E8%BE%83/"/>
+    <id>http://yoursite.com/2015/10/15/iOS学习笔记之循环性能比较/</id>
+    <published>2015-10-15T05:16:52.000Z</published>
+    <updated>2016-05-01T23:30:18.000Z</updated>
+    
+    <content type="html">&lt;hr&gt;
 &lt;h2 id=&quot;1-遍历测试方式&quot;&gt;&lt;a href=&quot;#1-遍历测试方式&quot; class=&quot;headerlink&quot; title=&quot;1. 遍历测试方式&quot;&gt;&lt;/a&gt;1. 遍历测试方式&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;分别使用有100个对象和1000000个对象的NSArray，只取对象，不执行操作，测试遍历速度&lt;/li&gt;
 &lt;li&gt;使用有100个对象的NSArray遍历执行doSomethingSlow方法，测试遍历中多任务运行速度&lt;/li&gt;
@@ -41,68 +80,33 @@
 &lt;h2 id=&quot;4-使用block同时遍历字典key-value&quot;&gt;&lt;a href=&quot;#4-使用block同时遍历字典key-value&quot; class=&quot;headerlink&quot; title=&quot;4. 使用block同时遍历字典key, value&quot;&gt;&lt;/a&gt;4. 使用block同时遍历字典key, value&lt;/h2&gt;&lt;p&gt;　　block版本的字典遍历可以同时取key和value（forin只能取key再手动取value）：&lt;br&gt;&lt;img src=&quot;/images/block遍历.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 &lt;h2 id=&quot;5-代码可读性和效率的权衡&quot;&gt;&lt;a href=&quot;#5-代码可读性和效率的权衡&quot; class=&quot;headerlink&quot; title=&quot;5. 代码可读性和效率的权衡&quot;&gt;&lt;/a&gt;5. 代码可读性和效率的权衡&lt;/h2&gt;&lt;p&gt;　　虽然说上面的测试结果表明，在集合内元素不多时，经典for循环的效率要比forin要高，但是从代码可读性上来看，就远不如forin看着更顺畅；同样的还有kvc的集合运算符，一些内置的操作以keypath的方式声明，相比自己用for循环实现，一行代码就能搞定，清楚明了，还省去了重复工作；在framework中增加了集合遍历的block支持后，对于需要index的遍历再也不需要经典for循环的写法了&lt;br&gt;&lt;br&gt;&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;&lt;i class=&quot;icon-envelope-alt&quot;&gt;&lt;/i&gt; &lt;a href=&quot;https://mail.google.com/mail/u/0/#inbox&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Email&lt;/a&gt;&lt;br&gt;&lt;i class=&quot;icon-github&quot;&gt;&lt;/i&gt;  &lt;a href=&quot;https://github.com/ZXIOU&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Github&lt;/a&gt;&lt;br&gt;&lt;i class=&quot;icon-weibo&quot;&gt;&lt;/i&gt;  &lt;a href=&quot;http://weibo.com/3895542020/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1#_loginLayer_1461903468940&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;新浪微博&lt;/a&gt;&lt;/p&gt;
 </content>
     
     <summary type="html">
     
-      &lt;p&gt;标签： iOS Objective-C&lt;/p&gt;
-&lt;hr&gt;
+      &lt;hr&gt;
 &lt;h2 id=&quot;1-遍历测试方式&quot;&gt;&lt;a href=&quot;#1-遍历测试方式&quot; class=&quot;headerlink&quot; title=&quot;1. 遍历测试方式&quot;&gt;&lt;/a&gt;1. 遍历测试方式&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;分别使用有1
+&lt;li&gt;分别使用有100个对象和1000000个对象的NSArray，只取
     
     </summary>
     
+      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
     
-  </entry>
-  
-  <entry>
-    <title>C++学习之位图排序</title>
-    <link href="http://yoursite.com/2016/05/01/C++%E5%AD%A6%E4%B9%A0%E4%B9%8B%E4%BD%8D%E5%9B%BE%E6%8E%92%E5%BA%8F/"/>
-    <id>http://yoursite.com/2016/05/01/C++学习之位图排序/</id>
-    <published>2016-05-01T09:50:20.000Z</published>
-    <updated>2016-05-01T19:41:33.000Z</updated>
     
-    <content type="html">&lt;p&gt;标签 ： C++ 排序&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;1-起因&quot;&gt;&lt;a href=&quot;#1-起因&quot; class=&quot;headerlink&quot; title=&quot;1. 起因&quot;&gt;&lt;/a&gt;1. 起因&lt;/h2&gt;&lt;p&gt;　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是&lt;code&gt;0&lt;/code&gt;，当存在某个整数时，这个字符串相应数位变为&lt;code&gt;1&lt;/code&gt;。这个排序算法的应用场景最简单的是：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;输入&lt;/strong&gt;：最多输入N个唯一的正整数，每个数都小于N（N = 10000000），没有其他数据与该整数关联&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;输出&lt;/strong&gt;：按照升序的方式输出所有的整数&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;约束&lt;/strong&gt;：只有1M的内存空间，但是磁盘空间很充足，要求排序时间少于10s&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;2-分析&quot;&gt;&lt;a href=&quot;#2-分析&quot; class=&quot;headerlink&quot; title=&quot;2. 分析&quot;&gt;&lt;/a&gt;2. 分析&lt;/h2&gt;&lt;p&gt;　　看到了这样的条件，我们可以知道如果所有的数据都按照整数类型来存放的话空间是不够的，就算我们多次归并排序的话，时间上是不允许的，因为每次I/O操作都是很耗时的，那么我们这里就要运用到位图或者是位向量来表示我们输入的整数。但是问题又来了我们这1M的空间只可以存大约800W个数，这里有1000W个整数，那么我们可以利用分两次来进行数据排序分别存入磁盘文件，然后再进行归并排序，这样空间一定够，话不多说下面说说我们位图排序主要的思想和算法的实现&lt;/p&gt;
-&lt;h2 id=&quot;3-代码硬货&quot;&gt;&lt;a href=&quot;#3-代码硬货&quot; class=&quot;headerlink&quot; title=&quot;3. 代码硬货&quot;&gt;&lt;/a&gt;3. 代码硬货&lt;/h2&gt;&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;48&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;49&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;50&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;51&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;meta-keyword&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;meta-string&quot;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;std&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;meta-keyword&quot;&gt;define&lt;/span&gt; SHIFT 5&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;meta-keyword&quot;&gt;define&lt;/span&gt; MASK 0x1f&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;meta-keyword&quot;&gt;define&lt;/span&gt; N 10000000&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; x)&lt;/span&gt;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;clr&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; x)&lt;/span&gt;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; x)&lt;/span&gt;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; a[N/&lt;span class=&quot;number&quot;&gt;32&lt;/span&gt; + &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; argc, &lt;span class=&quot;keyword&quot;&gt;char&lt;/span&gt; * [] argv)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    ios::sync_with_stdio(&lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; i = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;; i &amp;lt; N; i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        clr(i);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; n;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;while&lt;/span&gt; (&lt;span class=&quot;built_in&quot;&gt;cin&lt;/span&gt; &amp;gt;&amp;gt; n)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;built_in&quot;&gt;set&lt;/span&gt;(n);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; i = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;; i &amp;lt; N; i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (test(i))&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;built_in&quot;&gt;cout&lt;/span&gt; &amp;lt;&amp;lt; i &amp;lt;&amp;lt; &lt;span class=&quot;string&quot;&gt;&quot; &quot;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//功能：设置位数组中的从0开始的第x位为1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; x)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    a[x &amp;gt;&amp;gt; SHIFT] |= (&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; &amp;lt;&amp;lt; (x &amp;amp; MASK));&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//功能：设置位数组中的从0开始的第x位为0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;clr&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; x)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    a[x &amp;gt;&amp;gt; SHIFT] &amp;amp;= ~(&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; &amp;lt;&amp;lt; (x &amp;amp; MASK));&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//功能：取出从0开始的第i位的值，用于检测&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; x)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return a[x &amp;gt;&amp;gt; SHIFT] &amp;amp; (&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; &amp;lt;&amp;lt; (x &amp;amp; MASK));&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h3 id=&quot;实现方法说明&quot;&gt;&lt;a href=&quot;#实现方法说明&quot; class=&quot;headerlink&quot; title=&quot;实现方法说明:&quot;&gt;&lt;/a&gt;实现方法说明:&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;i &amp;gt;&amp;gt; SHIFT：将i向右移动5位，相当于将i除以32位。因为一个int是32位，所以结果表示i在第几个int数组成员中；举例说明：如果i是34，则结果是1，也就是从0开始的第1个int数组成员。&lt;/li&gt;
-&lt;li&gt;1 &amp;lt;&amp;lt; (i &amp;amp; MASK)：使用掩码留下i的低5位再左移动1位，相当于除以32所得的余数再左移动1位。因为第一是0，所以结果都需要左移动1位。结果中1所在的位表示i在该int数组成员的第几位上。接着上例继续说明，如果i是34，则i &amp;amp; MASK是2，二进制表示是10，再向左移动1位，得到100，也就反映出此时从0开始的第2位是1。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;4-扩展思维&quot;&gt;&lt;a href=&quot;#4-扩展思维&quot; class=&quot;headerlink&quot; title=&quot;4. 扩展思维&quot;&gt;&lt;/a&gt;4. 扩展思维&lt;/h2&gt;&lt;p&gt;　　那么我们把题目条件变一下，比如输入的整数不唯一，可以有多个，那么这时候也很简单，最容易想到的就是我们可以和号码绑定一个计数变量来记录这个整数出现的次数。&lt;br&gt;&lt;br&gt;&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;&lt;i class=&quot;icon-envelope-alt&quot;&gt;&lt;/i&gt; &lt;a href=&quot;https://mail.google.com/mail/u/0/#inbox&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Email&lt;/a&gt;&lt;br&gt;&lt;i class=&quot;icon-github&quot;&gt;&lt;/i&gt;  &lt;a href=&quot;https://github.com/ZXIOU&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Github&lt;/a&gt;&lt;br&gt;&lt;i class=&quot;icon-weibo&quot;&gt;&lt;/i&gt;  &lt;a href=&quot;http://weibo.com/3895542020/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1#_loginLayer_1461903468940&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;新浪微博&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;&lt;/p&gt;
-</content>
+      <category term="Objective-C" scheme="http://yoursite.com/tags/Objective-C/"/>
     
-    <summary type="html">
-    
-      &lt;p&gt;标签 ： C++ 排序&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;1-起因&quot;&gt;&lt;a href=&quot;#1-起因&quot; class=&quot;headerlink&quot; title=&quot;1. 起因&quot;&gt;&lt;/a&gt;1. 起因&lt;/h2&gt;&lt;p&gt;　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排
-    
-    </summary>
-    
+      <category term="循环效率" scheme="http://yoursite.com/tags/%E5%BE%AA%E7%8E%AF%E6%95%88%E7%8E%87/"/>
     
   </entry>
   
   <entry>
     <title>iOS学习笔记之“伪”多继承</title>
-    <link href="http://yoursite.com/2016/04/30/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E2%80%9C%E4%BC%AA%E2%80%9D%E5%A4%9A%E7%BB%A7%E6%89%BF/"/>
-    <id>http://yoursite.com/2016/04/30/iOS学习笔记之“伪”多继承/</id>
-    <published>2016-04-30T06:25:14.000Z</published>
-    <updated>2016-05-01T19:36:39.000Z</updated>
+    <link href="http://yoursite.com/2015/09/28/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E2%80%9C%E4%BC%AA%E2%80%9D%E5%A4%9A%E7%BB%A7%E6%89%BF/"/>
+    <id>http://yoursite.com/2015/09/28/iOS学习笔记之“伪”多继承/</id>
+    <published>2015-09-28T02:43:17.000Z</published>
+    <updated>2016-05-01T23:31:14.000Z</updated>
     
-    <content type="html">&lt;p&gt;标签： iOS Objective-C&lt;/p&gt;
-&lt;hr&gt;
+    <content type="html">&lt;hr&gt;
 &lt;h2 id=&quot;1-Category&quot;&gt;&lt;a href=&quot;#1-Category&quot; class=&quot;headerlink&quot; title=&quot;1. Category&quot;&gt;&lt;/a&gt;1. Category&lt;/h2&gt;&lt;p&gt;　　因为OC不支持多继承（可能是由于多继承效率较低，开发者给抛弃了，个人观点），所以开发出了分类机制。简单来讲，Category就是为已经存在的类中添加新的方法。&lt;/p&gt;
 &lt;h3 id=&quot;其中有一些注意的点：&quot;&gt;&lt;a href=&quot;#其中有一些注意的点：&quot; class=&quot;headerlink&quot; title=&quot;其中有一些注意的点：&quot;&gt;&lt;/a&gt;其中有一些注意的点：&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;可以访问原类中的成员变量，但是不可以定义添加新的变量，仅仅是添加新的方法&lt;/li&gt;
@@ -133,30 +137,32 @@
 &lt;h2 id=&quot;3-组合&quot;&gt;&lt;a href=&quot;#3-组合&quot; class=&quot;headerlink&quot; title=&quot;3. 组合&quot;&gt;&lt;/a&gt;3. 组合&lt;/h2&gt;&lt;p&gt;　　其实这种方式就是完全模拟继承，简单讲就是因为OC无法多继承，那么就将想要继承的类的一个实例对象当做自己的一个成员变量，间接地利用其他类的方法。例如有A和B两个类，B无法再继承A，那么可以把A *a当做B中的一个成员变量来实现。&lt;/p&gt;
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;&lt;i class=&quot;icon-envelope-alt&quot;&gt;&lt;/i&gt; &lt;a href=&quot;https://mail.google.com/mail/u/0/#inbox&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Email&lt;/a&gt;&lt;br&gt;&lt;i class=&quot;icon-github&quot;&gt;&lt;/i&gt;  &lt;a href=&quot;https://github.com/ZXIOU&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Github&lt;/a&gt;&lt;br&gt;&lt;i class=&quot;icon-weibo&quot;&gt;&lt;/i&gt;  &lt;a href=&quot;http://weibo.com/3895542020/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1#_loginLayer_1461903468940&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;新浪微博&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 </content>
     
     <summary type="html">
     
-      &lt;p&gt;标签： iOS Objective-C&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;1-Category&quot;&gt;&lt;a href=&quot;#1-Category&quot; class=&quot;headerlink&quot; title=&quot;1. Category&quot;&gt;&lt;/a&gt;1. Category&lt;/h2&gt;&lt;p&gt;　　因为
+      &lt;hr&gt;
+&lt;h2 id=&quot;1-Category&quot;&gt;&lt;a href=&quot;#1-Category&quot; class=&quot;headerlink&quot; title=&quot;1. Category&quot;&gt;&lt;/a&gt;1. Category&lt;/h2&gt;&lt;p&gt;　　因为OC不支持多继承（可能是由于多继承效率较低，开发者给抛
     
     </summary>
     
+      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+    
+    
+      <category term="Objective-C" scheme="http://yoursite.com/tags/Objective-C/"/>
+    
+      <category term="多继承" scheme="http://yoursite.com/tags/%E5%A4%9A%E7%BB%A7%E6%89%BF/"/>
     
   </entry>
   
   <entry>
     <title>iOS学习笔记之头文件引用</title>
-    <link href="http://yoursite.com/2016/04/30/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%A4%B4%E6%96%87%E4%BB%B6%E5%BC%95%E7%94%A8/"/>
-    <id>http://yoursite.com/2016/04/30/iOS学习笔记之头文件引用/</id>
-    <published>2016-04-30T06:25:14.000Z</published>
-    <updated>2016-05-01T19:39:16.000Z</updated>
+    <link href="http://yoursite.com/2015/09/20/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%A4%B4%E6%96%87%E4%BB%B6%E5%BC%95%E7%94%A8/"/>
+    <id>http://yoursite.com/2015/09/20/iOS学习笔记之头文件引用/</id>
+    <published>2015-09-20T07:22:06.000Z</published>
+    <updated>2016-05-01T23:30:48.000Z</updated>
     
-    <content type="html">&lt;p&gt;标签： iOS Objective-C&lt;/p&gt;
-&lt;hr&gt;
+    <content type="html">&lt;hr&gt;
 &lt;h3 id=&quot;1-import-lt-gt-和import“”的区别&quot;&gt;&lt;a href=&quot;#1-import-lt-gt-和import“”的区别&quot; class=&quot;headerlink&quot; title=&quot;1. #import&amp;lt;&amp;gt;和import“”的区别&quot;&gt;&lt;/a&gt;1. #import&amp;lt;&amp;gt;和import“”的区别&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;#import&amp;lt;&amp;gt;：引用系统头文件&lt;/li&gt;
 &lt;li&gt;#import“”：引用自己创建的头文件&lt;/li&gt;
@@ -182,18 +188,21 @@
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;&lt;i class=&quot;icon-envelope-alt&quot;&gt;&lt;/i&gt; &lt;a href=&quot;https://mail.google.com/mail/u/0/#inbox&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Email&lt;/a&gt;&lt;br&gt;&lt;i class=&quot;icon-github&quot;&gt;&lt;/i&gt;  &lt;a href=&quot;https://github.com/ZXIOU&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Github&lt;/a&gt;&lt;br&gt;&lt;i class=&quot;icon-weibo&quot;&gt;&lt;/i&gt;  &lt;a href=&quot;http://weibo.com/3895542020/profile?rightmod=1&amp;amp;wvr=6&amp;amp;mod=personinfo&amp;amp;is_all=1#_loginLayer_1461903468940&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;新浪微博&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 </content>
     
     <summary type="html">
     
-      &lt;p&gt;标签： iOS Objective-C&lt;/p&gt;
-&lt;hr&gt;
-&lt;h3 id=&quot;1-import-lt-gt-和import“”的区别&quot;&gt;&lt;a href=&quot;#1-import-lt-gt-和import“”的区别&quot; class=&quot;headerlink&quot; title=&quot;1. #im
+      &lt;hr&gt;
+&lt;h3 id=&quot;1-import-lt-gt-和import“”的区别&quot;&gt;&lt;a href=&quot;#1-import-lt-gt-和import“”的区别&quot; class=&quot;headerlink&quot; title=&quot;1. #import&amp;lt;&amp;gt;和import“”的区别&quot;&gt;&lt;
     
     </summary>
     
+      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+    
+    
+      <category term="Objective-C" scheme="http://yoursite.com/tags/Objective-C/"/>
+    
+      <category term="头文件" scheme="http://yoursite.com/tags/%E5%A4%B4%E6%96%87%E4%BB%B6/"/>
     
   </entry>
   

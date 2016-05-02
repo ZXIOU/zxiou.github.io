@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="C++,排序," />
 
 
 
@@ -82,31 +82,28 @@
 
 
 
-<meta name="description" content="标签 ： C++ 排序
-
-1. 起因　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是0，当存在某个整数时，这个字符串相应数位变为1。这个排序算法的应用场景最简单的是：
+<meta name="description" content="1. 起因　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是0，当存在某个整数时，这个字符串相应数位变为1。这个排序算法的应用场景最简单的是：
 
 输入：最多输入N个唯一的正整数，每个数都小于N（N = 10000000），没有其他数据与该整数关联
-输出：按照升序的方式输出所有的整数">
+输出：按照升序的方式输出所有的整数
+约束：只有1M的内存空">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++学习之位图排序">
-<meta property="og:url" content="http://yoursite.com/2016/05/01/C++学习之位图排序/index.html">
+<meta property="og:url" content="http://yoursite.com/2015/10/17/C++学习之位图排序/index.html">
 <meta property="og:site_name" content="吉米不机密">
-<meta property="og:description" content="标签 ： C++ 排序
-
-1. 起因　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是0，当存在某个整数时，这个字符串相应数位变为1。这个排序算法的应用场景最简单的是：
+<meta property="og:description" content="1. 起因　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是0，当存在某个整数时，这个字符串相应数位变为1。这个排序算法的应用场景最简单的是：
 
 输入：最多输入N个唯一的正整数，每个数都小于N（N = 10000000），没有其他数据与该整数关联
-输出：按照升序的方式输出所有的整数">
-<meta property="og:updated_time" content="2016-05-01T19:41:33.000Z">
+输出：按照升序的方式输出所有的整数
+约束：只有1M的内存空">
+<meta property="og:updated_time" content="2016-05-01T23:34:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++学习之位图排序">
-<meta name="twitter:description" content="标签 ： C++ 排序
-
-1. 起因　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是0，当存在某个整数时，这个字符串相应数位变为1。这个排序算法的应用场景最简单的是：
+<meta name="twitter:description" content="1. 起因　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是0，当存在某个整数时，这个字符串相应数位变为1。这个排序算法的应用场景最简单的是：
 
 输入：最多输入N个唯一的正整数，每个数都小于N（N = 10000000），没有其他数据与该整数关联
-输出：按照升序的方式输出所有的整数">
+输出：按照升序的方式输出所有的整数
+约束：只有1M的内存空">
 
 
 
@@ -159,7 +156,7 @@
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle"></p>
+  <p class="site-subtitle">学生党，程序猿，代码路上没有碎觉</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -187,26 +184,6 @@
         </li>
       
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
@@ -217,12 +194,32 @@
         </li>
       
         
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
             
               <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
             
             标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
           </a>
         </li>
       
@@ -276,11 +273,30 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-01T17:50:20+08:00" content="2016-05-01">
-              2016-05-01
+            <time itemprop="dateCreated" datetime="2015-10-17T21:36:37+08:00" content="2015-10-17">
+              2015-10-17
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -290,15 +306,6 @@
           
 
           
-          
-             <span id="/2016/05/01/C++学习之位图排序/" class="leancloud_visitors" data-flag-title="C++学习之位图排序">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
           
 
           
@@ -313,8 +320,7 @@
       
 
       
-        <p>标签 ： C++ 排序</p>
-<hr>
+        <hr>
 <h2 id="1-起因"><a href="#1-起因" class="headerlink" title="1. 起因"></a>1. 起因</h2><p>　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是<code>0</code>，当存在某个整数时，这个字符串相应数位变为<code>1</code>。这个排序算法的应用场景最简单的是：</p>
 <ol>
 <li><strong>输入</strong>：最多输入N个唯一的正整数，每个数都小于N（N = 10000000），没有其他数据与该整数关联</li>
@@ -329,8 +335,6 @@
 </ul>
 <h2 id="4-扩展思维"><a href="#4-扩展思维" class="headerlink" title="4. 扩展思维"></a>4. 扩展思维</h2><p>　　那么我们把题目条件变一下，比如输入的整数不唯一，可以有多个，那么这时候也很简单，最容易想到的就是我们可以和号码绑定一个计数变量来记录这个整数出现的次数。<br><br></p>
 <hr>
-<p><i class="icon-envelope-alt"></i> <a href="https://mail.google.com/mail/u/0/#inbox" target="_blank" rel="external">Email</a><br><i class="icon-github"></i>  <a href="https://github.com/ZXIOU" target="_blank" rel="external">Github</a><br><i class="icon-weibo"></i>  <a href="http://weibo.com/3895542020/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1#_loginLayer_1461903468940" target="_blank" rel="external">新浪微博</a></p>
-<p><br></p>
 
       
     </div>
@@ -349,22 +353,26 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag">#C++</a>
+          
+            <a href="/tags/排序/" rel="tag">#排序</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/30/iOS学习笔记之“伪”多继承/" rel="next" title="iOS学习笔记之“伪”多继承">
-                <i class="fa fa-chevron-left"></i> iOS学习笔记之“伪”多继承
+              <a href="/2015/10/15/iOS学习笔记之循环性能比较/" rel="next" title="iOS学习笔记之循环性能比较">
+                <i class="fa fa-chevron-left"></i> iOS学习笔记之循环性能比较
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/01/iOS学习笔记之循环性能比较/" rel="prev" title="iOS学习笔记之循环性能比较">
-                iOS学习笔记之循环性能比较 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -438,7 +446,21 @@
           </div>
 
           
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
 
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>
@@ -456,11 +478,11 @@
           
             
               <span class="links-of-author-item">
-                <a href="https://github.com/ZXIOU" target="_blank" title="Github">
+                <a href="https://github.com/ZXIOU" target="_blank" title="GitHub">
                   
-                    <i class="fa fa-globe"></i>
+                    <i class="fa fa-github"></i>
                   
-                  Github
+                  GitHub
                 </a>
               </span>
             
@@ -476,7 +498,7 @@
               <span class="links-of-author-item">
                 <a href="https://www.zhihu.com/people/zhang-xu-58-33" target="_blank" title="Zhihu">
                   
-                    <i class="fa fa-globe"></i>
+                    <i class="fa fa-zhihu"></i>
                   
                   Zhihu
                 </a>
@@ -625,99 +647,6 @@
   
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("s7FxbMnUjKD7n7VDTcOAonsx-gzGzoHsz#<app_id>", "HKM88vzaR3RNKxO8mFnThHIz#<app_key>");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
 
   
 
