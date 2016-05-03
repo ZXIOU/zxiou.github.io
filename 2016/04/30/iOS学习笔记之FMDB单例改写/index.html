@@ -1,0 +1,753 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,FMDB,SQLite," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="吉米不机密" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="1. 前言　　学习FMDB有一段时间了，最近又好好学习了一下设计模式，其中最简单的单例模式基本思想就是每次生成对象时不真正的开辟内存构造对象，而是指向同一个对象。单例模式主要运用在一些构造花费大或者系统共享的资源，这样既可以节省内存又可以减少构造对象的花费，平时我们的普通对象构造没有必要使用单例模式。如果普通对象想要节省内存的话，可以尝试使用享元模式，这个之后我再介绍吧。
+2. FMDB介绍什么">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS学习笔记之FMDB单例改写">
+<meta property="og:url" content="http://yoursite.com/2016/04/30/iOS学习笔记之FMDB单例改写/index.html">
+<meta property="og:site_name" content="吉米不机密">
+<meta property="og:description" content="1. 前言　　学习FMDB有一段时间了，最近又好好学习了一下设计模式，其中最简单的单例模式基本思想就是每次生成对象时不真正的开辟内存构造对象，而是指向同一个对象。单例模式主要运用在一些构造花费大或者系统共享的资源，这样既可以节省内存又可以减少构造对象的花费，平时我们的普通对象构造没有必要使用单例模式。如果普通对象想要节省内存的话，可以尝试使用享元模式，这个之后我再介绍吧。
+2. FMDB介绍什么">
+<meta property="og:updated_time" content="2016-05-03T02:51:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS学习笔记之FMDB单例改写">
+<meta name="twitter:description" content="1. 前言　　学习FMDB有一段时间了，最近又好好学习了一下设计模式，其中最简单的单例模式基本思想就是每次生成对象时不真正的开辟内存构造对象，而是指向同一个对象。单例模式主要运用在一些构造花费大或者系统共享的资源，这样既可以节省内存又可以减少构造对象的花费，平时我们的普通对象构造没有必要使用单例模式。如果普通对象想要节省内存的话，可以尝试使用享元模式，这个之后我再介绍吧。
+2. FMDB介绍什么">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: false,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> iOS学习笔记之FMDB单例改写 | 吉米不机密 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">吉米不机密</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">学生党，程序猿，代码路上没有碎觉</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS学习笔记之FMDB单例改写
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-30T22:15:36+08:00" content="2016-04-30">
+              2016-04-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/04/30/iOS学习笔记之FMDB单例改写/" class="leancloud_visitors" data-flag-title="iOS学习笔记之FMDB单例改写">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h2><p>　　学习<strong><em>FMDB</em></strong>有一段时间了，最近又好好学习了一下<strong>设计模式</strong>，其中最简单的单例模式基本思想就是每次生成对象时不真正的开辟内存构造对象，而是指向同一个对象。单例模式主要运用在一些构造花费大或者系统共享的资源，这样既可以节省内存又可以减少构造对象的花费，平时我们的普通对象构造没有必要使用单例模式。如果普通对象想要节省内存的话，可以尝试使用享元模式，这个之后我再介绍吧。</p>
+<h2 id="2-FMDB介绍"><a href="#2-FMDB介绍" class="headerlink" title="2. FMDB介绍"></a>2. FMDB介绍</h2><h3 id="什么是FMDB"><a href="#什么是FMDB" class="headerlink" title="什么是FMDB"></a>什么是FMDB</h3><ul>
+<li>FMDB是iOS平台的轻量级的SQLite数据库框架</li>
+<li>FMDB以OC的方式封装了SQLite的C语言API，方便易用</li>
+</ul>
+<h3 id="为什么使用FMDB"><a href="#为什么使用FMDB" class="headerlink" title="为什么使用FMDB"></a>为什么使用FMDB</h3><ul>
+<li>对比苹果自带的Core Data框架，更加轻量级和灵活</li>
+<li>跨平台，内部同时支持ARC和MRC，不必担心版本问题</li>
+<li>使用起来更加面向对象，省去了很多麻烦、冗余的C语言代码</li>
+<li>提供了多线程安全的数据库操作方法，有效地防止数据混乱</li>
+</ul>
+<h2 id="3-改写介绍"><a href="#3-改写介绍" class="headerlink" title="3. 改写介绍"></a>3. 改写介绍</h2><p>　　学习到单例模式，首先想到数据库应该是一个系统级资源，我们不应该创建很多个数据库对象，而是共享同一个对象资源才对，这也是我单例改写<strong>FMDB</strong>和写本文的动力和初衷。我的改写之路主要分为三步，下面详细介绍。</p>
+<h3 id="构造单例类"><a href="#构造单例类" class="headerlink" title="构造单例类"></a>构造单例类</h3><p>　　<strong>FMDB</strong>作者<em>ccgus</em>把所有的数据库操作类都集合到了接口类<strong>FMDB.h</strong>中，并且作者要求我们要将一切改写都应该写在<strong>FMDB.h</strong>中，那么我们就把这个类写为单例类好了。构造单例类在MRC和ARC下有不同的写法，在MRC下需要使用@synthesize{}来构造同步锁，当然这种写法一是代码友好性下降，二是在效率上也不是很好，虽然可以进行优化但是我本人强烈建议使用GCD中的dispatch_once来实现，好处很显然代码简洁、逻辑清晰，废话不多说上代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> mark - Define a single instance of the class</span></span><br><span class="line"><span class="keyword">static</span> FMDB *_database; <span class="comment">// 首先声明一个单例static对象</span></span><br><span class="line"></span><br><span class="line">+ (FMDB *)shareInstance</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">dispatch_once_t</span> onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;			<span class="comment">// 确保只进行一次达到单例的目的</span></span><br><span class="line">        _database = [[self alloc] init];</span><br><span class="line">    &#125;) ;</span><br><span class="line">    </span><br><span class="line">    return _database ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　这样我们每次创建数据库对象时可以直接使用[FMDB shareInstance]来创建一个单例SQLite数据库对象。
+　　</p>
+<h3 id="构造通用接口函数"><a href="#构造通用接口函数" class="headerlink" title="构造通用接口函数"></a>构造通用接口函数</h3><p>　　这一步主要需要写三个函数，分别是：打开数据库函数、关闭数据库函数和通用接口函数。打开数据库函数、关闭数据库函数就是安全的打开和关闭数据库；通用接口函数主要是让用户调用这个函数安全的正常的使用数据库而不用关心数据库的开启、关闭以及错误处理，因为在这个函数内部都已经帮用户写好了这些需要重复出现的操作以达到代码的共用性和简洁性，这个函数主要是给用户一个block接口来实现自己想要通过数据库实现的功能。下面是这三个函数的具体实现逻辑：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> mark - The operation of opening the database</span></span><br><span class="line">- (BOOL)openDataBase</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (_database) &#123;</span><br><span class="line">        return <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"><span class="comment">//    Get the sandbox file path</span></span><br><span class="line">    NSString *documents = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];</span><br><span class="line">    </span><br><span class="line"><span class="comment">//    Get the database file path</span></span><br><span class="line">    NSString *dataBasePath = [documents stringByAppendingPathComponent:@<span class="string">"user.sqlite"</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">dispatch_once_t</span> onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        _queue = [FMDatabaseQueue databaseQueueWithPath:dataBasePath];</span><br><span class="line">    &#125;) ;</span><br><span class="line">    </span><br><span class="line">    _database = [FMDatabase databaseWithPath:dataBasePath];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> ([_database open])&#123;</span><br><span class="line"><span class="comment">//        Set up the cache for the database, improve the query efficiency</span></span><br><span class="line">        _database.shouldCacheStatements = YES;</span><br><span class="line">        NSLog(@<span class="string">"Database has been opened successfully."</span>);</span><br><span class="line">        return <span class="literal">true</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        NSLog(@<span class="string">"Opening database have failed, path:%@, errorMsg:%@."</span>, _database, [_database lastError]);</span><br><span class="line">        return <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> mark - The operation of closing the database</span></span><br><span class="line">- (<span class="keyword">void</span>)closeDataBase</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> ([_database close]) &#123;</span><br><span class="line">        _database = nil;</span><br><span class="line">        NSLog(@<span class="string">"Database has been closed successfully."</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        </span><br><span class="line">        NSLog(@<span class="string">"Closing database have failed, path:%@, errorMsg:%@."</span>, _database, [_database lastError]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> mark - General operation interface on the database</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//    The user can use this function to custom operations by using original classes.</span></span><br><span class="line">- (<span class="keyword">void</span>)execSqlInFmdb:(<span class="keyword">void</span> (^)())block</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//    before use to ensure that the database is open</span></span><br><span class="line">    <span class="keyword">if</span> ([self openDataBase]) &#123;</span><br><span class="line">        @<span class="keyword">try</span> &#123;</span><br><span class="line">            block(_database);</span><br><span class="line">        &#125;</span><br><span class="line">        @<span class="keyword">catch</span> (NSException *exception) &#123;</span><br><span class="line">            <span class="comment">//The exception handling, can also be directly thrown out, so the caller would capture abnormal information</span></span><br><span class="line">            NSLog(@<span class="string">"FMDBsql exec sql exception: %@"</span>, exception);</span><br><span class="line">        &#125;</span><br><span class="line">        @finally &#123;</span><br><span class="line">            [self closeDataBase];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　在上面的通用函数<code>execSqlInFmdb:</code>中为什么会出现一个<strong>_queue</strong>呢？其实我们本身使用的单例类只声明一个<strong>_database</strong>变量并不是线程安全的，那么我要想要达到线程安全就必须要把数据库操作放在多线程中进行操作，好在FMDB已经在类<code>FMDatabaseQueue.h</code>中封装好了多线程操作，我们只需要声明一个<strong>(FMDatabaseQueue *)</strong>对象，就可以使用这个对象进行线程安全的SQLite数据库操作。</p>
+<h3 id="增加操作接口函数"><a href="#增加操作接口函数" class="headerlink" title="增加操作接口函数"></a>增加操作接口函数</h3><p>　　虽然<strong>FMDB</strong>已经提供了一些简单的接口函数，但是这些函数并没有进行错误处理，不过这样的话给程序猿提供的可扩展性和自由性更大，有利也有弊。我自己简单的写了一些函数接口来提供给用户简单的操作，在一般情况下还是适用的，不过如果有用户并不想用下面这些简单进行错误处理函数的话，仍然可以使用函数<code>execSqlInFmdb:</code>来自定义操作。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span><br><span class="line">    The following functions just have been enclosured by add error handling, the</span><br><span class="line">    user completely can not use those functions just use execSqlInFmdb: function </span><br><span class="line">    to custom what they want.</span><br><span class="line">*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> mark - The operation of creating a table</span></span><br><span class="line">- (<span class="keyword">void</span>)creatTable:(NSString *)tableName withSql:(NSString *)sql</span><br><span class="line">&#123;</span><br><span class="line">    [self execSqlInFmdb:^(FMDatabase *db)&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (![db tableExists:tableName]) &#123;</span><br><span class="line">            BOOL res = [db executeUpdate:sql];</span><br><span class="line">            <span class="keyword">if</span> (!res) &#123;</span><br><span class="line">                NSLog(@<span class="string">"error when creating table %@"</span>, tableName);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                NSLog(@<span class="string">"succeed to creating table %@"</span>, tableName);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> mark - The operation of adding data----- executeUpdate</span></span><br><span class="line">- (<span class="keyword">void</span>)insertDataIntoDataBase:(NSString *)tableName withSql:(NSString *)sql</span><br><span class="line">&#123;</span><br><span class="line">    [self execSqlInFmdb:^(FMDatabase *db)&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ([db tableExists:tableName]) &#123;</span><br><span class="line">            BOOL res = [db executeUpdate:sql];</span><br><span class="line">            <span class="keyword">if</span> (!res) &#123;</span><br><span class="line">                NSLog(@<span class="string">"error when inserting values into table %@"</span>, tableName);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                NSLog(@<span class="string">"succeed to insert values into table %@"</span>, tableName);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> mark - The operation of deleting data----- executeUpdate</span></span><br><span class="line">- (<span class="keyword">void</span>)deleteDataFromDataBase:(NSString *)tableName withSql:(NSString *)sql</span><br><span class="line">&#123;</span><br><span class="line">    [self execSqlInFmdb:^(FMDatabase *db)&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ([db tableExists:tableName]) &#123;</span><br><span class="line">            BOOL res = [db executeUpdate:sql];</span><br><span class="line">            <span class="keyword">if</span> (!res) &#123;</span><br><span class="line">                NSLog(@<span class="string">"error when deleting values into table %@"</span>, tableName);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                NSLog(@<span class="string">"succeed to delete values into table %@"</span>, tableName);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> mark - The operation of updating data----- executeUpdate</span></span><br><span class="line">- (<span class="keyword">void</span>)updateDataFromDataBase:(NSString *)tableName withSql:(NSString *)sql</span><br><span class="line">&#123;</span><br><span class="line">    [self execSqlInFmdb:^(FMDatabase *db)&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ([db tableExists:tableName]) &#123;</span><br><span class="line">            BOOL res = [db executeUpdate:sql];</span><br><span class="line">            <span class="keyword">if</span> (!res) &#123;</span><br><span class="line">                NSLog(@<span class="string">"error when updating values into table %@"</span>, tableName);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                NSLog(@<span class="string">"succeed to update values into table %@"</span>, tableName);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　具体对于<strong>FMDB</strong>的单例改写详见我的<a href="https://www.github.com/ZXIOU/fmdb" target="_blank" rel="external">GitHub</a>。
+　　</p>
+<h2 id="4-一些想法"><a href="#4-一些想法" class="headerlink" title="4.一些想法"></a>4.一些想法</h2><p>　　虽然对于<strong>FMDB</strong>的单例改写很简单，但是这是对自己学习知识的应用化以及知识的融合。可能这种改写并没神马卵用，其他人也并不想这么用，但是这是我自身的一个学习过程、学习的一些想法，希望在以后的实际工程当中可以加以利用，之后我还会介绍对于<strong>FMDB</strong>源码分析，敬请期待。<br><br></p>
+<hr>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+            <a href="/tags/FMDB/" rel="tag">#FMDB</a>
+          
+            <a href="/tags/SQLite/" rel="tag">#SQLite</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/21/算法学习笔记之RSA算法/" rel="next" title="算法学习笔记之RSA算法">
+                <i class="fa fa-chevron-left"></i> 算法学习笔记之RSA算法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/旭蝈蝈揍是本王.png"
+               alt="zxiou" />
+          <p class="site-author-name" itemprop="name">zxiou</p>
+          <p class="site-description motion-element" itemprop="description">强者无需过多介绍</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ZXIOU" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005053895542020/home?from=page_100505" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/zhang-xu-58-33" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-前言"><span class="nav-text">1. 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-FMDB介绍"><span class="nav-text">2. FMDB介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是FMDB"><span class="nav-text">什么是FMDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么使用FMDB"><span class="nav-text">为什么使用FMDB</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-改写介绍"><span class="nav-text">3. 改写介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构造单例类"><span class="nav-text">构造单例类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造通用接口函数"><span class="nav-text">构造通用接口函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加操作接口函数"><span class="nav-text">增加操作接口函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-一些想法"><span class="nav-text">4.一些想法</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zxiou</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("s7FxbMnUjKD7n7VDTcOAonsx-gzGzoHsz#<app_id>", "HKM88vzaR3RNKxO8mFnThHIz#<app_key>");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
