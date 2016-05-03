@@ -4,9 +4,9 @@
   <subtitle>学生党，程序猿，代码路上没有碎觉</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="http://zxiou.github.io/"/>
   <updated>2016-05-03T13:34:38.000Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>http://zxiou.github.io/</id>
   
   <author>
     <name>zxiou</name>
@@ -17,8 +17,8 @@
   
   <entry>
     <title>iOS学习笔记之FMDB单例改写</title>
-    <link href="http://yoursite.com/2016/04/30/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8BFMDB%E5%8D%95%E4%BE%8B%E6%94%B9%E5%86%99/"/>
-    <id>http://yoursite.com/2016/04/30/iOS学习笔记之FMDB单例改写/</id>
+    <link href="http://zxiou.github.io/2016/04/30/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8BFMDB%E5%8D%95%E4%BE%8B%E6%94%B9%E5%86%99/"/>
+    <id>http://zxiou.github.io/2016/04/30/iOS学习笔记之FMDB单例改写/</id>
     <published>2016-04-30T14:15:36.000Z</published>
     <updated>2016-05-03T13:34:38.000Z</updated>
     
@@ -57,23 +57,23 @@
     
     </summary>
     
-      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+      <category term="iOS" scheme="http://zxiou.github.io/categories/iOS/"/>
     
     
-      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+      <category term="iOS" scheme="http://zxiou.github.io/tags/iOS/"/>
     
-      <category term="FMDB" scheme="http://yoursite.com/tags/FMDB/"/>
+      <category term="FMDB" scheme="http://zxiou.github.io/tags/FMDB/"/>
     
-      <category term="SQLite" scheme="http://yoursite.com/tags/SQLite/"/>
+      <category term="SQLite" scheme="http://zxiou.github.io/tags/SQLite/"/>
     
-      <category term="单例模式" scheme="http://yoursite.com/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
+      <category term="单例模式" scheme="http://zxiou.github.io/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
   <entry>
     <title>算法学习笔记之RSA算法</title>
-    <link href="http://yoursite.com/2015/10/21/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8BRSA%E7%AE%97%E6%B3%95/"/>
-    <id>http://yoursite.com/2015/10/21/算法学习笔记之RSA算法/</id>
+    <link href="http://zxiou.github.io/2015/10/21/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8BRSA%E7%AE%97%E6%B3%95/"/>
+    <id>http://zxiou.github.io/2015/10/21/算法学习笔记之RSA算法/</id>
     <published>2015-10-21T11:25:18.000Z</published>
     <updated>2016-05-02T15:09:36.000Z</updated>
     
@@ -108,19 +108,19 @@
     
     </summary>
     
-      <category term="算法" scheme="http://yoursite.com/categories/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="http://zxiou.github.io/categories/%E7%AE%97%E6%B3%95/"/>
     
     
-      <category term="C++" scheme="http://yoursite.com/tags/C/"/>
+      <category term="C++" scheme="http://zxiou.github.io/tags/C/"/>
     
-      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="http://zxiou.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>算法学习笔记之位图排序</title>
-    <link href="http://yoursite.com/2015/10/17/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E4%BD%8D%E5%9B%BE%E6%8E%92%E5%BA%8F/"/>
-    <id>http://yoursite.com/2015/10/17/算法学习笔记之位图排序/</id>
+    <link href="http://zxiou.github.io/2015/10/17/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E4%BD%8D%E5%9B%BE%E6%8E%92%E5%BA%8F/"/>
+    <id>http://zxiou.github.io/2015/10/17/算法学习笔记之位图排序/</id>
     <published>2015-10-17T13:36:37.000Z</published>
     <updated>2016-05-03T00:32:43.000Z</updated>
     
@@ -148,21 +148,21 @@
     
     </summary>
     
-      <category term="算法" scheme="http://yoursite.com/categories/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="http://zxiou.github.io/categories/%E7%AE%97%E6%B3%95/"/>
     
     
-      <category term="C++" scheme="http://yoursite.com/tags/C/"/>
+      <category term="C++" scheme="http://zxiou.github.io/tags/C/"/>
     
-      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="http://zxiou.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
-      <category term="排序" scheme="http://yoursite.com/tags/%E6%8E%92%E5%BA%8F/"/>
+      <category term="排序" scheme="http://zxiou.github.io/tags/%E6%8E%92%E5%BA%8F/"/>
     
   </entry>
   
   <entry>
     <title>iOS学习笔记之循环性能比较</title>
-    <link href="http://yoursite.com/2015/10/15/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%BE%AA%E7%8E%AF%E6%80%A7%E8%83%BD%E6%AF%94%E8%BE%83/"/>
-    <id>http://yoursite.com/2015/10/15/iOS学习笔记之循环性能比较/</id>
+    <link href="http://zxiou.github.io/2015/10/15/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%BE%AA%E7%8E%AF%E6%80%A7%E8%83%BD%E6%AF%94%E8%BE%83/"/>
+    <id>http://zxiou.github.io/2015/10/15/iOS学习笔记之循环性能比较/</id>
     <published>2015-10-15T05:16:52.000Z</published>
     <updated>2016-05-02T13:33:24.000Z</updated>
     
@@ -194,19 +194,19 @@
     
     </summary>
     
-      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+      <category term="iOS" scheme="http://zxiou.github.io/categories/iOS/"/>
     
     
-      <category term="Objective-C" scheme="http://yoursite.com/tags/Objective-C/"/>
+      <category term="Objective-C" scheme="http://zxiou.github.io/tags/Objective-C/"/>
     
-      <category term="循环效率" scheme="http://yoursite.com/tags/%E5%BE%AA%E7%8E%AF%E6%95%88%E7%8E%87/"/>
+      <category term="循环效率" scheme="http://zxiou.github.io/tags/%E5%BE%AA%E7%8E%AF%E6%95%88%E7%8E%87/"/>
     
   </entry>
   
   <entry>
     <title>iOS学习笔记之“伪”多继承</title>
-    <link href="http://yoursite.com/2015/09/28/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E2%80%9C%E4%BC%AA%E2%80%9D%E5%A4%9A%E7%BB%A7%E6%89%BF/"/>
-    <id>http://yoursite.com/2015/09/28/iOS学习笔记之“伪”多继承/</id>
+    <link href="http://zxiou.github.io/2015/09/28/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E2%80%9C%E4%BC%AA%E2%80%9D%E5%A4%9A%E7%BB%A7%E6%89%BF/"/>
+    <id>http://zxiou.github.io/2015/09/28/iOS学习笔记之“伪”多继承/</id>
     <published>2015-09-28T02:43:17.000Z</published>
     <updated>2016-05-02T13:32:55.000Z</updated>
     
@@ -249,19 +249,19 @@
     
     </summary>
     
-      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+      <category term="iOS" scheme="http://zxiou.github.io/categories/iOS/"/>
     
     
-      <category term="Objective-C" scheme="http://yoursite.com/tags/Objective-C/"/>
+      <category term="Objective-C" scheme="http://zxiou.github.io/tags/Objective-C/"/>
     
-      <category term="多继承" scheme="http://yoursite.com/tags/%E5%A4%9A%E7%BB%A7%E6%89%BF/"/>
+      <category term="多继承" scheme="http://zxiou.github.io/tags/%E5%A4%9A%E7%BB%A7%E6%89%BF/"/>
     
   </entry>
   
   <entry>
     <title>iOS学习笔记之头文件引用</title>
-    <link href="http://yoursite.com/2015/09/20/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%A4%B4%E6%96%87%E4%BB%B6%E5%BC%95%E7%94%A8/"/>
-    <id>http://yoursite.com/2015/09/20/iOS学习笔记之头文件引用/</id>
+    <link href="http://zxiou.github.io/2015/09/20/iOS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%A4%B4%E6%96%87%E4%BB%B6%E5%BC%95%E7%94%A8/"/>
+    <id>http://zxiou.github.io/2015/09/20/iOS学习笔记之头文件引用/</id>
     <published>2015-09-20T07:22:06.000Z</published>
     <updated>2016-05-02T13:33:17.000Z</updated>
     
@@ -300,19 +300,19 @@
     
     </summary>
     
-      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+      <category term="iOS" scheme="http://zxiou.github.io/categories/iOS/"/>
     
     
-      <category term="头文件" scheme="http://yoursite.com/tags/%E5%A4%B4%E6%96%87%E4%BB%B6/"/>
+      <category term="头文件" scheme="http://zxiou.github.io/tags/%E5%A4%B4%E6%96%87%E4%BB%B6/"/>
     
-      <category term="Objective-C" scheme="http://yoursite.com/tags/Objective-C/"/>
+      <category term="Objective-C" scheme="http://zxiou.github.io/tags/Objective-C/"/>
     
   </entry>
   
   <entry>
     <title>C++学习笔记之头文件引用</title>
-    <link href="http://yoursite.com/2015/09/08/C++%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%A4%B4%E6%96%87%E4%BB%B6%E5%BC%95%E7%94%A8/"/>
-    <id>http://yoursite.com/2015/09/08/C++学习笔记之头文件引用/</id>
+    <link href="http://zxiou.github.io/2015/09/08/C++%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%A4%B4%E6%96%87%E4%BB%B6%E5%BC%95%E7%94%A8/"/>
+    <id>http://zxiou.github.io/2015/09/08/C++学习笔记之头文件引用/</id>
     <published>2015-09-08T00:35:28.000Z</published>
     <updated>2016-05-02T13:32:41.000Z</updated>
     
@@ -347,19 +347,19 @@
     
     </summary>
     
-      <category term="C++" scheme="http://yoursite.com/categories/C/"/>
+      <category term="C++" scheme="http://zxiou.github.io/categories/C/"/>
     
     
-      <category term="C++" scheme="http://yoursite.com/tags/C/"/>
+      <category term="C++" scheme="http://zxiou.github.io/tags/C/"/>
     
-      <category term="头文件" scheme="http://yoursite.com/tags/%E5%A4%B4%E6%96%87%E4%BB%B6/"/>
+      <category term="头文件" scheme="http://zxiou.github.io/tags/%E5%A4%B4%E6%96%87%E4%BB%B6/"/>
     
   </entry>
   
   <entry>
     <title>算法学习笔记之并查集</title>
-    <link href="http://yoursite.com/2014/11/19/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%B9%B6%E6%9F%A5%E9%9B%86/"/>
-    <id>http://yoursite.com/2014/11/19/算法学习笔记之并查集/</id>
+    <link href="http://zxiou.github.io/2014/11/19/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%B9%B6%E6%9F%A5%E9%9B%86/"/>
+    <id>http://zxiou.github.io/2014/11/19/算法学习笔记之并查集/</id>
     <published>2014-11-19T13:54:05.000Z</published>
     <updated>2016-05-02T16:25:34.000Z</updated>
     
@@ -385,12 +385,12 @@
     
     </summary>
     
-      <category term="算法" scheme="http://yoursite.com/categories/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="http://zxiou.github.io/categories/%E7%AE%97%E6%B3%95/"/>
     
     
-      <category term="C++" scheme="http://yoursite.com/tags/C/"/>
+      <category term="C++" scheme="http://zxiou.github.io/tags/C/"/>
     
-      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="http://zxiou.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
