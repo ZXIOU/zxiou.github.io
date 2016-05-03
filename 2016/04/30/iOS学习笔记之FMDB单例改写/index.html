@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="iOS,FMDB,SQLite," />
+  <meta name="keywords" content="iOS,FMDB,SQLite,单例模式," />
 
 
 
@@ -90,7 +90,7 @@
 <meta property="og:site_name" content="吉米不机密">
 <meta property="og:description" content="1. 前言　　学习FMDB有一段时间了，最近又好好学习了一下设计模式，其中最简单的单例模式基本思想就是每次生成对象时不真正的开辟内存构造对象，而是指向同一个对象。单例模式主要运用在一些构造花费大或者系统共享的资源，这样既可以节省内存又可以减少构造对象的花费，平时我们的普通对象构造没有必要使用单例模式。如果普通对象想要节省内存的话，可以尝试使用享元模式，这个之后我再介绍吧。
 2. FMDB介绍什么">
-<meta property="og:updated_time" content="2016-05-03T13:32:48.000Z">
+<meta property="og:updated_time" content="2016-05-03T13:34:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS学习笔记之FMDB单例改写">
 <meta name="twitter:description" content="1. 前言　　学习FMDB有一段时间了，最近又好好学习了一下设计模式，其中最简单的单例模式基本思想就是每次生成对象时不真正的开辟内存构造对象，而是指向同一个对象。单例模式主要运用在一些构造花费大或者系统共享的资源，这样既可以节省内存又可以减少构造对象的花费，平时我们的普通对象构造没有必要使用单例模式。如果普通对象想要节省内存的话，可以尝试使用享元模式，这个之后我再介绍吧。
@@ -333,7 +333,7 @@
 <li>提供了多线程安全的数据库操作方法，有效地防止数据混乱</li>
 </ul>
 <h2 id="3-改写介绍"><a href="#3-改写介绍" class="headerlink" title="3. 改写介绍"></a>3. 改写介绍</h2><p>　　学习到单例模式，首先想到数据库应该是一个系统级资源，我们不应该创建很多个数据库对象，而是共享同一个对象资源才对，这也是我单例改写<strong>FMDB</strong>和写本文的动力和初衷。我的改写之路主要分为三步，下面详细介绍。</p>
-<h3 id="构造单例类"><a href="#构造单例类" class="headerlink" title="构造单例类"></a>构造单例类</h3><p>　　<strong>FMDB</strong>作者<em>ccgus</em>把所有的数据库操作类都集合到了接口类<strong>FMDB.h</strong>中，并且作者要求我们要将一切改写都应该写在<strong>FMDB.h</strong>中，那么我们就把这个类写为单例类好了。构造单例类在MRC和ARC下有不同的写法，在MRC下需要使用@synthesize(self){}来构造同步锁，当然这种写法一是代码友好性下降，二是在效率上也不是很好，虽然可以进行优化但是我本人强烈建议使用GCD中的<code>dispatch_once</code>来实现，好处很显然代码简洁、逻辑清晰且线程安全，废话不多说上代码：</p>
+<h3 id="构造单例类"><a href="#构造单例类" class="headerlink" title="构造单例类"></a>构造单例类</h3><p>　　<strong>FMDB</strong>作者<em>ccgus</em>把所有的数据库操作类都集合到了接口类<strong>FMDB.h</strong>中，并且作者要求我们要将一切改写都应该写在<strong>FMDB.h</strong>中，那么我们就把这个类写为单例类好了。构造单例类在MRC和ARC下有不同的写法，在MRC下需要使用<code>@synthesize(self){}</code>来构造同步锁，当然这种写法一是代码友好性下降，二是在效率上也不是很好，虽然可以进行优化但是我本人强烈建议使用GCD中的<code>dispatch_once</code>来实现，好处很显然代码简洁、逻辑清晰且线程安全，废话不多说上代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - Define a single instance of the class</span><br><span class="line">// 通用单例模式接口</span><br><span class="line">+ (FMDB *)shareInstance</span><br><span class="line">&#123;</span><br><span class="line">    return [[self alloc] init];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// alloc会调用allocWithZone:</span><br><span class="line">+ (instancetype)allocWithZone:(struct _NSZone *)zone</span><br><span class="line">&#123;</span><br><span class="line">    static FMDB *_dbHandle = nil; // 首先声明一个单例static对象</span><br><span class="line"></span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;            // 确保只进行一次达到单例的目的</span><br><span class="line">        _dbHandle = [super allocWithZone:zone];</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    return _dbHandle;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 初始化方法</span><br><span class="line">- (instancetype)init</span><br><span class="line">&#123;</span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;            // 确保只进行一次达到单例的目的</span><br><span class="line">        _instance = [super init];</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    return _dbHandle;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// copy在底层会调用copyWithZone:</span><br><span class="line">- (id)copyWithZone:(NSZone *)zone</span><br><span class="line">&#123;</span><br><span class="line">    return  _dbHandle;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (id)copyWithZone:(struct _NSZone *)zone</span><br><span class="line">&#123;</span><br><span class="line">    return _dbHandle;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (id)mutableCopyWithZone:(NSZone *)zone</span><br><span class="line">&#123;</span><br><span class="line">    return _dbHandle;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (id)mutableCopyWithZone:(struct _NSZone *)zone</span><br><span class="line">&#123;</span><br><span class="line">    return _dbHandle;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>　　上面我们自定义了一个单例接口函数<code>shareInstance</code>，同时重写了6个函数，有些人认同重写<code>allocWithZone:</code>函数，但是为什么要重写<code>init</code>函数呢？因为当我们分别用<code>FMDB *temp1 = [FMDB alloc];</code>和<code>FMDB *temp2 = [temp1 init];</code>来初始化对象时产生的对象是不同的，有关<strong><em>alloc</em></strong>、<strong><em>init</em></strong>以及<strong><em>new</em></strong>之间的不同和具体原理我下几篇博客可能会讲到。还有后面又重写了4个有关<strong><em>copy</em></strong>的函数，主要也是为了搞定使用copy时也必须返回同一个对象。很显然我们的单例对象是<strong>完备的</strong>，不管使用哪种初始化方式都可以返回同一个单例对象，我已经自己进行了测试确实返回的对象均相同，网上一些人只写了一个<code>shareInstance</code>函数，显然这是不够的，当使用其他方式初始化时绝对返回了不同对象。同时建议每次创建数据库对象时直接使用接口函数<code>[FMDB shareInstance];</code>来创建一个单例SQLite数据库对象，因为在Apple官方所有的单例对象都是这么干的，例如类<strong>UIApplication</strong>、<strong>UIAccelerometer</strong>和<strong>NSFileManager</strong>。
 　　</p>
@@ -371,6 +371,8 @@
             <a href="/tags/FMDB/" rel="tag">#FMDB</a>
           
             <a href="/tags/SQLite/" rel="tag">#SQLite</a>
+          
+            <a href="/tags/单例模式/" rel="tag">#单例模式</a>
           
         </div>
       
@@ -470,7 +472,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
