@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Objective-C,多继承," />
+  <meta name="keywords" content="C++,class,struct," />
 
 
 
@@ -82,25 +82,16 @@
 
 
 
-<meta name="description" content="1. Category　　因为OC不支持多继承（可能是由于多继承效率较低，开发者给抛弃了，个人观点），所以开发出了分类机制。简单来讲，Category就是为已经存在的类中添加新的方法。
-其中有一些注意的点：
-可以访问原类中的成员变量，但是不可以定义添加新的变量，仅仅是添加新的方法
-Category可以重载原始类的方法，但不推荐这么做，这么做的后果是你再也不能访问原来的方法。如果确实要重载，正确的">
+<meta name="description" content="1. 前言　　因为我们CS的程序设计老师是学校ACM校队的教练，所以我们的程序设计课基本是算法和编程，很少涉及语言的深入介绍，C与C++基本都是自学的，自己看书自己琢磨，遇到不会的问题会请教一些保送生大神^_^，现在想一想大一那段时间也是相当辛苦的，不过也练就了自身超强的学习能力。C++是一门博大精深的语言，绝对不是能够熟练使用语言的基本语法就能算得上是精通，里面内部的实现需要我们不断的探索与经">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS学习笔记之“伪”多继承">
-<meta property="og:url" content="http://zxiou.github.io/2015/09/28/iOS学习笔记之“伪”多继承/index.html">
+<meta property="og:title" content="C++学习笔记之class与struct区别">
+<meta property="og:url" content="http://zxiou.github.io/2016/01/23/C++学习笔记之class与struct区别/index.html">
 <meta property="og:site_name" content="吉米不机密">
-<meta property="og:description" content="1. Category　　因为OC不支持多继承（可能是由于多继承效率较低，开发者给抛弃了，个人观点），所以开发出了分类机制。简单来讲，Category就是为已经存在的类中添加新的方法。
-其中有一些注意的点：
-可以访问原类中的成员变量，但是不可以定义添加新的变量，仅仅是添加新的方法
-Category可以重载原始类的方法，但不推荐这么做，这么做的后果是你再也不能访问原来的方法。如果确实要重载，正确的">
-<meta property="og:updated_time" content="2016-05-02T13:32:55.000Z">
+<meta property="og:description" content="1. 前言　　因为我们CS的程序设计老师是学校ACM校队的教练，所以我们的程序设计课基本是算法和编程，很少涉及语言的深入介绍，C与C++基本都是自学的，自己看书自己琢磨，遇到不会的问题会请教一些保送生大神^_^，现在想一想大一那段时间也是相当辛苦的，不过也练就了自身超强的学习能力。C++是一门博大精深的语言，绝对不是能够熟练使用语言的基本语法就能算得上是精通，里面内部的实现需要我们不断的探索与经">
+<meta property="og:updated_time" content="2016-05-04T17:19:44.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS学习笔记之“伪”多继承">
-<meta name="twitter:description" content="1. Category　　因为OC不支持多继承（可能是由于多继承效率较低，开发者给抛弃了，个人观点），所以开发出了分类机制。简单来讲，Category就是为已经存在的类中添加新的方法。
-其中有一些注意的点：
-可以访问原类中的成员变量，但是不可以定义添加新的变量，仅仅是添加新的方法
-Category可以重载原始类的方法，但不推荐这么做，这么做的后果是你再也不能访问原来的方法。如果确实要重载，正确的">
+<meta name="twitter:title" content="C++学习笔记之class与struct区别">
+<meta name="twitter:description" content="1. 前言　　因为我们CS的程序设计老师是学校ACM校队的教练，所以我们的程序设计课基本是算法和编程，很少涉及语言的深入介绍，C与C++基本都是自学的，自己看书自己琢磨，遇到不会的问题会请教一些保送生大神^_^，现在想一想大一那段时间也是相当辛苦的，不过也练就了自身超强的学习能力。C++是一门博大精深的语言，绝对不是能够熟练使用语言的基本语法就能算得上是精通，里面内部的实现需要我们不断的探索与经">
 
 
 
@@ -118,7 +109,7 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
   };
 </script>
 
-  <title> iOS学习笔记之“伪”多继承 | 吉米不机密 </title>
+  <title> C++学习笔记之class与struct区别 | 吉米不机密 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -258,7 +249,7 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
             
             
               
-                iOS学习笔记之“伪”多继承
+                C++学习笔记之class与struct区别
               
             
           </h1>
@@ -270,8 +261,8 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-09-28T10:43:17+08:00" content="2015-09-28">
-              2015-09-28
+            <time itemprop="dateCreated" datetime="2016-01-23T09:21:23+08:00" content="2016-01-23">
+              2016-01-23
             </time>
           </span>
 
@@ -284,8 +275,8 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
                   </a>
                 </span>
 
@@ -323,34 +314,20 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
 
       
         <hr>
-<h2 id="1-Category"><a href="#1-Category" class="headerlink" title="1. Category"></a>1. Category</h2><p>　　因为OC不支持多继承（可能是由于多继承效率较低，开发者给抛弃了，个人观点），所以开发出了分类机制。简单来讲，Category就是为已经存在的类中添加新的方法。</p>
-<h3 id="其中有一些注意的点："><a href="#其中有一些注意的点：" class="headerlink" title="其中有一些注意的点："></a>其中有一些注意的点：</h3><ul>
-<li>可以访问原类中的成员变量，但是不可以定义添加新的变量，仅仅是添加新的方法</li>
-<li>Category可以重载原始类的方法，但不推荐这么做，这么做的后果是你再也不能访问原来的方法。如果确实要重载，正确的选择是创建子类</li>
-<li>和普通接口有所区别的是，在分类的实现文件中可以不必实现所有声明的方法，只要你不去调用它</li>
-</ul>
-<h3 id="那么Category可以应用的场景是："><a href="#那么Category可以应用的场景是：" class="headerlink" title="那么Category可以应用的场景是："></a>那么Category可以应用的场景是：</h3><ul>
-<li>当你在定义类的时候，在某些情况下（例如需求变更），你可能想要为其中的某个或几个类中添加方法</li>
-<li>一个类中包含了许多不同的方法需要实现，而这些方法需要不同团队的成员实现</li>
-<li>当你在使用基础类库中的类时，你可能希望这些类实现一些你需要的方法</li>
-</ul>
+<h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h2><p>　　因为我们CS的程序设计老师是学校ACM校队的教练，所以我们的程序设计课基本是算法和编程，很少涉及语言的深入介绍，C与C++基本都是自学的，自己看书自己琢磨，遇到不会的问题会请教一些保送生大神^_^，现在想一想大一那段时间也是相当辛苦的，不过也练就了自身超强的学习能力。C++是一门博大精深的语言，绝对不是能够熟练使用语言的基本语法就能算得上是精通，里面内部的实现需要我们不断的探索与经验的积累。言归正传，以前使用C++写<strong>struct</strong>和<strong>class</strong>时，并没有详细的想过这两者的区别，只是在使用封装的时候要用class，当要自定义数据集合的时候使用struct结构体（其实C++ Primer里面也叫这个是类），前几天看到了<strong><em>Lippman</em></strong>（C++ Peimer作者之一的大神级人物OTZ）的一句调侃话：</p>
 <blockquote>
-<p>实现方法：只需要简单的定义两个文件SomeClass+XXX.h和SomeClass+XXX.m，在声明文件和实现文件中用“()”把Category的名称XXX括起来即可，SomeClass就是要添加新的方法的类名称。</p>
+<p>“嘿，你知道吗，struct那个关键词，其实没什么用……”</p>
 </blockquote>
-<h2 id="2-Protocol"><a href="#2-Protocol" class="headerlink" title="2. Protocol"></a>2. Protocol</h2><p>　　简单来说就是一系列不属于任何类的方法列表，其中声明的方法可以被任何类实现，但是协议一般都和委托（Delegate）一起使用来发挥作用，其实我认为这两个是没有必然联系的，只不过很多时候一起协同工作而已。</p>
-<h3 id="其中有一些注意的点：-1"><a href="#其中有一些注意的点：-1" class="headerlink" title="其中有一些注意的点："></a>其中有一些注意的点：</h3><ul>
-<li>Protocol本身是<code>可继承</code>的，例如：</li>
-</ul>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">protocol A</span><br><span class="line">    - (<span class="keyword">void</span>)methodA;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line">protocol B &lt;A&gt;</span><br><span class="line">    - (<span class="keyword">void</span>)methodB;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>这句话看起来有些搞笑和大神的嘲讽，不过肯定有其中的道理，我决定好好探究一下class和struct的区别和联系。</p>
+<h2 id="2-C中struct与C-中class的区别"><a href="#2-C中struct与C-中class的区别" class="headerlink" title="2. C中struct与C++中class的区别"></a>2. C中struct与C++中class的区别</h2><p>　　C是一种过程化的语言，struct只是作为一种复杂数据类型定义，struct中只能定义成员变量，而不能定义函数，也就不可能继承也没有权限的概念，那么更不可能不能面向对象编程，仅仅只是一种自定义的复合数据结构而已。</p>
+<h2 id="3-C-中struct与C-中class的区别"><a href="#3-C-中struct与C-中class的区别" class="headerlink" title="3. C++中struct与C++中class的区别"></a>3. C++中struct与C++中class的区别</h2><p>　　在C++中，struct可以继承、设置权限限制、定义函数，甚至也有虚函数，看起来class有的struct也有嘛，但是他们有下面这几点区别：</p>
 <ul>
-<li>Protocol是<code>类无关</code>的，任何类都可以实现定义好的Protocol。如果我们想知道某个类是否实现了某个Protocol，还可以使用conformsToProtocol进行判断:</li>
+<li>默认访问权限不同。class的默认访问权限为private权限，而struct默认是public权限</li>
+<li>默认继承权限不同。class的默认继承权限为private权限，而struct默认是public权限</li>
+<li>class能够作为模板参数，而struct并不能</li>
 </ul>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[obj conformsToProtocol:@procotol(ProcessDataDelegate)];</span><br></pre></td></tr></table></figure>
-<h3 id="那么Protocol可以应用的场景是："><a href="#那么Protocol可以应用的场景是：" class="headerlink" title="那么Protocol可以应用的场景是："></a>那么Protocol可以应用的场景是：</h3><ul>
-<li>Objective-C里的Protocol和Java语言中的接口很类似，也和C++中的纯虚函数类似，但是和C++不同的是这些类没有继承关系，如果一些类之间没有继承关系，但是又具备某些相同的行为，则可以使用Protocol来描述它们的关系。不同的类，可以遵守同一个Protocol，在不同的场景下注入不同的实例，实现不同的功能</li>
-<li>最常用的就是委托代理模式，Cocoa框架中大量采用了这种模式实现数据和UI的分离。例如UIView产生的所有事件，都是通过委托的方式交给Controller完成。根据约定，框架中后缀为Delegate的都是Protocol，例如UIApplicationDelegate，UIWebViewDelegate等</li>
-</ul>
-<h2 id="3-组合"><a href="#3-组合" class="headerlink" title="3. 组合"></a>3. 组合</h2><p>　　其实这种方式就是完全模拟继承，简单讲就是因为OC无法多继承，那么就将想要继承的类的一个实例对象当做自己的一个成员变量，间接地利用其他类的方法。例如有A和B两个类，B无法再继承A，那么可以把A *a当做B中的一个成员变量来实现。<br><br></p>
+<p>从上面可以看出在C++中，class的功能更加全面，且能够保证封装性和安全性，struct的默认public并不利于面向对象的封装。struct能够在C++中继续保留，语言设计者的初衷主要是为了兼容C，让想要转C++的C程序猿能够更加容易的去适应和理解C++，而并不打算让C++开发者去真正使用它，这也是上面<strong><em>Lippman</em></strong>的调侃所在。所以如果在C++下开发，我个人建议尽量使用class而不是struct，因为class的功能更加强大也符合C++语言面向对象的封装性和安全性。</p>
+<h2 id="4-一些想法"><a href="#4-一些想法" class="headerlink" title="4. 一些想法"></a>4. 一些想法</h2><p>　　涉猎广泛，多阅读多思考确实是一件好事，如果我没有看到那一句调侃，可能我并不会去详细研究class和struct的区别，也有可能在别的学校很多老师都会讲，但是我们的老师并没有讲，所以我通过广泛的阅读弥补了这一差距。这也让我认识到，在学习的道路上不能鼠目寸光，要不断的开阔眼界，阅读任何只要自己感兴趣的只是总会有收获的。<br><br></p>
 <hr>
 
       
@@ -372,9 +349,11 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
       
         <div class="post-tags">
           
-            <a href="/tags/Objective-C/" rel="tag">#Objective-C</a>
+            <a href="/tags/C/" rel="tag">#C++</a>
           
-            <a href="/tags/多继承/" rel="tag">#多继承</a>
+            <a href="/tags/class/" rel="tag">#class</a>
+          
+            <a href="/tags/struct/" rel="tag">#struct</a>
           
         </div>
       
@@ -383,16 +362,16 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/09/20/iOS学习笔记之头文件引用/" rel="next" title="iOS学习笔记之头文件引用">
-                <i class="fa fa-chevron-left"></i> iOS学习笔记之头文件引用
+              <a href="/2015/10/21/算法学习笔记之RSA算法/" rel="next" title="算法学习笔记之RSA算法">
+                <i class="fa fa-chevron-left"></i> 算法学习笔记之RSA算法
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/10/15/iOS学习笔记之循环性能比较/" rel="prev" title="iOS学习笔记之循环性能比较">
-                iOS学习笔记之循环性能比较 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/03/05/网络学习笔记之Socket报错调试/" rel="prev" title="网络学习笔记之Socket报错调试">
+                网络学习笔记之Socket报错调试 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -543,7 +522,7 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Category"><span class="nav-text">1. Category</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#其中有一些注意的点："><span class="nav-text">其中有一些注意的点：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#那么Category可以应用的场景是："><span class="nav-text">那么Category可以应用的场景是：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Protocol"><span class="nav-text">2. Protocol</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#其中有一些注意的点：-1"><span class="nav-text">其中有一些注意的点：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#那么Protocol可以应用的场景是："><span class="nav-text">那么Protocol可以应用的场景是：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-组合"><span class="nav-text">3. 组合</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-前言"><span class="nav-text">1. 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-C中struct与C-中class的区别"><span class="nav-text">2. C中struct与C++中class的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-C-中struct与C-中class的区别"><span class="nav-text">3. C++中struct与C++中class的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-一些想法"><span class="nav-text">4. 一些想法</span></a></li></ol></div>
             
           </div>
         </section>
