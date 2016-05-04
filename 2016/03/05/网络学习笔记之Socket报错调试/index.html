@@ -1,0 +1,700 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="C++,网络编程,Socket," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="吉米不机密" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="1. 起因　　最近在详细学习网络编程，主要在看《Unix网络编程》和《iOS网络高级编程》这两本书，在学习的过程中为了深刻理解Socket自己重写了Socket编程中服务端和客户端简单的代码，在前期的运行中没有问题，后来在mac OS X上运行Socket的客户端代码，当执行到connect函数时会爆出一个49号error：Can’t assign requested address，当时我在知">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络学习笔记之Socket报错调试">
+<meta property="og:url" content="http://zxiou.github.io/2016/03/05/网络学习笔记之Socket报错调试/index.html">
+<meta property="og:site_name" content="吉米不机密">
+<meta property="og:description" content="1. 起因　　最近在详细学习网络编程，主要在看《Unix网络编程》和《iOS网络高级编程》这两本书，在学习的过程中为了深刻理解Socket自己重写了Socket编程中服务端和客户端简单的代码，在前期的运行中没有问题，后来在mac OS X上运行Socket的客户端代码，当执行到connect函数时会爆出一个49号error：Can’t assign requested address，当时我在知">
+<meta property="og:image" content="http://zxiou.github.io/socket1.png">
+<meta property="og:image" content="http://zxiou.github.io/socket2.png">
+<meta property="og:image" content="http://zxiou.github.io/socket3.png">
+<meta property="og:image" content="http://zxiou.github.io/socket4.png">
+<meta property="og:updated_time" content="2016-05-04T13:59:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网络学习笔记之Socket报错调试">
+<meta name="twitter:description" content="1. 起因　　最近在详细学习网络编程，主要在看《Unix网络编程》和《iOS网络高级编程》这两本书，在学习的过程中为了深刻理解Socket自己重写了Socket编程中服务端和客户端简单的代码，在前期的运行中没有问题，后来在mac OS X上运行Socket的客户端代码，当执行到connect函数时会爆出一个49号error：Can’t assign requested address，当时我在知">
+<meta name="twitter:image" content="http://zxiou.github.io/socket1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 网络学习笔记之Socket报错调试 | 吉米不机密 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">吉米不机密</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">学生党，程序猿，代码路上没有碎觉</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                网络学习笔记之Socket报错调试
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-05T20:48:03+08:00" content="2016-03-05">
+              2016-03-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv">阅读次数
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<h2 id="1-起因"><a href="#1-起因" class="headerlink" title="1. 起因"></a>1. 起因</h2><p>　　最近在详细学习网络编程，主要在看<strong>《Unix网络编程》</strong>和<strong>《iOS网络高级编程》</strong>这两本书，在学习的过程中为了深刻理解Socket自己重写了Socket编程中服务端和客户端简单的代码，在前期的运行中没有问题，后来在mac OS X上运行Socket的客户端代码，当执行到connect函数时会爆出一个49号<strong><em>error：Can’t assign requested address</em></strong>，当时我在知乎上面提问但是并没有得到回答，自己之后的几天详细的检查代码终于发现了问题，自己回答在了<strong><a href="https://www.zhihu.com/question/40986079?" target="_blank" rel="external">知乎</a></strong>上，同时这里也更新到博客上，记录一下自己发现bug到debug的一个心路历程以及学习过程。</p>
+<h2 id="2-Debug讲解"><a href="#2-Debug讲解" class="headerlink" title="2. Debug讲解"></a>2. Debug讲解</h2><p>　　首先这个问题不算是很难的问题，但是很难发现。我们知道当我们进行网络通信的时候要考虑到数据在各个主机存储分为大小端字节序，但是网际协议都是用大端来传送这些数据的，下面引自<strong><em>《Unix网络编程》</em></strong>中的一段话：</p>
+<blockquote>
+<p>“由于历史原因和POSIX规范的规定，套接字地址结构中的某些字段必须按照网络字节序进行维护。”</p>
+</blockquote>
+<p>那么我们在进行套接字<strong>bind</strong>的时候就必须把套接字地址结构中的这些字段转换为网络字节序。那么问题来了这些字段都是什么呢?继续引用<strong><em>《UNIX网络编程》</em></strong>中的一段话：</p>
+<blockquote>
+<p>“在每个TCP分节中都有16位的端口号和32位的IPv4地址，发送协议栈和接收协议栈必须就这些多字节各个字节的传送顺序达成一致。”</p>
+</blockquote>
+<p>从上面我们可以知道我们必须对我们网际标准套接字中的<strong>ip</strong>地址和<strong>port</strong>端口进行字节序转化，那么下面就要引出这两个函数：</p>
+<p><code>uint16_t htons(uint16_t host16bitvalue);</code><br><br><br><code>uint32_t htonl(uint32_t host32bitvalue);</code></p>
+<p>一个是应用于16字节的转换，一个是32字节的转化，那么我出的问题就是把服务端和客户端的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sAddr.sin_port = htons(port);</span><br></pre></td></tr></table></figure>
+<p> 写成了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sAddr.sin_port = htonl(port);</span><br></pre></td></tr></table></figure>
+<p>这个问题就比较大了，首先我把16字节short类型的数按照32字节的int类型进行转换，最后再赋值给16字节的数，这其中发生了什么，我们简单思考一下，16位可以包含所有的65535个端口，那么按照32字节序翻转后，末尾的16肯定全部变为了0！！！有些人认为0怎么了，有什么特殊，~。~下面我详细解释。我们知道0~1023号端口是IANA分配和控制的，是不让随意使用的，但是其中的0号端口最为特殊，在IANA官方的标准里0号端口是保留端口，无论是TCP还是UDP网络通信，0号端口都是不能使用的，然而标准归标准，在UNIX/Linux网络编程中0号端口被赋予了特殊的涵义：</p>
+<blockquote>
+<p>“如果在bind绑定的时候指定端口0，意味着由系统随机选择一个可用端口来绑定。”</p>
+</blockquote>
+<p>我才不信什么鬼规定，我们下面来证明一下，这是把端口设置为0的第一次启动服务端，我们通过调用<code>netstat -a</code>指令可以看到，我们监听的端口是56757：</p>
+<p><img src="socket1.png" alt=""></p>
+<p>我们关闭重启服务端，可以看到这次的使用的端口号为56765：</p>
+<p><img src="socket2.png" alt=""></p>
+<p>可以知道，在<strong>UNIX</strong>下确实监听0号端口会随机设定一个未使用的端口来监听，那么这样做在网络通信看来是毫无意义的，客户端无法得知我们实际监听的端口号是多少（但是对于一些本地调试貌似有用）。所以虽然0~1023号端口不允许我们随便使用，但是在UNIX下0号还是可以使用的，其他1~1023号端口在调用时都会爆出下面这个错误：</p>
+<p><img src="socket3.png" alt=""></p>
+<p>扯了这么多和我们本题中的那个错误有什么关系呢，我说过我在原来的客户端也是把字节序搞错了，那么他也会找我们的0号端口，但是我们知道，0号端口是不允许在TCP和UDP上使用的，所以相当于我们没法连通找到我们连接的唯一标示<strong>ip+port</strong>，所以会爆出下面的错误：</p>
+<p><img src="socket4.png" alt=""></p>
+<p>这其中还有一个问题，我的IP地址也没有使用<code>htonl</code>函数，但是为何没错误，因为我们是在本地调试，对于服务端设置的是INADDR_ANY，也就是0.0.0.0，很显然这个不管变不变都是0啦~(≧▽≦)/~，那么客户端呢，因为客户端是用：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inet_pton(AF_INET, server_ip, &amp;sAddr.sin_addr);</span><br></pre></td></tr></table></figure>
+<p>来转化的，我个人认为可能在函数内部已经对IP地址进行了字节序转化，所以不用担心。<br>水了这么多，总体而言最简单的就是我们写网络编程一定要规范，注意细节= =；一定记得要<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">htonl(ip)+htons(port)</span><br></pre></td></tr></table></figure></p>
+<h2 id="3-Socket服务端以及客户端代码"><a href="#3-Socket服务端以及客户端代码" class="headerlink" title="3.Socket服务端以及客户端代码"></a>3.Socket服务端以及客户端代码</h2><p>　　我主要写了三个文件：<strong>unp.h、server.cpp以及client.cpp</strong>，在unp.h中主要封装了一些在sever.h和client.h都要用到的函数并经行了错误处理，这样可以共用代码，减少冗余和达到代码简洁的目的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// unp.h</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/un.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;syslog.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">err_sys</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> * str)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="comment">// cout &lt;&lt; "[" &lt;&lt; errno &lt;&lt;"]";</span></span><br><span class="line">    <span class="comment">// cout &lt;&lt; s &lt;&lt; endl;</span></span><br><span class="line">    <span class="comment">// perror("Error");</span></span><br><span class="line">    perror(str);</span><br><span class="line">    syslog(LOG_ERR, <span class="string">"%s:%d, str"</span>, __FILE__, __LINE__);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Socket</span><span class="params">(<span class="keyword">int</span> family, <span class="keyword">int</span> type, <span class="keyword">int</span> protocol)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sockfd = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> ( (sockfd = socket(family, type, protocol)) &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        err_sys(<span class="string">"[Error]create socket failed"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return sockfd;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Connect</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *servaddr, socklen_t addrlen)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (connect(sockfd, servaddr, addrlen) &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        err_sys(<span class="string">"[Error]connect socket failed"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Bind</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *myaddr, socklen_t addrlen)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (bind(sockfd, myaddr, addrlen) &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        err_sys(<span class="string">"[Error]bind socket failed"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Listen</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">int</span> backlog)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="comment">/*char *ptr;</span><br><span class="line">    if ( (ptr = getenv("LISTENQ")) != NULL)&#123;</span><br><span class="line">        backlog = atoi(ptr);</span><br><span class="line">    &#125;*/</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (listen(fd, backlog) &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        err_sys(<span class="string">"[Error]listen failed"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Accept</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">struct</span> sockaddr * cliaddr, socklen_t *addrlen)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> clisockfd = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> ( (clisockfd = accept(sockfd, cliaddr, addrlen)) &lt; <span class="number">0</span> )&#123;</span><br><span class="line">        err_sys(<span class="string">"[Error]accept failed"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return clisockfd;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Close</span><span class="params">(<span class="keyword">int</span> sockfd)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (close(sockfd) &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        err_sys(<span class="string">"[Error]close failed"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">pid_t</span> Fork(<span class="keyword">void</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">pid_t</span> pid;</span><br><span class="line">    <span class="keyword">if</span> ( (pid = fork()) &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        err_sys(<span class="string">"[Error]fork failed"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return pid;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sig_chld</span><span class="params">(<span class="keyword">int</span> signo)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">pid_t</span> pid;</span><br><span class="line">    <span class="keyword">int</span> stat;</span><br><span class="line">    <span class="keyword">while</span> ( (pid = waitpid(<span class="number">-1</span>, &amp;stat, WNOHANG)) &gt; <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"child "</span> &lt;&lt; pid &lt;&lt; <span class="string">" terminated"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// server.cpp</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"unp.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">CreatServerSocket</span><span class="params">(<span class="keyword">short</span> port)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">AcceptClientSocket</span><span class="params">(<span class="keyword">int</span> ServerSocket)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Message</span><span class="params">(<span class="keyword">int</span> socket)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">short</span> port = <span class="number">6666</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (argc &gt; <span class="number">1</span>)&#123;</span><br><span class="line">        port = (short)atoi(argv[<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (argc &gt; <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"usage: echoserver &lt;Port&gt;"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        return <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> listenfd = CreatServerSocket(port);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Create socket ok!"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    signal(SIGCHLD, sig_chld);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)&#123;</span><br><span class="line">        <span class="comment">// int ClientSocket = AcceptClientSocket(ServerSocket);</span></span><br><span class="line">        <span class="keyword">struct</span> sockaddr_in cAddr;</span><br><span class="line">        bzero(&amp;cAddr, <span class="keyword">sizeof</span>(cAddr));</span><br><span class="line">        <span class="keyword">socklen_t</span> len = <span class="keyword">sizeof</span>(cAddr);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> connfd;</span><br><span class="line">        <span class="keyword">if</span> ( (connfd = accept(listenfd, (struct sockaddr *)&amp;cAddr, &amp;len)) &lt; <span class="number">0</span> )&#123;</span><br><span class="line">            <span class="keyword">if</span> (errno == EINTR)</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                err_sys(<span class="string">"[Error]accept failed"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"Client connect ok....."</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">pid_t</span> pid;</span><br><span class="line">        <span class="keyword">if</span> ( (pid = Fork()) == <span class="number">0</span>)&#123;</span><br><span class="line">            Close(listenfd);</span><br><span class="line">            Message(connfd);</span><br><span class="line">            Close(connfd);</span><br><span class="line">            <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        close(connfd);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建服务器端socket</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">CreatServerSocket</span><span class="params">(<span class="keyword">short</span> port)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> socket_server = Socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//填充IP与端口</span></span><br><span class="line">    <span class="keyword">struct</span> sockaddr_in sAddr;</span><br><span class="line">    bzero(&amp;sAddr, <span class="keyword">sizeof</span>(sAddr));</span><br><span class="line">    sAddr.sin_len = <span class="keyword">sizeof</span>(sAddr);</span><br><span class="line">    sAddr.sin_family = AF_INET;</span><br><span class="line">    sAddr.sin_addr.s_addr = INADDR_ANY;</span><br><span class="line">    sAddr.sin_port = htons(port);   <span class="comment">//本机字节序转网络字节序</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//绑定  //(struct sockaddr *)&amp;sAddr强转</span></span><br><span class="line">    Bind(socket_server, (struct sockaddr *)&amp;sAddr, <span class="keyword">sizeof</span>(sAddr));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//监听</span></span><br><span class="line">    Listen(socket_server, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">    return socket_server;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//接收连接并返回客户端的scoket</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">AcceptClientSocket</span><span class="params">(<span class="keyword">int</span> ServerSocket)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">struct</span> sockaddr_in cAddr;</span><br><span class="line">    bzero(&amp;cAddr, <span class="keyword">sizeof</span>(cAddr));</span><br><span class="line">    <span class="keyword">socklen_t</span> len = <span class="keyword">sizeof</span>(cAddr);</span><br><span class="line">    <span class="keyword">int</span> ClientSocket = Accept(ServerSocket, (struct sockaddr *)&amp;cAddr, &amp;len);</span><br><span class="line">    <span class="comment">// char *ipaddress = inet_ntoa(cAddr.sin_addr);</span></span><br><span class="line">    <span class="comment">// printf("accept---&gt;%s, %d\n", ipaddress, cAddr.sin_port);</span></span><br><span class="line">    <span class="built_in">string</span> ipaddress = inet_ntoa(cAddr.sin_addr);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"accept---&gt;"</span> &lt;&lt; ipaddress &lt;&lt; <span class="string">", "</span> &lt;&lt; cAddr.sin_port &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    return ClientSocket;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Message</span><span class="params">(<span class="keyword">int</span> socket)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> send_Message[<span class="number">1024</span>] = <span class="string">"hello\n"</span>;</span><br><span class="line">    <span class="keyword">char</span> recv_Message[<span class="number">1024</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    send(socket, send_Message, <span class="built_in">strlen</span>(send_Message)+<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        recv(socket, recv_Message, <span class="keyword">sizeof</span>(recv_Message), <span class="number">0</span>);</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"&lt;-----"</span> &lt;&lt; recv_Message ;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"-----&gt;"</span>;</span><br><span class="line">        fgets(send_Message, <span class="keyword">sizeof</span>(send_Message), <span class="built_in">stdin</span>);</span><br><span class="line">        send(socket, send_Message, <span class="built_in">strlen</span>(send_Message)+<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// client.cpp</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"unp.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">CreateClientSocket</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> * server_ip, <span class="keyword">unsigned</span> <span class="keyword">short</span> server_port)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Message</span><span class="params">(<span class="keyword">int</span> socket)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> * server_ip = <span class="string">"127.0.0.1"</span>;</span><br><span class="line">    <span class="keyword">short</span> server_port = <span class="number">6666</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (argc &gt; <span class="number">1</span>)&#123;</span><br><span class="line">        server_ip = argv[<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (argc &gt; <span class="number">2</span>)&#123;</span><br><span class="line">        server_port = (short)atoi(argv[<span class="number">2</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (argc &gt; <span class="number">3</span>) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"usage: echoclient &lt;IPaddress&gt; &lt;Port&gt;"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        return <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> ClientSocket = CreateClientSocket(server_ip, server_port);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Connect to server ok"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    Message(ClientSocket);</span><br><span class="line">    close(ClientSocket);</span><br><span class="line"></span><br><span class="line">    return <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">CreateClientSocket</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> * server_ip, <span class="keyword">unsigned</span> <span class="keyword">short</span> server_port)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> client_socket = Socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//填充IP与端口</span></span><br><span class="line">    <span class="keyword">struct</span> sockaddr_in sAddr;</span><br><span class="line">    bzero(&amp;sAddr, <span class="keyword">sizeof</span>(sAddr));</span><br><span class="line">    sAddr.sin_len = <span class="keyword">sizeof</span>(sAddr);</span><br><span class="line">    sAddr.sin_family = AF_INET;</span><br><span class="line">    inet_pton(AF_INET, server_ip, &amp;sAddr.sin_addr);</span><br><span class="line">    sAddr.sin_port = htons(server_port);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//连接服务器</span></span><br><span class="line">    Connect(client_socket, (struct sockaddr *)&amp;sAddr, <span class="keyword">sizeof</span>(sAddr));</span><br><span class="line"></span><br><span class="line">    return client_socket;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//client</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Message</span><span class="params">(<span class="keyword">int</span> socket)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> send_Message[<span class="number">1024</span>] = <span class="string">"0"</span>;</span><br><span class="line">    <span class="keyword">char</span> recv_Message[<span class="number">1024</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        recv(socket, recv_Message, <span class="keyword">sizeof</span>(recv_Message), <span class="number">0</span>);</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"&lt;-----"</span> &lt;&lt; recv_Message;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"-----&gt;"</span>;</span><br><span class="line">        fgets(send_Message, <span class="keyword">sizeof</span>(send_Message), <span class="built_in">stdin</span>);</span><br><span class="line">        send(socket, send_Message, <span class="built_in">strlen</span>(send_Message)+<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样在本地调试，服务端可以<strong>fork</strong>子进程来不断监听服务端的请求，完全可以形成一个简单的群聊程序。</p>
+<h2 id="4-一些感想"><a href="#4-一些感想" class="headerlink" title="4.一些感想"></a>4.一些感想</h2><p>　　在网络编程路上我刚刚迈出了坚实的一步，但是还有很多东西需要我去学习，一个群聊绝对不是我想想的能够那么简单，至少在延时、拥塞以及错误处理方面我做的并不完善，但这正式我不断学习下去的动力，希望在网络方面自己会学习的更多，得到更大的进步。<br><br></p>
+<hr>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag">#C++</a>
+          
+            <a href="/tags/网络编程/" rel="tag">#网络编程</a>
+          
+            <a href="/tags/Socket/" rel="tag">#Socket</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/21/算法学习笔记之RSA算法/" rel="next" title="算法学习笔记之RSA算法">
+                <i class="fa fa-chevron-left"></i> 算法学习笔记之RSA算法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/30/iOS学习笔记之FMDB单例改写/" rel="prev" title="iOS学习笔记之FMDB单例改写">
+                iOS学习笔记之FMDB单例改写 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/旭蝈蝈揍是本王.png"
+               alt="zxiou" />
+          <p class="site-author-name" itemprop="name">zxiou</p>
+          <p class="site-description motion-element" itemprop="description">强者无需过多介绍</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ZXIOU" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005053895542020/home?from=page_100505" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/zhang-xu-58-33" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-起因"><span class="nav-text">1. 起因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Debug讲解"><span class="nav-text">2. Debug讲解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Socket服务端以及客户端代码"><span class="nav-text">3.Socket服务端以及客户端代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-一些感想"><span class="nav-text">4.一些感想</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zxiou</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">访客数<span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv">总访问量<span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+
+</body>
+</html>
