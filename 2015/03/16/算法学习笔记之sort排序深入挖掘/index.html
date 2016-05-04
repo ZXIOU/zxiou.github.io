@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="C++,算法,排序," />
+  <meta name="keywords" content="C++,算法,排序,快速排序,堆排序," />
 
 
 
@@ -88,7 +88,7 @@
 <meta property="og:url" content="http://zxiou.github.io/2015/03/16/算法学习笔记之sort排序深入挖掘/index.html">
 <meta property="og:site_name" content="吉米不机密">
 <meta property="og:description" content="1. 前言　　我们只会用C++STL内置的sort来排序难免有点小尴尬，其实大多数STL内置的sort内部的实现不仅仅使用了一种排序算法，主要用了一种内省式排序算法IntroSort，这个算法是David R. Musser于1996年提出一种混合式排序算法，内部实现主要由快速排序、堆排序和插入排序组成。当调用sort的时候会根据具体情况来选择具体要执行的排序算法，函数一开始先判断序列大小，通过">
-<meta property="og:updated_time" content="2016-05-04T12:32:55.000Z">
+<meta property="og:updated_time" content="2016-05-04T12:36:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="算法学习笔记之sort排序深入挖掘">
 <meta name="twitter:description" content="1. 前言　　我们只会用C++STL内置的sort来排序难免有点小尴尬，其实大多数STL内置的sort内部的实现不仅仅使用了一种排序算法，主要用了一种内省式排序算法IntroSort，这个算法是David R. Musser于1996年提出一种混合式排序算法，内部实现主要由快速排序、堆排序和插入排序组成。当调用sort的时候会根据具体情况来选择具体要执行的排序算法，函数一开始先判断序列大小，通过">
@@ -320,7 +320,7 @@
 <li>若分割层次低于指定值就改用<code>插入排序</code>，因为基本有序的序列使用插入排序的话时间复杂度接近<strong>O(n)</strong>，这样会更快</li>
 <li>若分割层次在两个阈值中间就使用“宇宙最快排序算法”<code>快速排序</code></li>
 </ul>
-<p>那么这其中有一个问题，快排和堆排时间复杂度都是<strong>O(nlogn)</strong>，但是堆排无论如何时间复杂度都是<strong>O(n^2)</strong>而不会因为数据的不同导致恶化到<strong>O(n^2)</strong>，而且也不会出现爆栈的隐患，为何不直接使用堆排序呢？查阅《算法导论》发现，原来虽然快排和堆排的时间复杂度是一样的，但堆排序的<strong><em>常熟因子</em></strong>还是大些的，并且堆排序过程中重组堆其实也不是个省时的事情。下面详细说一说比较重要的快排和堆排吧，插入排序有些简单易懂就不展示了。</p>
+<p>那么这其中有一个问题，快排和堆排时间复杂度都是<strong>O(nlogn)</strong>，但是堆排无论如何时间复杂度都是<strong>O(nlogn)</strong>而不会因为数据的不同导致恶化到<strong>O(n^2)</strong>，而且也不会出现爆栈的隐患，为何不直接使用堆排序呢？查阅《算法导论》发现，原来虽然快排和堆排的时间复杂度是一样的，但堆排序的<strong><em>常熟因子</em></strong>还是大些的，并且堆排序过程中重组堆其实也不是个省时的事情。下面详细说一说比较重要的快排和堆排吧，插入排序有些简单易懂就不展示了。</p>
 <h2 id="2-快速排序"><a href="#2-快速排序" class="headerlink" title="2. 快速排序"></a>2. 快速排序</h2><p>　　快速排序的基本思想是<strong>分治</strong>，在排序序列当中随机取一个数当做比较值<strong>tmp</strong>（通常取序列第一个数或者随机取一个位置的值也可以），然后设置两个指针分别指向序列的头部和尾部，我们设为<strong>lp</strong>和<strong>rp</strong>。首先移动rp指针从尾部扫描，当发现比tmp小的值时将这个值填到lp指针所指的位置，然后切换移动lp指针从头部开始扫描，当发现比tmp大的值时将这个值填到rp指针所指的位置……这样不断扫描下去，直到<code>left &gt;= right</code>结束扫描，本次排序结束。其实达到的效果就是将小于tmp的值无序的放到tmp左侧，将大于tmp的值无序的放到tmp右侧，然后递归调用处理左侧和右侧无序的序列。下面给出小弟写的快排（羞射）：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Quick_Sort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;v, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (left &gt;= right)</span><br><span class="line">        return ;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> tmp = v[left];</span><br><span class="line">    <span class="keyword">int</span> lp = left;</span><br><span class="line">    <span class="keyword">int</span> rp = right;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> ((lp &lt; rp) &amp;&amp; tmp &lt; v[rp])&#123;</span><br><span class="line">        rp--;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (lp &lt; rp)&#123;</span><br><span class="line">        v[lp++] = v[rp];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> ((lp &lt; rp) &amp;&amp; tmp &gt; v[lp])&#123;</span><br><span class="line">        lp++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (lp &lt; rp)&#123;</span><br><span class="line">        v[rp--] = v[lp];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    v[lp] = tmp;</span><br><span class="line"></span><br><span class="line">    Quick_Sort(v, left, lp - <span class="number">1</span>);</span><br><span class="line">    Quick_Sort(v, lp + <span class="number">1</span>, right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="3-堆排序"><a href="#3-堆排序" class="headerlink" title="3. 堆排序"></a>3. 堆排序</h2><p>　　堆排序主要是在一个二叉树上实现的，主要涉及到两种操作：<strong>建堆</strong>和<strong>调整</strong>。调整主要是使得根节点比左右子树的所有节点都要大（最小堆）；而建堆的核心还是调整，只不过是从<strong>第一个非叶节点</strong>开始调整，一直调整到序列的头部。调整其实也比较比较简单，主要就是找出左右节点最大的节点且要比根节点大，然后<code>swap</code>这个节点和根节点，然后再从这个节点递归调整。下面给出具体的实现：</p>
@@ -352,6 +352,10 @@
             <a href="/tags/算法/" rel="tag">#算法</a>
           
             <a href="/tags/排序/" rel="tag">#排序</a>
+          
+            <a href="/tags/快速排序/" rel="tag">#快速排序</a>
+          
+            <a href="/tags/堆排序/" rel="tag">#堆排序</a>
           
         </div>
       
@@ -455,7 +459,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
