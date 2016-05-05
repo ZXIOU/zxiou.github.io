@@ -373,6 +373,125 @@ FMDB是iOS平台的轻量级的SQLite数据库框架
             
               
                 
+                <a class="post-title-link" href="/2016/04/09/算法学习笔记之重温哈夫曼编码/" itemprop="url">
+                  算法学习笔记之重温哈夫曼编码
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-09T17:09:27+08:00" content="2016-04-09">
+              2016-04-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          
+1. 前言　　最近上《信息论基础》和《数字图像处理》这两门课上都提到了哈夫曼编码，最早接触哈夫曼编码还是在大二数据结构课上，当时自己就实际实现过一次，当时还觉得自己很牛X能够把哈夫曼的二叉树以图形输出来。现在又把原来写过的代码翻了出来，看到当时的代码也是满脸黑线 = =，代码风格很差且代码逻辑上有点不是很好，我又把代码重新改写实现了一遍，不过这也能看出自己的代码能力趋向成熟，再也不是以前那个愣头青了 = =。话不多说，下面简单介绍一下哈夫曼编码和自己的具体实现
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/04/09/算法学习笔记之重温哈夫曼编码/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/05/网络学习笔记之Socket报错调试/" itemprop="url">
                   网络学习笔记之Socket报错调试
                 </a>
@@ -710,131 +829,6 @@ FMDB是iOS平台的轻量级的SQLite数据库框架
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/10/17/算法学习笔记之位图排序/" itemprop="url">
-                  算法学习笔记之位图排序
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-10-17T21:36:37+08:00" content="2015-10-17">
-              2015-10-17
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          
-1. 起因　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是0，当存在某个整数时，这个字符串相应数位变为1。这个排序算法的应用场景最简单的是：
-
-输入：最多输入N个唯一的正整数，每个数都小于N（N = 10000000），没有其他数据与该整数关联
-输出：按照升序的方式输出所有的整数
-约束：只有1M的内存空间，但是磁盘空间很充足，要求排序时间少于10s
-
-2. 分析　　看
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/10/17/算法学习笔记之位图排序/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -880,7 +874,7 @@ FMDB是iOS平台的轻量级的SQLite数据库框架
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -897,7 +891,7 @@ FMDB是iOS平台的轻量级的SQLite数据库框架
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

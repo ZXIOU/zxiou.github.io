@@ -251,6 +251,131 @@
             
               
                 
+                <a class="post-title-link" href="/2015/10/17/算法学习笔记之位图排序/" itemprop="url">
+                  算法学习笔记之位图排序
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-10-17T21:36:37+08:00" content="2015-10-17">
+              2015-10-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          
+1. 起因　　读了《编程珠玑》这本书的第一章，学到了一个很好地排序算法 — 位图排序。这个排序算法的基本思想就是把整数表示为一个很大的字符串，初始化都是0，当存在某个整数时，这个字符串相应数位变为1。这个排序算法的应用场景最简单的是：
+
+输入：最多输入N个唯一的正整数，每个数都小于N（N = 10000000），没有其他数据与该整数关联
+输出：按照升序的方式输出所有的整数
+约束：只有1M的内存空间，但是磁盘空间很充足，要求排序时间少于10s
+
+2. 分析　　看
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/10/17/算法学习笔记之位图排序/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/10/15/iOS学习笔记之循环性能比较/" itemprop="url">
                   iOS学习笔记之循环性能比较
                 </a>
@@ -733,127 +858,6 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/03/16/算法学习笔记之sort排序深入挖掘/" itemprop="url">
-                  算法学习笔记之sort排序深入挖掘
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-16T14:37:19+08:00" content="2015-03-16">
-              2015-03-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          
-1. 前言　　我们只会用C++STL内置的sort来排序难免有点小尴尬，其实大多数STL内置的sort内部的实现不仅仅使用了一种排序算法，主要用了一种内省式排序算法IntroSort，这个算法是David R. Musser于1996年提出一种混合式排序算法，内部实现主要由快速排序、堆排序和插入排序组成。当调用sort的时候会根据具体情况来选择具体要执行的排序算法，函数一开始先判断序列大小，通过个数检验之后，再检测分割层次，这时候会出现三种选择：
-
-若分割层次
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/03/16/算法学习笔记之sort排序深入挖掘/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -899,7 +903,7 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -916,7 +920,7 @@ Category可以重载原始类的方法，但不推荐这么做，这么做的后
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

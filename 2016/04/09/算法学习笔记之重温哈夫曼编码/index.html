@@ -1,0 +1,670 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="C++,算法,哈夫曼编码," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="吉米不机密" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="1. 前言　　最近上《信息论基础》和《数字图像处理》这两门课上都提到了哈夫曼编码，最早接触哈夫曼编码还是在大二数据结构课上，当时自己就实际实现过一次，当时还觉得自己很牛X能够把哈夫曼的二叉树以图形输出来。现在又把原来写过的代码翻了出来，看到当时的代码也是满脸黑线 = =，代码风格很差且代码逻辑上有点不是很好，我又把代码重新改写实现了一遍，不过这也能看出自己的代码能力趋向成熟，再也不是以前那个愣头">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法学习笔记之重温哈夫曼编码">
+<meta property="og:url" content="http://zxiou.github.io/2016/04/09/算法学习笔记之重温哈夫曼编码/index.html">
+<meta property="og:site_name" content="吉米不机密">
+<meta property="og:description" content="1. 前言　　最近上《信息论基础》和《数字图像处理》这两门课上都提到了哈夫曼编码，最早接触哈夫曼编码还是在大二数据结构课上，当时自己就实际实现过一次，当时还觉得自己很牛X能够把哈夫曼的二叉树以图形输出来。现在又把原来写过的代码翻了出来，看到当时的代码也是满脸黑线 = =，代码风格很差且代码逻辑上有点不是很好，我又把代码重新改写实现了一遍，不过这也能看出自己的代码能力趋向成熟，再也不是以前那个愣头">
+<meta property="og:image" content="http://zxiou.github.io/images/Huffman.png">
+<meta property="og:updated_time" content="2016-05-05T10:20:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="算法学习笔记之重温哈夫曼编码">
+<meta name="twitter:description" content="1. 前言　　最近上《信息论基础》和《数字图像处理》这两门课上都提到了哈夫曼编码，最早接触哈夫曼编码还是在大二数据结构课上，当时自己就实际实现过一次，当时还觉得自己很牛X能够把哈夫曼的二叉树以图形输出来。现在又把原来写过的代码翻了出来，看到当时的代码也是满脸黑线 = =，代码风格很差且代码逻辑上有点不是很好，我又把代码重新改写实现了一遍，不过这也能看出自己的代码能力趋向成熟，再也不是以前那个愣头">
+<meta name="twitter:image" content="http://zxiou.github.io/images/Huffman.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 算法学习笔记之重温哈夫曼编码 | 吉米不机密 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">吉米不机密</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">学生党，程序猿，代码路上没有碎觉</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                算法学习笔记之重温哈夫曼编码
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-09T17:09:27+08:00" content="2016-04-09">
+              2016-04-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv">阅读次数
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h2><p>　　最近上《信息论基础》和《数字图像处理》这两门课上都提到了哈夫曼编码，最早接触哈夫曼编码还是在大二数据结构课上，当时自己就实际实现过一次，当时还觉得自己很牛X能够把哈夫曼的二叉树以图形输出来。现在又把原来写过的代码翻了出来，看到当时的代码也是满脸黑线 = =，代码风格很差且代码逻辑上有点不是很好，我又把代码重新改写实现了一遍，不过这也能看出自己的代码能力趋向成熟，再也不是以前那个愣头青了 = =。话不多说，下面简单介绍一下哈夫曼编码和自己的具体实现。</p>
+<h2 id="2-哈夫曼编码介绍"><a href="#2-哈夫曼编码介绍" class="headerlink" title="2. 哈夫曼编码介绍"></a>2. 哈夫曼编码介绍</h2><p>　　哈夫曼树即最优二叉树，带权路径长度最小的二叉树，经常应用于数据压缩。 在计算机信息处理中，“哈夫曼编码”是一种一致性编码法（又称<strong>“熵编码法”</strong>），用于数据的无损耗压缩。这一术语是指使用一张特殊的编码表将源字符（例如某文件中的一个符号）进行编码。这张编码表的特殊之处在于，它是根据每一个源字符出现的估算概率而建立起来的（出现概率高的字符使用较短的编码，反之出现概率低的则使用较长的编码，这便使编码之后的字符串的平均期望长度降低，从而达到无损压缩数据的目的），这种方法是由<strong><em>David.A.Huffman</em></strong>于1952年发展起来的。</p>
+<h2 id="3-算法及代码"><a href="#3-算法及代码" class="headerlink" title="3. 算法及代码"></a>3. 算法及代码</h2><p>　　哈夫曼编码使用自底向上的方法构建二叉树，主要运用了贪心算法的特点，每次从优先队列当中选取两个权值最小（出现频率最少）的字符分别作为一个新节点的左右子节点，然后将这两个节点从优先队列中删除并将新构建的节点加入优先队列。这个过程一共需要循环<strong>n-1</strong>次把优先队列中n个节点组合成一个节点，最终这个节点就是我们哈夫曼树的根节点。在我的代码当中，我使用的优先队列是<strong>STL</strong>里面的<strong>priority_queue</strong>，因为在前面的博文中我已经介绍了堆排序，而优先队列就是基于堆排实现的，代码也挺多的以前也写过，我就不多写了，就简单的拿<strong>priority_queue</strong>来代替了。因为要保证压缩效率是不能使用任何动态库的，比如<strong>STL</strong>或者<strong>MFC</strong>，所以大家想要效率的话就把我的<strong>priority_queue</strong>换成自己用堆排实现的优先队列或者是还有一种纯数组操作的实现方法，这个我下次再进行介绍吧，这次先介绍比较好理解的优先队列的方法，下面见代码硬货：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 声明节点</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> BinTreeNode</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    T data;</span><br><span class="line">    <span class="keyword">double</span> weight;</span><br><span class="line">    BinTreeNode *lchild;</span><br><span class="line">    BinTreeNode *rirht;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 默认构造函数</span></span><br><span class="line">    BinTreeNode()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;data    = T();</span><br><span class="line">        <span class="keyword">this</span>-&gt;weight  = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">this</span>-&gt;lchild  = <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">this</span>-&gt;rchild  = <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用于初始化非叶节点</span></span><br><span class="line">    BinTreeNode(<span class="keyword">double</span> weight, BinTreeNode *lchild = <span class="literal">NULL</span>, BinTreeNode *rchild = <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;data    = T();</span><br><span class="line">        <span class="keyword">this</span>-&gt;weight  = weight;</span><br><span class="line">        <span class="keyword">this</span>-&gt;lchild  = lchild;</span><br><span class="line">        <span class="keyword">this</span>-&gt;rchild  = rchild;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用于初始化叶节点</span></span><br><span class="line">    BinTreeNode(T data, <span class="keyword">double</span> weight, BinTreeNode *lchild = <span class="literal">NULL</span>, BinTreeNode *rchild = <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;data    = data;</span><br><span class="line">        <span class="keyword">this</span>-&gt;weight  = weight;</span><br><span class="line">        <span class="keyword">this</span>-&gt;lchild  = lchild;</span><br><span class="line">        <span class="keyword">this</span>-&gt;rchild  = rchild;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 自定义比较函数</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">operator</span> <span class="params">()</span> <span class="params">(<span class="keyword">const</span> BinTreeNode *x, <span class="keyword">const</span> BinTreeNode *y)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        return x-&gt;weight &gt; y-&gt;weight;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 构建哈夫曼树</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</span><br><span class="line">BinTreeNode&lt;T&gt; * makeHuffmanTree(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;BinTreeNode&lt;T&gt; &gt; &amp;v)</span><br><span class="line">&#123;</span><br><span class="line">    BinTreeNode&lt;T&gt; *root = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理极端边界情况</span></span><br><span class="line">    <span class="keyword">if</span> (v.size() &lt;= <span class="number">1</span>)</span><br><span class="line">        return root;</span><br><span class="line"></span><br><span class="line">    priority_queue&lt;BinTreeNode&lt;T&gt; *&gt; *<span class="built_in">queue</span> = new priority_queue&lt;BinTreeNode&lt;T&gt; *&gt;();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 放入优先队列当中</span></span><br><span class="line">    <span class="keyword">for</span>(BinTreeNode&lt;T&gt; x : v)&#123;</span><br><span class="line">        BinTreeNode&lt;T&gt; *tmp = new BinTreeNode&lt;T&gt;(x.data, x.weight, x.lchild, x.rchild);</span><br><span class="line">        <span class="built_in">queue</span>.push(tmp)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只进行n-1次（n为待编码个数）</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; v.size()<span class="number">-1</span>; i++)&#123;</span><br><span class="line">        BinTreeNode&lt;T&gt; *<span class="keyword">union</span>  = new BinTreeNode();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">union</span>-&gt;lchild = <span class="built_in">queue</span>.top();</span><br><span class="line">        <span class="keyword">union</span>-&gt;weight += <span class="built_in">queue</span>.top().weight;</span><br><span class="line">        <span class="built_in">queue</span>.pop();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">union</span>-&gt;rirht  = <span class="built_in">queue</span>.top();</span><br><span class="line">        <span class="keyword">union</span>-&gt;weight += <span class="built_in">queue</span>.top().weight;</span><br><span class="line">        <span class="built_in">queue</span>.pop();</span><br><span class="line"></span><br><span class="line">        <span class="built_in">queue</span>.push(<span class="keyword">union</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    root = <span class="built_in">queue</span>.top();</span><br><span class="line">    <span class="keyword">delete</span> <span class="built_in">queue</span>;</span><br><span class="line"></span><br><span class="line">    return root;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 得到哈夫曼编码</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getHuffmanCode</span><span class="params">(BinTreeNode *root, <span class="built_in">string</span> s, <span class="built_in">map</span>&lt;T, <span class="built_in">string</span>&gt; &amp;m)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="literal">NULL</span>)</span><br><span class="line">      return ;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>((Bintree-&gt;lchild == NULL) &amp;&amp; (Bintree-&gt;rchild == NULL)&#123;</span><br><span class="line">      m.insert(make_pair(root-&gt;data, s));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        spush_back(<span class="string">'0'</span>);</span><br><span class="line">        getHuffmanCode(Bintree-&gt;lchild, s, m);</span><br><span class="line">        spop_back();</span><br><span class="line">        spush_back(<span class="string">'1'</span>);</span><br><span class="line">        getHuffmanCode(Bintree-&gt;rchild, s, m);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 哈夫曼编码调用接口</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> Huffman(const vector&lt;BinTreeNode&lt;T&gt; &gt; &amp;v)</span><br><span class="line">&#123;</span><br><span class="line">    BinTreeNode *huffmanTree = makeHuffmanTree(v);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">map</span>&lt;T, <span class="built_in">string</span>&gt; m;</span><br><span class="line">    getHuffmanCode(huffmanTree, string(), m);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(pair&lt;T, string&gt; x : m)&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; x.first &lt;&lt; <span class="string">" "</span> &lt;&lt; x.second &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>还有我不是前面提到自己写出来一个算法来输出整颗哈夫曼树吗 = =，主要思想就是模拟完全二叉树，有编码的节点输出该字符，没有的话输出空格，输出格式上当年也是琢磨了很久，网上的都是横向的输出没啥意思，我这个完全就是树形输出，当年也是自我得意了一发 = =。那么也把当年的代码放上来吧，也没怎么改，变量声明上可能有点恶心。。大家不嫌弃的话就各取所需吧！输出来的图形类似于下面这样：</p>
+<p><img src="/images/Huffman.png" alt=""></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 计算树的高度</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">High</span><span class="params">(BinTreeNode&lt;T&gt; *Bintree)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(Bintree == <span class="literal">NULL</span>)</span><br><span class="line">      return <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      return max(High(Bintree-&gt;left), High(Bintree-&gt;right))+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 展示树的图形输出</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ShowHuffmanTree</span><span class="params">(BinTreeNode&lt;T&gt; *Bintree)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;BinTreeNode&lt;T&gt; *&gt; v;</span><br><span class="line">    v.push_back(<span class="literal">NULL</span>);</span><br><span class="line">    v.push_back(Bintree);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> high = High(Bintree);</span><br><span class="line">    <span class="keyword">int</span> sum  = <span class="built_in">pow</span>(<span class="number">2.0</span>,high<span class="number">-1</span>) - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= sum; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(v[i] == <span class="literal">NULL</span>)&#123;</span><br><span class="line">            v.push_back(<span class="literal">NULL</span>);</span><br><span class="line">            v.push_back(<span class="literal">NULL</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            v.push_back(v[i]-&gt;left);</span><br><span class="line">            v.push_back(v[i]-&gt;right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> temp = high;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= high; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> count1 = <span class="built_in">pow</span>(<span class="number">2.0</span>, temp) - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; count1; k++)</span><br><span class="line">          <span class="built_in">cout</span> &lt;&lt; <span class="string">" "</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> left  = <span class="built_in">pow</span>(<span class="number">2.0</span>,i<span class="number">-1</span>);</span><br><span class="line">        <span class="keyword">int</span> right = <span class="built_in">pow</span>(<span class="number">2.0</span>,i);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> k = left; k &lt; right; k++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(k != left)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">int</span> count2 = <span class="built_in">pow</span>(<span class="number">2.0</span>, temp+<span class="number">1</span>) - <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;count2;j++)</span><br><span class="line">                  <span class="built_in">cout</span>&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(v[k] != <span class="literal">NULL</span>)</span><br><span class="line">              <span class="built_in">cout</span> &lt;&lt; v[k]-&gt;data;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">              <span class="built_in">cout</span> &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(i != high)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">1</span>; k &lt; count1; k++)</span><br><span class="line">              <span class="built_in">cout</span> &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> k = left; k &lt; right; k++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(k != left)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">int</span> count3 = <span class="built_in">pow</span>(<span class="number">2.0</span>, temp+<span class="number">1</span>) - <span class="number">3</span>;</span><br><span class="line">                    <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; count3; j++)</span><br><span class="line">                      <span class="built_in">cout</span> &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span>(v[k] != <span class="literal">NULL</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span>(v[k]-&gt;left != <span class="literal">NULL</span>)</span><br><span class="line">                      <span class="built_in">cout</span> &lt;&lt; <span class="string">"/"</span>;</span><br><span class="line">                    <span class="keyword">else</span></span><br><span class="line">                      <span class="built_in">cout</span> &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">                    <span class="built_in">cout</span> &lt;&lt; <span class="string">" "</span>;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span>(v[k]-&gt;right != <span class="literal">NULL</span>)</span><br><span class="line">                      <span class="built_in">cout</span> &lt;&lt; <span class="string">"\\"</span>;</span><br><span class="line">                    <span class="keyword">else</span></span><br><span class="line">                      <span class="built_in">cout</span> &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                  <span class="built_in">cout</span> &lt;&lt; <span class="string">"   "</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        temp--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码也可以整合成为一个Huffman类，我感觉上并没有必要，只要能处理编码就好了，没必要严格封装，非要封装我觉得就有点“强行C++”了，我就不多写了。</p>
+<h2 id="4-感想"><a href="#4-感想" class="headerlink" title="4.感想"></a>4.感想</h2><p>　　对于以前学过的知识当再次遇到时可能我们会有新的看法、新的角度去分析，温习旧知识也是一件不错的事情，也能发现以前自己的不足，我重写了Huffman才发现原来的自己是多么的菜 = =，碰到新知识我们不断吸收，碰到旧知识我们也要反思温故，温故而知新！<br><br></p>
+<hr>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag">#C++</a>
+          
+            <a href="/tags/算法/" rel="tag">#算法</a>
+          
+            <a href="/tags/哈夫曼编码/" rel="tag">#哈夫曼编码</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/05/网络学习笔记之Socket报错调试/" rel="next" title="网络学习笔记之Socket报错调试">
+                <i class="fa fa-chevron-left"></i> 网络学习笔记之Socket报错调试
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/30/iOS学习笔记之FMDB单例改写/" rel="prev" title="iOS学习笔记之FMDB单例改写">
+                iOS学习笔记之FMDB单例改写 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/旭蝈蝈揍是本王.png"
+               alt="zxiou" />
+          <p class="site-author-name" itemprop="name">zxiou</p>
+          <p class="site-description motion-element" itemprop="description">强者无需过多介绍</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ZXIOU" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005053895542020/home?from=page_100505" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/zhang-xu-58-33" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-前言"><span class="nav-text">1. 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-哈夫曼编码介绍"><span class="nav-text">2. 哈夫曼编码介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-算法及代码"><span class="nav-text">3. 算法及代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-感想"><span class="nav-text">4.感想</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zxiou</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">访客数<span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv">总访问量<span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+
+</body>
+</html>
