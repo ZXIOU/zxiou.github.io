@@ -179,7 +179,7 @@
     <link href="http://zxiou.github.io/2016/01/23/C++%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8Bclass%E4%B8%8Estruct%E5%8C%BA%E5%88%AB/"/>
     <id>http://zxiou.github.io/2016/01/23/C++学习笔记之class与struct区别/</id>
     <published>2016-01-23T01:21:23.000Z</published>
-    <updated>2016-05-04T17:19:44.000Z</updated>
+    <updated>2016-05-07T02:58:39.000Z</updated>
     
     <content type="html">&lt;hr&gt;
 &lt;h2 id=&quot;1-前言&quot;&gt;&lt;a href=&quot;#1-前言&quot; class=&quot;headerlink&quot; title=&quot;1. 前言&quot;&gt;&lt;/a&gt;1. 前言&lt;/h2&gt;&lt;p&gt;　　因为我们CS的程序设计老师是学校ACM校队的教练，所以我们的程序设计课基本是算法和编程，很少涉及语言的深入介绍，C与C++基本都是自学的，自己看书自己琢磨，遇到不会的问题会请教一些保送生大神^_^，现在想一想大一那段时间也是相当辛苦的，不过也练就了自身超强的学习能力。C++是一门博大精深的语言，绝对不是能够熟练使用语言的基本语法就能算得上是精通，里面内部的实现需要我们不断的探索与经验的积累。言归正传，以前使用C++写&lt;strong&gt;struct&lt;/strong&gt;和&lt;strong&gt;class&lt;/strong&gt;时，并没有详细的想过这两者的区别，只是在使用封装的时候要用class，当要自定义数据集合的时候使用struct结构体（其实C++ Primer里面也叫这个是类），前几天看到了&lt;strong&gt;&lt;em&gt;Lippman&lt;/em&gt;&lt;/strong&gt;（C++ Peimer作者之一的大神级人物OTZ）的一句调侃话：&lt;/p&gt;
@@ -195,7 +195,7 @@
 &lt;li&gt;class能够作为模板参数，而struct并不能&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;从上面可以看出在C++中，class的功能更加全面，且能够保证封装性和安全性，struct的默认public并不利于面向对象的封装。struct能够在C++中继续保留，语言设计者的初衷主要是为了兼容C，让想要转C++的C程序猿能够更加容易的去适应和理解C++，而并不打算让C++开发者去真正使用它，这也是上面&lt;strong&gt;&lt;em&gt;Lippman&lt;/em&gt;&lt;/strong&gt;的调侃所在。所以如果在C++下开发，我个人建议尽量使用class而不是struct，因为class的功能更加强大也符合C++语言面向对象的封装性和安全性。&lt;/p&gt;
-&lt;h2 id=&quot;4-一些想法&quot;&gt;&lt;a href=&quot;#4-一些想法&quot; class=&quot;headerlink&quot; title=&quot;4. 一些想法&quot;&gt;&lt;/a&gt;4. 一些想法&lt;/h2&gt;&lt;p&gt;　　涉猎广泛，多阅读多思考确实是一件好事，如果我没有看到那一句调侃，可能我并不会去详细研究class和struct的区别，也有可能在别的学校很多老师都会讲，但是我们的老师并没有讲，所以我通过广泛的阅读弥补了这一差距。这也让我认识到，在学习的道路上不能鼠目寸光，要不断的开阔眼界，阅读任何只要自己感兴趣的只是总会有收获的。&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+&lt;h2 id=&quot;4-一些想法&quot;&gt;&lt;a href=&quot;#4-一些想法&quot; class=&quot;headerlink&quot; title=&quot;4. 一些想法&quot;&gt;&lt;/a&gt;4. 一些想法&lt;/h2&gt;&lt;p&gt;　　涉猎广泛，多阅读多思考确实是一件好事，如果我没有看到那一句调侃，可能我并不会去详细研究class和struct的区别，也有可能在别的学校很多老师都会讲，但是我们的老师并没有讲，所以我通过广泛的阅读弥补了这一差距。这也让我认识到，在学习的道路上不能鼠目寸光，要不断的开阔眼界，阅读任何只要自己感兴趣的知识总会有收获的。&lt;br&gt;&lt;br&gt;&lt;/p&gt;
 &lt;hr&gt;
 </content>
     
